@@ -1,0 +1,32 @@
+import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
+import 'app/locator.dart';
+import 'models/pin.adapter.dart';
+import 'ui/pins_screen/pins_screen_view.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Hive.initFlutter();
+  Hive.registerAdapter(PinAdapter());
+  await Hive.openBox('pins');
+
+  setupLocator();
+
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    const pinsScreenView = const PinsScreenView();
+    return MaterialApp(
+      home: pinsScreenView,
+      theme: ThemeData.dark(),
+      title: 'Flutter Stacked Pins',
+    );
+  }
+}
