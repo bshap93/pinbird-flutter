@@ -1,0 +1,16 @@
+2022-08-19 13:24:50,936 [   2014]   WARN - #com.intellij.ui.jcef.JBCefApp - JCEF runtime library is not a JBR module (Use JBR bundled with the IDE) 
+2022-08-19 13:24:53,083 [   4161]   WARN - ctionSystem.impl.ActionUpdater - Slow (226 ms) `io.flutter.actions.DeviceSelectorAction#update`. Consider speeding it up and/or implementing UpdateInBackground. 
+2022-08-19 13:24:55,446 [   6524]   WARN - Container.ComponentManagerImpl - Do not use constructor injection (requestorClass=io.flutter.editor.ActiveEditorsOutlineService) 
+2022-08-19 13:26:11,200 [  82278]   WARN -       Emulator: Pixel 2 API 30 - unexpected system image feature string, emulator might not function correctly, please try updating the emulator. 
+2022-08-19 13:26:11,253 [  82331]   WARN -       Emulator: Pixel 2 API 30 - cannot add library /home/benshapiro/Android/Sdk/emulator/qemu/linux-x86_64/lib64/vulkan/libvulkan.so: failed 
+2022-08-19 13:26:28,262 [  99340]   WARN - ctionSystem.impl.ActionUpdater - Slow (13361 ms) `com.android.tools.idea.run.deployment.DeviceAndSnapshotComboBoxAction#update`. Consider speeding it up and/or implementing UpdateInBackground. 
+2022-08-19 13:26:28,263 [  99341]   WARN - ctionSystem.impl.ActionUpdater - 13361 ms to expand group child DeviceAndSnapshotComboBox 
+2022-08-19 13:26:28,268 [  99346]   WARN - .diagnostic.PerformanceWatcher - UI was frozen for 13361ms, details saved to /home/benshapiro/.cache/Google/AndroidStudio2021.2/log/threadDumps-freeze-20220819-132628-AI-212.5712.43.2112.8609683-13sec 
+2022-08-19 13:26:28,272 [  99350]   WARN - ctionSystem.impl.ActionUpdater - 13372 ms to expand group child ToolbarRunGroup 
+2022-08-19 13:26:30,319 [ 101397]   WARN - vdmanager.AvdManagerConnection - AVD not launched because an instance appears to be running on PID 130082 
+2022-08-19 13:26:30,331 [ 101409]   WARN - vdmanager.AvdManagerConnection - AVD process info: [ 130082 benshap+ 53.9 pts/2    S<l  00:00:10       00:20 /home/benshapiro/Android/Sdk/emulator/qemu/linux-x86_64/qemu-system-x86_64 -netdelay none -netspeed full -avd Pixel_2_API_30 -qt-hide-window -grpc-use-token -idle-grpc-timeout 300] 
+2022-08-19 13:26:33,300 [ 104378]   WARN - vdmanager.AvdManagerConnection - AVD not launched because an instance appears to be running on PID 130082 
+2022-08-19 13:26:33,312 [ 104390]   WARN - vdmanager.AvdManagerConnection - AVD process info: [ 130082 benshap+ 48.1 pts/2    S<l  00:00:11       00:23 /home/benshapiro/Android/Sdk/emulator/qemu/linux-x86_64/qemu-system-x86_64 -netdelay none -netspeed full -avd Pixel_2_API_30 -qt-hide-window -grpc-use-token -idle-grpc-timeout 300] 
+2022-08-19 13:26:38,342 [ 109420]   WARN -       Emulator: Pixel 5 API 30 - unexpected system image feature string, emulator might not function correctly, please try updating the emulator. 
+2022-08-19 13:26:38,409 [ 109487]   WARN -       Emulator: Pixel 5 API 30 - cannot add library /home/benshapiro/Android/Sdk/emulator/qemu/linux-x86_64/lib64/vulkan/libvulkan.so: failed 
+2022-08-19 13:26:44,666 [ 115744]   WARN -            #com.android.ddmlib - Failed to start monitoring emulator-5556 
