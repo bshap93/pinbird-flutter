@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pinboard_clone/ui/pins_screen/pins_screen_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 
 import 'pins_screen_viewmodel.dart';
@@ -11,7 +12,7 @@ class PinsScreenView extends StatelessWidget {
     return ViewModelBuilder<PinsScreenViewModel>.reactive(
       viewModelBuilder: () => PinsScreenViewModel(),
       builder: (context, model, _) => Scaffold(
-        appBar: AppBar(title: const Text('Flutter Stacked Pins')),
+        appBar: AppBar(title: const Text('Flutter Stacked pins')),
         body: ListView(
           padding: const EdgeInsets.symmetric(vertical: 16),
           children: [

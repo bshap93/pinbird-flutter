@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const pinsScreenView = const PinsScreenView();
+    var pinsScreenView = PinsScreenView();
     return MaterialApp(
       home: pinsScreenView,
       theme: ThemeData.dark(),

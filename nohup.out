@@ -14,3 +14,27 @@
 2022-08-19 13:26:38,342 [ 109420]   WARN -       Emulator: Pixel 5 API 30 - unexpected system image feature string, emulator might not function correctly, please try updating the emulator. 
 2022-08-19 13:26:38,409 [ 109487]   WARN -       Emulator: Pixel 5 API 30 - cannot add library /home/benshapiro/Android/Sdk/emulator/qemu/linux-x86_64/lib64/vulkan/libvulkan.so: failed 
 2022-08-19 13:26:44,666 [ 115744]   WARN -            #com.android.ddmlib - Failed to start monitoring emulator-5556 
+2022-08-19 14:11:37,007 [2808085]   WARN - ctionSystem.impl.ActionUpdater - Slow (1025 ms) `com.android.tools.idea.run.deployment.DeviceAndSnapshotComboBoxAction#update`. Consider speeding it up and/or implementing UpdateInBackground. 
+2022-08-19 14:11:37,008 [2808086]   WARN - ctionSystem.impl.ActionUpdater - 1025 ms to expand group child DeviceAndSnapshotComboBox 
+2022-08-19 14:11:37,010 [2808088]   WARN - ctionSystem.impl.ActionUpdater - 1028 ms to expand group child ToolbarRunGroup 
+2022-08-19 14:12:39,236 [2870314]   WARN - .diagnostic.PerformanceWatcher - UI was frozen for 10585ms, details saved to /home/benshapiro/.cache/Google/AndroidStudio2021.2/log/threadDumps-freeze-20220819-141233-AI-212.5712.43.2112.8609683-10sec 
+2022-08-19 14:53:11,990 [5303068]  ERROR -       Emulator: Pixel 2 API 30 - bad color buffer handle 0x16a 
+2022-08-19 14:53:11,991 [5303069]  ERROR -       Emulator: Pixel 2 API 30 - Android Studio Chipmunk | 2021.2.1 Patch 1  Build #AI-212.5712.43.2112.8609683 
+2022-08-19 14:53:11,993 [5303071]  ERROR -       Emulator: Pixel 2 API 30 - JDK: 11.0.12; VM: OpenJDK 64-Bit Server VM; Vendor: JetBrains s.r.o. 
+2022-08-19 14:53:11,993 [5303071]  ERROR -       Emulator: Pixel 2 API 30 - OS: Linux 
+2022-08-19 14:53:11,993 [5303071]  ERROR -       Emulator: Pixel 2 API 30 - Last Action:  
+2022-08-19 15:31:49,635 [7620713]   WARN - ea.emulator.EmulatorController - android.emulation.control.EmulatorController/streamNotification call failed - UNAVAILABLE: Cancelling all calls 
+2022-08-19 15:31:49,635 [7620713]   WARN - ea.emulator.EmulatorController - android.emulation.control.EmulatorController/streamScreenshot call failed - UNAVAILABLE: Cancelling all calls 
+2022-08-19 15:31:50,009 [7621087]   WARN -            #com.android.ddmlib - Failed to start monitoring emulator-5554 
+2022-08-19 15:32:36,732 [7667810]   WARN -       Emulator: Pixel 5 API 30 - unexpected system image feature string, emulator might not function correctly, please try updating the emulator. 
+2022-08-19 15:32:36,791 [7667869]   WARN -       Emulator: Pixel 5 API 30 - cannot add library /home/benshapiro/Android/Sdk/emulator/qemu/linux-x86_64/lib64/vulkan/libvulkan.so: failed 
+2022-08-19 15:32:37,665 [7668743]   WARN -       Emulator: Pixel 2 API 30 - unexpected system image feature string, emulator might not function correctly, please try updating the emulator. 
+2022-08-19 15:32:37,725 [7668803]   WARN -       Emulator: Pixel 2 API 30 - cannot add library /home/benshapiro/Android/Sdk/emulator/qemu/linux-x86_64/lib64/vulkan/libvulkan.so: failed 
+2022-08-19 15:33:01,070 [7692148]   WARN -            #com.android.ddmlib - Failed to start monitoring emulator-5554 
+2022-08-19 15:33:32,729 [7723807]   WARN - .diagnostic.PerformanceWatcher - UI was frozen for 10104ms, details saved to /home/benshapiro/.cache/Google/AndroidStudio2021.2/log/threadDumps-freeze-20220819-153332-AI-212.5712.43.2112.8609683-10sec 
+2022-08-19 15:40:38,286 [8149364]   WARN -       Emulator: Pixel 5 API 30 - unexpected system image feature string, emulator might not function correctly, please try updating the emulator. 
+2022-08-19 15:40:43,020 [8154098]   WARN -            #com.android.ddmlib - Failed to start monitoring emulator-5556 
+2022-08-19 15:50:46,946 [8758024]   WARN -       Emulator: Pixel 2 API 30 - unexpected system image feature string, emulator might not function correctly, please try updating the emulator. 
+2022-08-19 15:50:47,005 [8758083]   WARN -       Emulator: Pixel 2 API 30 - cannot add library /home/benshapiro/Android/Sdk/emulator/qemu/linux-x86_64/lib64/vulkan/libvulkan.so: failed 
+2022-08-19 15:50:51,715 [8762793]   WARN -            #com.android.ddmlib - Failed to start monitoring emulator-5554 
+2022-08-19 16:21:32,201 [10603279]   WARN - ctionSystem.impl.ActionUpdater - 2757 ms to expand group child TabList 
