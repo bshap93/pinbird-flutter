@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:pinboard_clone/enums/dialog_type.dart';
 import 'package:flutter/material.dart';
-import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 import '../../app/locator.dart';
 
@@ -13,4 +13,6 @@ void setupDialogUi() {
             Function(DialogResponse) completer) =>
         BasicDialog(request: request, completer: completer),
   };
+
+  dialogService.registerCustomDialogBuilders(builders);
 }
