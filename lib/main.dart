@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-import 'app/locator.dart';
 import 'models/pin.adapter.dart';
 import 'ui/pins_screen/pins_screen_view.dart';
 
@@ -12,7 +11,7 @@ void main() async {
   Hive.registerAdapter(PinAdapter());
   await Hive.openBox('pins');
 
-  setupLocator();
+  // setupLocator();
 
   runApp(const MyApp());
 }
