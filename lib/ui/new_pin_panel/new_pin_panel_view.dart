@@ -21,9 +21,11 @@ class _NewPinPanelState extends State<NewPinPanel> {
       return;
     }
 
-    ;
-
-    nppvm.updatePinContent(nppvm.newPinWithId(), eneteredURL);
+    nppvm.updatePinContent(
+      id: nppvm.newPinWithId(),
+      url: eneteredURL,
+      description: enteredDescription,
+    );
 
     Navigator.of(context).pop();
   }
@@ -51,7 +53,7 @@ class _NewPinPanelState extends State<NewPinPanel> {
                       onSubmitted: (_) => submitData(context, model),
                     ),
                     FlatButton(
-                        textColor: Colors.purple,
+                        textColor: Colors.white,
                         onPressed: () => submitData(context, model),
                         child: Text('Add Pin Link')),
                   ],

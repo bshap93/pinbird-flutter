@@ -1,9 +1,10 @@
-// TODO Implement this library.
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:path_provider/path_provider.dart';
+// GENERATED CODE - DO NOT MODIFY BY HAND
 
-import 'pin.dart';
+part of 'pin.dart';
+
+// **************************************************************************
+// TypeAdapterGenerator
+// **************************************************************************
 
 class PinAdapter extends TypeAdapter<Pin> {
   @override

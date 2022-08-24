@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pinboard_clone/ui/new_pin_panel/new_pin_panel_view.dart';
 import 'package:pinboard_clone/ui/pins_screen/pins_screen_viewmodel.dart';
 import 'package:stacked/stacked.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 import 'pins_screen_viewmodel.dart';
 
 class PinsScreenView extends StatelessWidget {
@@ -37,19 +37,38 @@ class PinsScreenView extends StatelessWidget {
                   ),
                   onPressed: () => model.toggleStatus(pin.id),
                 ),
-                title: TextField(
-                  // See above
-                  controller: TextEditingController(text: pin.url),
-                  onTap: () => {},
-                  decoration: null,
-                  focusNode: AlwaysDisabledFocusNode(),
-                  // focusNode: model.getFocusNode(pin.id),
-                  maxLines: null,
-                  onChanged: (text) => model.updatePinContent(pin.id, text),
-                  style: TextStyle(
-                    fontSize: 20,
-                    decoration: pin.wasRead ? TextDecoration.lineThrough : null,
-                  ),
+                title: Column(
+                  children: [
+                    TextField(
+                      // See above
+                      controller: TextEditingController(text: pin.description),
+                      onTap: () => {},
+                      decoration: null,
+                      focusNode: AlwaysDisabledFocusNode(),
+                      // focusNode: model.getFocusNode(pin.id),
+                      maxLines: null,
+                      // onChanged: null,
+                      style: TextStyle(
+                        fontSize: 20,
+                        decoration:
+                            pin.wasRead ? TextDecoration.lineThrough : null,
+                      ),
+                    ),
+                    TextField(
+                      // See above
+                      controller: TextEditingController(text: pin.url),
+                      onTap: () => launch(pin.url),
+                      decoration: null,
+                      focusNode: AlwaysDisabledFocusNode(),
+                      maxLines: null,
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontSize: 20,
+                        decoration:
+                            pin.wasRead ? TextDecoration.lineThrough : null,
+                      ),
+                    ),
+                  ],
                 ),
                 trailing: IconButton(
                   icon: const Icon(Icons.horizontal_rule),
