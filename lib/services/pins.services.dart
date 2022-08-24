@@ -26,9 +26,15 @@ class PinsService with ReactiveServiceMixin {
   void _saveToHive() => Hive.box('pins').put('pins', _pins.value);
 
   void newPin() {
-    _pins.value.insert(0, Pin(id: _randomId()));
+    String _id = _randomId();
+    print("ID_0 is ${_id}");
+    _pins.value.insert(0, Pin(id: _id));
     _saveToHive();
     notifyListeners();
+  }
+
+  String newPinId() {
+    return _pins.value.first.id;
   }
 
   bool removePin(String id) {

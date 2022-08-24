@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pinboard_clone/ui/new_pin_panel/new_pin_panel_view.dart';
 import 'package:pinboard_clone/ui/pins_screen/pins_screen_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 
@@ -56,10 +57,23 @@ class PinsScreenView extends StatelessWidget {
           ],
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: model.newPin,
+          onPressed: () => _startAddNewPin(context),
           child: const Icon(Icons.add),
         ),
       ),
+    );
+  }
+
+  void _startAddNewPin(BuildContext ctx) {
+    showModalBottomSheet(
+      context: ctx,
+      builder: (_) {
+        return GestureDetector(
+          onTap: () {},
+          child: NewPinPanel(),
+          behavior: HitTestBehavior.opaque,
+        );
+      },
     );
   }
 }

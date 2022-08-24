@@ -8,15 +8,18 @@ import '../../services/pins.services.dart';
 class NewPinPanelViewModel extends ReactiveViewModel {
   final _firstPinFocusNode = FocusNode();
   final _pinsService = locator<PinsService>();
-  late final toggleStatus = _pinsService.toggleStatus;
-  late final removePin = _pinsService.removePin;
+  // late final toggleStatus = _pinsService.toggleStatus;
+  // late final removePin = _pinsService.removePin;
   late final updatePinContent = _pinsService.updatePinContent;
 
   List<Pin> get pins => _pinsService.pins;
 
-  void newPin() {
+  // return pin id
+  String newPinWithId() {
     _pinsService.newPin();
-    _firstPinFocusNode.requestFocus();
+    // _firstPinFocusNode.requestFocus();
+    String _id = _pinsService.newPinId();
+    return _id;
   }
 
   @override
