@@ -38,9 +38,12 @@ class PinsScreenView extends StatelessWidget {
                   onPressed: () => model.toggleStatus(pin.id),
                 ),
                 title: TextField(
+                  // See above
                   controller: TextEditingController(text: pin.url),
+                  onTap: () => {},
                   decoration: null,
-                  focusNode: model.getFocusNode(pin.id),
+                  focusNode: AlwaysDisabledFocusNode(),
+                  // focusNode: model.getFocusNode(pin.id),
                   maxLines: null,
                   onChanged: (text) => model.updatePinContent(pin.id, text),
                   style: TextStyle(
@@ -76,4 +79,9 @@ class PinsScreenView extends StatelessWidget {
       },
     );
   }
+}
+
+class AlwaysDisabledFocusNode extends FocusNode {
+  @override
+  bool get hasFocus => false;
 }
