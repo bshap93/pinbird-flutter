@@ -32,10 +32,8 @@ class PinsScreenView extends StatelessWidget {
             ...model.pins.map((pin) {
               return ListTile(
                 leading: IconButton(
-                  icon: Icon(
-                    pin.wasRead ? Icons.task_alt : Icons.circle_outlined,
-                  ),
-                  onPressed: () => model.toggleStatus(pin.id),
+                  icon: const Icon(Icons.horizontal_rule),
+                  onPressed: () => model.removePin(pin.id),
                 ),
                 title: Column(
                   children: [
@@ -79,8 +77,10 @@ class PinsScreenView extends StatelessWidget {
                   ],
                 ),
                 trailing: IconButton(
-                  icon: const Icon(Icons.horizontal_rule),
-                  onPressed: () => model.removePin(pin.id),
+                  icon: Icon(
+                    Icons.arrow_right,
+                  ),
+                  onPressed: () => model.toggleStatus(pin.id),
                 ),
               );
             }),
