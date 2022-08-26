@@ -13,7 +13,7 @@ class PinsScreenView extends StatelessWidget {
     return ViewModelBuilder<PinsScreenViewModel>.reactive(
       viewModelBuilder: () => PinsScreenViewModel(),
       builder: (context, model, _) => Scaffold(
-        appBar: AppBar(title: const Text('Flutter Stacked pins')),
+        appBar: AppBar(title: const Text('Pin Bookmarks')),
         body: ListView(
           padding: const EdgeInsets.symmetric(vertical: 16),
           children: [
@@ -39,25 +39,33 @@ class PinsScreenView extends StatelessWidget {
                 ),
                 title: Column(
                   children: [
-                    TextField(
-                      // See above
-                      controller: TextEditingController(text: pin.description),
-                      onTap: () => {},
-                      decoration: null,
-                      focusNode: AlwaysDisabledFocusNode(),
-                      // focusNode: model.getFocusNode(pin.id),
-                      maxLines: null,
-                      // onChanged: null,
-                      style: TextStyle(
-                        fontSize: 20,
-                        decoration:
-                            pin.wasRead ? TextDecoration.lineThrough : null,
-                      ),
-                    ),
+                    // TextField(
+                    //   // See above
+                    //   controller: TextEditingController(text: pin.description),
+                    //   onTap: () => {},
+                    //   decoration: null,
+                    //   focusNode: AlwaysDisabledFocusNode(),
+                    //   // focusNode: model.getFocusNode(pin.id),
+                    //   maxLines: null,
+                    //   // onChanged: null,
+                    //   style: TextStyle(
+                    //     fontSize: 20,
+                    //     decoration:
+                    //         pin.wasRead ? TextDecoration.lineThrough : null,
+                    //   ),
+                    // ),
                     TextField(
                       // See above
                       controller: TextEditingController(text: pin.url),
-                      onTap: () => launch(pin.url),
+                      // ignore: deprecated_member_use
+                      onTap: () => {
+                        if (pin.url == null)
+                          {
+                            launch("https://www.google.com"),
+                          }
+                        else
+                          {launch("https://" + pin.url)}
+                      },
                       decoration: null,
                       focusNode: AlwaysDisabledFocusNode(),
                       maxLines: null,

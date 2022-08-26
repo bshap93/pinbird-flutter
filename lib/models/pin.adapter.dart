@@ -1,13 +1,10 @@
-// TODO Implement this library.
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:path_provider/path_provider.dart';
 
 import 'pin.dart';
 
 class PinAdapter extends TypeAdapter<Pin> {
   @override
-  final int typeId = 0;
+  final int typeId = 1;
 
   @override
   Pin read(BinaryReader reader) {
@@ -19,31 +16,18 @@ class PinAdapter extends TypeAdapter<Pin> {
       id: fields[0] as String,
       wasRead: fields[1] as bool,
       url: fields[2] as String,
-      description: fields[3] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, Pin obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(3)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
       ..write(obj.wasRead)
       ..writeByte(2)
-      ..write(obj.url)
-      ..writeByte(3)
-      ..write(obj.description);
+      ..write(obj.url);
   }
-
-  @override
-  int get hashCode => typeId.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is PinAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
 }

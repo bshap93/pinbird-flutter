@@ -10,21 +10,25 @@ class NewPinPanel extends StatefulWidget {
 }
 
 class _NewPinPanelState extends State<NewPinPanel> {
-  final descriptionController = TextEditingController();
+  // final descriptionController = TextEditingController();
   final urlController = TextEditingController();
 
   void submitData(BuildContext ctx, NewPinPanelViewModel nppvm) {
-    final enteredDescription = descriptionController.text;
+    // final enteredDescription = descriptionController.text;
     final eneteredURL = urlController.text;
 
-    if (enteredDescription.isEmpty || eneteredURL.isEmpty) {
+    // if (enteredDescription.isEmpty || eneteredURL.isEmpty) {
+    //   return;
+    // }
+
+    if (eneteredURL.isEmpty) {
       return;
     }
 
     nppvm.updatePinContent(
       id: nppvm.newPinWithId(),
       url: eneteredURL,
-      description: enteredDescription,
+      // description: enteredDescription,
     );
 
     Navigator.of(context).pop();
@@ -44,8 +48,8 @@ class _NewPinPanelState extends State<NewPinPanel> {
                     TextField(
                       decoration:
                           InputDecoration(labelText: 'Link Description'),
-                      controller: descriptionController,
-                      onSubmitted: (_) => submitData(context, model),
+                      controller: null,
+                      // onSubmitted: (_) => submitData(context, model),
                     ),
                     TextField(
                       decoration: InputDecoration(labelText: 'Link URL'),

@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: pinsScreenView,
       theme: ThemeData.dark(),
-      title: 'Flutter Stacked Pins',
+      title: 'Pin Bookmarks',
     );
   }
 }

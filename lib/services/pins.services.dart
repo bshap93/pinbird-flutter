@@ -28,12 +28,12 @@ class PinsService with ReactiveServiceMixin {
   void newPin() {
     String _id = _randomId();
     print("ID_0 is ${_id}");
-    _pins.value.insert(0, Pin(id: _id, description: ''));
+    _pins.value.insert(0, Pin(id: _id, wasRead: false));
     _saveToHive();
     notifyListeners();
   }
 
-  String newPinId() {
+  String? newPinId() {
     return _pins.value.first.id;
   }
 
@@ -61,11 +61,9 @@ class PinsService with ReactiveServiceMixin {
     }
   }
 
-  bool updatePinContent(
-      {String id = '', String url = '', String description = ''}) {
+  bool updatePinContent({String id = '', String url = ''}) {
     final index = _pins.value.indexWhere((pin) => pin.id == id);
     if (index != -1) {
-      _pins.value[index].description = description;
       _pins.value[index].url = url;
       _saveToHive();
       return true;
