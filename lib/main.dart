@@ -11,6 +11,7 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(PinAdapter());
   await Hive.openBox('pins');
+  await Hive.openBox('pin_data');
 
   setupLocator();
 
