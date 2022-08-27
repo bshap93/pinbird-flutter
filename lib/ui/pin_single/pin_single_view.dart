@@ -17,46 +17,50 @@ class PinSingleView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<PinSingleViewModel>.reactive(
-        viewModelBuilder: () => PinSingleViewModel('FAKEID'),
+        viewModelBuilder: () => PinSingleViewModel(pin_datum.id),
         builder: (context, model, _) => Scaffold(
-            appBar: AppBar(title: const Text('Single Pin')),
+            appBar: AppBar(title: Text(pin_datum.description)),
             body: Card(
               child: Column(
                 children: [
-                  Text("This pin's URL:"),
-                  TextField(
-                    // See above
-                    controller: TextEditingController(text: pin_datum.url),
-                    // ignore: deprecated_member_use
-                    onTap: () => {
-                      if (pin_datum.url == null)
-                        {
-                          launch("https://www.google.com"),
-                        }
-                      else
-                        {launch("https://" + pin_datum.url)}
-                    },
-                    decoration: null,
-                    focusNode: AlwaysDisabledFocusNode(),
-                    maxLines: null,
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontSize: 20,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(
+                      // See above
+                      controller:
+                          TextEditingController(text: pin_datum.description),
+                      // ignore: deprecated_member_use
+                      onTap: () => {},
+                      decoration: null,
+                      focusNode: AlwaysDisabledFocusNode(),
+                      maxLines: null,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                      ),
                     ),
                   ),
-                  Text("This pin's Description:"),
-                  TextField(
-                    // See above
-                    controller:
-                        TextEditingController(text: pin_datum.description),
-                    // ignore: deprecated_member_use
-                    onTap: () => {},
-                    decoration: null,
-                    focusNode: AlwaysDisabledFocusNode(),
-                    maxLines: null,
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontSize: 20,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(
+                      // See above
+                      controller: TextEditingController(text: pin_datum.url),
+                      // ignore: deprecated_member_use
+                      onTap: () => {
+                        if (pin_datum.url == null)
+                          {
+                            launch("https://www.google.com"),
+                          }
+                        else
+                          {launch("https://" + pin_datum.url)}
+                      },
+                      decoration: null,
+                      focusNode: AlwaysDisabledFocusNode(),
+                      maxLines: null,
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontSize: 20,
+                      ),
                     ),
                   ),
                 ],

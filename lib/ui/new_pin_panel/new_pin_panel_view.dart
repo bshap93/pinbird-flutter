@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import '../../models/tag.dart';
 import 'new_pin_panel_viewmodel.dart';
 
 class NewPinPanel extends StatefulWidget {
@@ -12,23 +13,59 @@ class NewPinPanel extends StatefulWidget {
 class _NewPinPanelState extends State<NewPinPanel> {
   final descriptionController = TextEditingController();
   final urlController = TextEditingController();
+  final tagController = TextEditingController();
+
+  Future<void> _showNoURLDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('No URL'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text('Your bookmark pin has no URL.'),
+                Text('Please add a URL or path for your pin.'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   void submitData(BuildContext ctx, NewPinPanelViewModel nppvm) {
     final enteredDescription = descriptionController.text;
     final eneteredURL = urlController.text;
-
-    // if (enteredDescription.isEmpty || eneteredURL.isEmpty) {
-    //   return;
-    // }
+    final enteredTagStr = tagController.text;
+    final Tag enteredTag;
 
     if (eneteredURL.isEmpty) {
+      // TODO pop up dialog
       return;
     }
 
+    if (enteredTagStr.isEmpty) {
+      enteredTag = Tag(tag: "None");
+    } else {
+      enteredTag = Tag(tag: enteredTagStr);
+    }
+
     nppvm.updatePinContent(
-        id: nppvm.newPinWithId(),
-        url: eneteredURL,
-        description: enteredDescription);
+      id: nppvm.newPinWithId(),
+      url: eneteredURL,
+      description: enteredDescription,
+      tag: enteredTag,
+    );
 
     Navigator.of(context).pop();
   }
@@ -55,9 +92,20 @@ class _NewPinPanelState extends State<NewPinPanel> {
                       controller: urlController,
                       onSubmitted: (_) => submitData(context, model),
                     ),
+                    TextField(
+                      decoration: InputDecoration(labelText: 'Add a tag'),
+                      controller: tagController,
+                      onSubmitted: (_) => submitData(context, model),
+                    ),
                     FlatButton(
                         textColor: Colors.white,
-                        onPressed: () => submitData(context, model),
+                        onPressed: () {
+                          if (urlController.text.isEmpty) {
+                            _showNoURLDialog();
+                          } else {
+                            submitData(context, model);
+                          }
+                        },
                         child: Text('Add Pin Link')),
                   ],
                 ))));
