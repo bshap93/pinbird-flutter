@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pinboard_clone/ui/new_pin_panel/new_pin_panel_view.dart';
+import 'package:pinboard_clone/ui/pin_single/pin_single_view.dart';
 import 'package:pinboard_clone/ui/pins_screen/pins_screen_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -80,7 +81,10 @@ class PinsScreenView extends StatelessWidget {
                   icon: Icon(
                     Icons.arrow_right,
                   ),
-                  onPressed: () => model.toggleStatus(pin.id),
+                  onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PinSingleView(pin: pin))),
                 ),
               );
             }),

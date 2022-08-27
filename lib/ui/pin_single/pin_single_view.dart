@@ -5,10 +5,13 @@ import 'package:pinboard_clone/ui/pins_screen/pins_screen_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../models/pin.dart';
 import '../pins_screen/pins_screen_view.dart';
 
 class PinSingleView extends StatelessWidget {
-  const PinSingleView({Key? key}) : super(key: key);
+  const PinSingleView({super.key, required this.pin});
+
+  final Pin pin;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +25,7 @@ class PinSingleView extends StatelessWidget {
                   Text("This pin's URL:"),
                   TextField(
                     // See above
-                    controller: TextEditingController(text: model.pin.url),
+                    controller: TextEditingController(text: pin.url),
                     // ignore: deprecated_member_use
                     onTap: () => {
                       if (pin.url == null)
