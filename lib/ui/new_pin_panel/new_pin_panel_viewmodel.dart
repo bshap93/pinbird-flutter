@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../app/locator.dart';
-import '../../models/pin.dart';
 import '../../models/pin_data.dart';
 import '../../services/pin_data.services.dart';
-import '../../services/pins.services.dart';
 
 class NewPinPanelViewModel extends ReactiveViewModel {
   final _firstPinFocusNode = FocusNode();

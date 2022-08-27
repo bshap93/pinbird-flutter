@@ -3,9 +3,8 @@ import 'package:pinboard_clone/models/pin_data.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../app/locator.dart';
-import '../../models/pin.dart';
+
 import '../../services/pin_data.services.dart';
-import '../../services/pins.services.dart';
 
 class PinsScreenViewModel extends ReactiveViewModel {
   final _firstPinFocusNode = FocusNode();

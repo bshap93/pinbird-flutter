@@ -5,7 +5,6 @@ import 'package:pinboard_clone/ui/pins_screen/pins_screen_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../models/pin.dart';
 import '../../models/pin_data.dart';
 import '../pins_screen/pins_screen_view.dart';
 
