@@ -18,7 +18,7 @@ class PinsScreenView extends StatelessWidget {
         body: ListView(
           padding: const EdgeInsets.symmetric(vertical: 16),
           children: [
-            if (model.pins.isEmpty)
+            if (model.pin_data.isEmpty)
               Opacity(
                 opacity: 0.5,
                 child: Column(
@@ -30,11 +30,11 @@ class PinsScreenView extends StatelessWidget {
                   ],
                 ),
               ),
-            ...model.pins.map((pin) {
+            ...model.pin_data.map((pin_datum) {
               return ListTile(
                 leading: IconButton(
                   icon: const Icon(Icons.horizontal_rule),
-                  onPressed: () => model.removePin(pin.id),
+                  onPressed: () => model.removePin(pin_datum.id),
                 ),
                 title: Column(
                   children: [
@@ -55,15 +55,15 @@ class PinsScreenView extends StatelessWidget {
                     // ),
                     TextField(
                       // See above
-                      controller: TextEditingController(text: pin.url),
+                      controller: TextEditingController(text: pin_datum.url),
                       // ignore: deprecated_member_use
                       onTap: () => {
-                        if (pin.url == null)
+                        if (pin_datum.url == null)
                           {
                             launch("https://www.google.com"),
                           }
                         else
-                          {launch("https://" + pin.url)}
+                          {launch("https://" + pin_datum.url)}
                       },
                       decoration: null,
                       focusNode: AlwaysDisabledFocusNode(),
@@ -71,8 +71,6 @@ class PinsScreenView extends StatelessWidget {
                       style: TextStyle(
                         color: Colors.blue,
                         fontSize: 20,
-                        decoration:
-                            pin.wasRead ? TextDecoration.lineThrough : null,
                       ),
                     ),
                   ],
@@ -84,7 +82,8 @@ class PinsScreenView extends StatelessWidget {
                   onPressed: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => PinSingleView(pin: pin))),
+                          builder: (context) =>
+                              PinSingleView(pin_datum: pin_datum))),
                 ),
               );
             }),

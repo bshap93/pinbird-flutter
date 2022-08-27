@@ -61,7 +61,7 @@ class PinsService with ReactiveServiceMixin {
     }
   }
 
-  bool updatePinContent({String id = '', String url = ''}) {
+  bool updatePinDataContent({String id = '', String url = ''}) {
     final index = _pins.value.indexWhere((pin) => pin.id == id);
     if (index != -1) {
       _pins.value[index].url = url;

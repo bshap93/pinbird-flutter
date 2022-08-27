@@ -3,22 +3,24 @@ import 'package:stacked/stacked.dart';
 
 import '../../app/locator.dart';
 import '../../models/pin.dart';
+import '../../models/pin_data.dart';
+import '../../services/pin_data.services.dart';
 import '../../services/pins.services.dart';
 
 class NewPinPanelViewModel extends ReactiveViewModel {
   final _firstPinFocusNode = FocusNode();
-  final _pinsService = locator<PinsService>();
+  final _pinDataService = locator<PinDataService>();
   // late final toggleStatus = _pinsService.toggleStatus;
   // late final removePin = _pinsService.removePin;
-  late final updatePinContent = _pinsService.updatePinContent;
+  late final updatePinContent = _pinDataService.updatePinDataContent;
 
-  List<Pin> get pins => _pinsService.pins;
+  List<PinData> get pins => _pinDataService.pin_data;
 
   // return pin id
   String newPinWithId() {
-    _pinsService.newPin();
+    _pinDataService.newPinDatum();
     // _firstPinFocusNode.requestFocus();
-    String? _id = _pinsService.newPinId();
+    String? _id = _pinDataService.newPinDataId();
     if (_id == null) {
       throw NullThrownError();
     } else {
@@ -27,5 +29,5 @@ class NewPinPanelViewModel extends ReactiveViewModel {
   }
 
   @override
-  List<ReactiveServiceMixin> get reactiveServices => [_pinsService];
+  List<ReactiveServiceMixin> get reactiveServices => [_pinDataService];
 }
