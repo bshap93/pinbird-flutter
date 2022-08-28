@@ -11,7 +11,6 @@ class PinsScreenViewModel extends ReactiveViewModel {
   final _firstPinFocusNode = FocusNode();
   final _pinDataService = locator<PinDataService>();
   final _tagService = locator<TagService>();
-  // late final toggleStatus = _pinsService.toggleStatus;
   late final removePin = _pinDataService.removePinDatum;
   late final updatePinContent = _pinDataService.updatePinDataContent;
 

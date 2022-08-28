@@ -16,40 +16,39 @@ class PinsScreenView extends StatefulWidget {
 }
 
 class _PinsScreenViewState extends State<PinsScreenView> {
-  // Future<void> _tryDelete(String id) async {
-  //   return showDialog<void>(
-  //     context: context,
-  //     barrierDismissible: false, // user must tap button!
-  //     builder: (BuildContext context) {
-  //       return AlertDialog(
-  //         title: const Text('Are you sure?'),
-  //         content: SingleChildScrollView(
-  //           child: ListBody(
-  //             children: const <Widget>[
-  //               Text('Are you sure you want to delete this pin?'),
-  //             ],
-  //           ),
-  //         ),
-  //         actions: <Widget>[
-  //           TextButton(
-  //             child: const Text('No'),
-  //             onPressed: () {
-  //               Navigator.of(context).pop();
-  //             },
-  //           ),
-  //           TextButton(
-  //             child: const Text('Yes'),
-  //             onPressed: () {
-  //               Navigator.of(context).pop();
-  //               model.removePin(widget.pin_datum.id);
-  //               Navigator.of(context).pop();
-  //             },
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
+  Future<void> _tryDelete(String _id, PinsScreenViewModel model) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Are you sure?'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text('Are you sure you want to delete this pin?'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('No'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Yes'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                model.removePin(_id);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +76,8 @@ class _PinsScreenViewState extends State<PinsScreenView> {
                 child: ListTile(
                   leading: IconButton(
                     icon: const Icon(Icons.horizontal_rule),
-                    onPressed: () => model.removePin(pin_datum.id),
+                    // onPressed: () => model.removePin(pin_datum.id),
+                    onPressed: () => _tryDelete(pin_datum.id, model),
                   ),
                   title: Column(
                     children: [
