@@ -11,7 +11,7 @@ class PinSingleViewModel extends ReactiveViewModel {
   final _firstPinFocusNode = FocusNode();
   final _pinDataService = locator<PinDataService>();
   late final removePin = _pinDataService.removePinDatum;
-  late final updatePinContent = _pinDataService.updatePinDataContent;
+  late final updatePinDataContent = _pinDataService.updatePinDataContent;
 
   PinSingleViewModel(this._id);
 

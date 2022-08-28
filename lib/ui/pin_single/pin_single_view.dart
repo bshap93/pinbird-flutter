@@ -18,79 +18,73 @@ class PinSingleView extends StatelessWidget {
     return ViewModelBuilder<PinSingleViewModel>.reactive(
         viewModelBuilder: () => PinSingleViewModel(pin_datum.id),
         builder: (context, model, _) => Scaffold(
-            appBar: AppBar(title: Text(pin_datum.description)),
-            body: Card(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextField(
-                      // See above
-                      controller:
-                          TextEditingController(text: pin_datum.description),
-                      // ignore: deprecated_member_use
-                      onTap: () => {},
-                      decoration: null,
-                      focusNode: AlwaysDisabledFocusNode(),
-                      maxLines: null,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                      ),
+            appBar: AppBar(
+              title: Text(pin_datum.description),
+              actions: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(right: 20.0),
+                  child: GestureDetector(
+                    onTap: () {},
+                    child: Icon(Icons.edit),
+                  ),
+                )
+              ],
+            ),
+            body: ListView(
+              children: <Widget>[
+                ListTile(
+                  title: TextField(
+                    // See above
+                    controller:
+                        TextEditingController(text: pin_datum.description),
+                    decoration: null,
+                    focusNode: model.getFocusNode(pin_datum.id),
+                    maxLines: null,
+                    onChanged: (text) => model.updatePinDataContent(
+                      id: pin_datum.id,
+                      url: pin_datum.url,
+                      description: text,
+                      tag: pin_datum.tag,
+                    ),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextField(
-                      // See above
-                      controller: TextEditingController(text: pin_datum.url),
-                      // ignore: deprecated_member_use
-                      onTap: () => {
-                        if (pin_datum.url == null)
-                          {
-                            launch("https://www.google.com"),
-                          }
-                        else
-                          {launch("https://" + pin_datum.url)}
-                      },
-                      decoration: null,
-                      focusNode: AlwaysDisabledFocusNode(),
-                      maxLines: null,
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontSize: 20,
-                      ),
+                ),
+                ListTile(
+                  title: TextField(
+                    // See above
+                    controller: TextEditingController(text: pin_datum.url),
+                    // ignore: deprecated_member_use
+                    onTap: () => {
+                      if (pin_datum.url == null)
+                        {
+                          launch("https://www.google.com"),
+                        }
+                      else
+                        {launch("https://" + pin_datum.url)}
+                    },
+                    decoration: null,
+                    focusNode: AlwaysDisabledFocusNode(),
+                    maxLines: null,
+                    style: TextStyle(
+                      color: Colors.blue,
+                      fontSize: 20,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Card(
-                      child: Row(
-                        children: [
-                          Icon(Icons.tag),
-                          Text(pin_datum.tag.tag),
-                          // TextField(
-                          //   // See above
-                          //   controller:
-                          //       TextEditingController(text: pin_datum.tag.tag),
-                          //   // ignore: deprecated_member_use
-                          //   onTap: () => {
-                          //     // Go to a tag view list
-                          //   },
-                          //   decoration: null,
-                          //   focusNode: AlwaysDisabledFocusNode(),
-                          //   maxLines: null,
-                          //   style: TextStyle(
-                          //     color: Colors.white,
-                          //     fontSize: 20,
-                          //   ),
-                          // ),
-                        ],
-                      ),
+                ),
+                ListTile(
+                  title: Card(
+                    child: Row(
+                      children: [
+                        Icon(Icons.tag),
+                        Text(pin_datum.tag.tag),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                )
+              ],
             )));
   }
 }
