@@ -33,44 +33,46 @@ class PinsScreenView extends StatelessWidget {
                 ),
               ),
             ...model.pin_data.map((pin_datum) {
-              return ListTile(
-                leading: IconButton(
-                  icon: const Icon(Icons.horizontal_rule),
-                  onPressed: () => model.removePin(pin_datum.id),
-                ),
-                title: Column(
-                  children: [
-                    TextField(
-                      // See above
-                      controller: TextEditingController(text: pin_datum.url),
-                      // ignore: deprecated_member_use
-                      onTap: () => {
-                        if (pin_datum.url == null)
-                          {
-                            launch("https://www.google.com"),
-                          }
-                        else
-                          {launch("https://" + pin_datum.url)}
-                      },
-                      decoration: null,
-                      focusNode: AlwaysDisabledFocusNode(),
-                      maxLines: null,
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ],
-                ),
-                trailing: IconButton(
-                  icon: Icon(
-                    Icons.arrow_right,
+              return Card(
+                child: ListTile(
+                  leading: IconButton(
+                    icon: const Icon(Icons.horizontal_rule),
+                    onPressed: () => model.removePin(pin_datum.id),
                   ),
-                  onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              PinSingleView(pin_datum: pin_datum))),
+                  title: Column(
+                    children: [
+                      TextField(
+                        // See above
+                        controller: TextEditingController(text: pin_datum.url),
+                        // ignore: deprecated_member_use
+                        onTap: () => {
+                          if (pin_datum.url == null)
+                            {
+                              launch("https://www.google.com"),
+                            }
+                          else
+                            {launch("https://" + pin_datum.url)}
+                        },
+                        decoration: null,
+                        focusNode: AlwaysDisabledFocusNode(),
+                        maxLines: null,
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontSize: 20,
+                        ),
+                      ),
+                    ],
+                  ),
+                  trailing: IconButton(
+                    icon: Icon(
+                      Icons.arrow_right,
+                    ),
+                    onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                PinSingleView(pin_datum: pin_datum))),
+                  ),
                 ),
               );
             }),

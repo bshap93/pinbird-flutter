@@ -21,6 +21,8 @@ class TagService with ReactiveServiceMixin {
     notifyListeners();
   }
 
+  Tag getNewestTag() => _tags.value.elementAt(0);
+
   bool removeTag(String _t) {
     final index = _tags.value.indexWhere((_tag) => _tag.tag == _t);
     if (index != -1) {

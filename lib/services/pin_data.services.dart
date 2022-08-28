@@ -62,6 +62,7 @@ class PinDataService with ReactiveServiceMixin {
     if (index != -1) {
       _pin_data.value[index].url = url;
       _pin_data.value[index].description = description;
+      _pin_data.value[index].tag = tag;
       // TODO: Implement tags, but for now just let tag be None
       _saveToHive();
       return true;

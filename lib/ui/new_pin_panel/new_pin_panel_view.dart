@@ -47,22 +47,25 @@ class _NewPinPanelState extends State<NewPinPanel> {
     final enteredDescription = descriptionController.text;
     final eneteredURL = urlController.text;
     final enteredTagStr = tagController.text;
-    final Tag enteredTag;
 
     if (eneteredURL.isEmpty) {
       // TODO pop up dialog
       return;
     }
 
-    if (enteredTagStr.isEmpty) {
-      enteredTag = Tag(tag: "None");
-    } else {
-      enteredTag = Tag(tag: enteredTagStr);
-      nppvm.newTag(enteredTagStr);
-    }
+    nppvm.newTag(enteredTagStr);
+    Tag enteredTag = nppvm.getNewestTag();
+
+    // if (enteredTagStr.isEmpty) {
+    //   enteredTag = Tag(tag: "None");
+    // } else {
+    //   enteredTag = Tag(tag: enteredTagStr);
+    // }
+
+    final String newId = nppvm.newPinDataWithId();
 
     nppvm.updatePinContent(
-      id: nppvm.newPinDataWithId(),
+      id: newId,
       url: eneteredURL,
       description: enteredDescription,
       tag: enteredTag,
