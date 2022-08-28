@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:pinboard_clone/ui/new_pin_panel/new_pin_panel_view.dart';
 import 'package:pinboard_clone/ui/pin_single/pin_single_view.dart';
