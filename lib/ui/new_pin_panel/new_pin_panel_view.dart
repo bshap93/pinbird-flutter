@@ -58,10 +58,11 @@ class _NewPinPanelState extends State<NewPinPanel> {
       enteredTag = Tag(tag: "None");
     } else {
       enteredTag = Tag(tag: enteredTagStr);
+      nppvm.newTag(enteredTagStr);
     }
 
     nppvm.updatePinContent(
-      id: nppvm.newPinWithId(),
+      id: nppvm.newPinDataWithId(),
       url: eneteredURL,
       description: enteredDescription,
       tag: enteredTag,

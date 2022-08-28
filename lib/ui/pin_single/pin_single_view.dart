@@ -63,6 +63,33 @@ class PinSingleView extends StatelessWidget {
                       ),
                     ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Card(
+                      child: Row(
+                        children: [
+                          Icon(Icons.tag),
+                          Text(pin_datum.tag.tag),
+                          // TextField(
+                          //   // See above
+                          //   controller:
+                          //       TextEditingController(text: pin_datum.tag.tag),
+                          //   // ignore: deprecated_member_use
+                          //   onTap: () => {
+                          //     // Go to a tag view list
+                          //   },
+                          //   decoration: null,
+                          //   focusNode: AlwaysDisabledFocusNode(),
+                          //   maxLines: null,
+                          //   style: TextStyle(
+                          //     color: Colors.white,
+                          //     fontSize: 20,
+                          //   ),
+                          // ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
             )));

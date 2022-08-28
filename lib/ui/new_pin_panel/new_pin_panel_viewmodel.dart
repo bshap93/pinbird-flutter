@@ -19,7 +19,7 @@ class NewPinPanelViewModel extends ReactiveViewModel {
   List<PinData> get pins => _pinDataService.pin_data;
 
   // return pin id
-  String newPinWithId() {
+  String newPinDataWithId() {
     _pinDataService.newPinDatum();
     // _firstPinFocusNode.requestFocus();
     String? _id = _pinDataService.newPinDataId();
