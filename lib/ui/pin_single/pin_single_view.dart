@@ -28,6 +28,11 @@ class _PinSingleViewState extends State<PinSingleView> {
         builder: (context, model, _) => Scaffold(
             appBar: AppBar(
               title: Text(widget.pin_datum.description),
+              actions: <Widget>[
+                IconButton(
+                    onPressed: () => _tryDelete(widget.pin_datum.id, model),
+                    icon: const Icon(Icons.delete_outline))
+              ],
             ),
             body: ListView(
               children: <Widget>[
@@ -114,5 +119,40 @@ class _PinSingleViewState extends State<PinSingleView> {
                 )
               ],
             )));
+  }
+
+  Future<void> _tryDelete(String id, PinSingleViewModel model) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Are you sure?'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text('Are you sure you want to delete this pin?'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('No'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Yes'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                model.removePin(widget.pin_datum.id);
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }
