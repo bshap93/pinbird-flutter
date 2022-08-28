@@ -8,37 +8,42 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../models/pin_data.dart';
 import '../pins_screen/pins_screen_view.dart';
 
-class PinSingleView extends StatelessWidget {
+class PinSingleView extends StatefulWidget {
   const PinSingleView({super.key, required this.pin_datum});
 
   final PinData pin_datum;
 
+  @override
+  State<PinSingleView> createState() => _PinSingleViewState();
+}
+
+class _PinSingleViewState extends State<PinSingleView> {
   @override
   Widget build(BuildContext context) {
     FocusNode descriptionFocusNode = new FocusNode();
     FocusNode urlFocusNode = new FocusNode();
 
     return ViewModelBuilder<PinSingleViewModel>.reactive(
-        viewModelBuilder: () => PinSingleViewModel(pin_datum.id),
+        viewModelBuilder: () => PinSingleViewModel(widget.pin_datum.id),
         builder: (context, model, _) => Scaffold(
             appBar: AppBar(
-              title: Text(pin_datum.description),
+              title: Text(widget.pin_datum.description),
             ),
             body: ListView(
               children: <Widget>[
                 ListTile(
                   title: TextField(
                     // See above
-                    controller:
-                        TextEditingController(text: pin_datum.description),
+                    controller: TextEditingController(
+                        text: widget.pin_datum.description),
                     decoration: null,
                     focusNode: descriptionFocusNode,
                     maxLines: null,
                     onChanged: (text) => model.updatePinDataContent(
-                      id: pin_datum.id,
-                      url: pin_datum.url,
+                      id: widget.pin_datum.id,
+                      url: widget.pin_datum.url,
                       description: text,
-                      tag: pin_datum.tag,
+                      tag: widget.pin_datum.tag,
                     ),
                     style: TextStyle(
                       color: Colors.white,
@@ -46,7 +51,7 @@ class PinSingleView extends StatelessWidget {
                     ),
                   ),
                   trailing: IconButton(
-                    focusNode: model.getFocusNode(pin_datum.id),
+                    focusNode: model.getFocusNode(widget.pin_datum.id),
                     icon: Icon(Icons.edit),
                     onPressed: () {
                       FocusScope.of(context).requestFocus(descriptionFocusNode);
@@ -56,22 +61,23 @@ class PinSingleView extends StatelessWidget {
                 ListTile(
                   title: TextField(
                     // See above
-                    controller: TextEditingController(text: pin_datum.url),
+                    controller:
+                        TextEditingController(text: widget.pin_datum.url),
                     // ignore: deprecated_member_use
                     onTap: () => {
-                      if (pin_datum.url == null)
+                      if (widget.pin_datum.url == null)
                         {
                           launch("https://www.google.com"),
                         }
                       else
-                        {launch("https://" + pin_datum.url)}
+                        {launch("https://" + widget.pin_datum.url)}
                     },
                     decoration: null,
                     onChanged: (text) => model.updatePinDataContent(
-                      id: pin_datum.id,
+                      id: widget.pin_datum.id,
                       url: text,
-                      description: pin_datum.description,
-                      tag: pin_datum.tag,
+                      description: widget.pin_datum.description,
+                      tag: widget.pin_datum.tag,
                     ),
                     focusNode: urlFocusNode,
                     maxLines: null,
@@ -81,7 +87,7 @@ class PinSingleView extends StatelessWidget {
                     ),
                   ),
                   trailing: IconButton(
-                    focusNode: model.getFocusNode(pin_datum.id),
+                    focusNode: model.getFocusNode(widget.pin_datum.id),
                     icon: Icon(Icons.edit),
                     onPressed: () {
                       FocusScope.of(context).requestFocus(urlFocusNode);
@@ -100,7 +106,7 @@ class PinSingleView extends StatelessWidget {
                       child: Row(
                         children: [
                           Icon(Icons.tag),
-                          Text(pin_datum.tag.tag),
+                          Text(widget.pin_datum.tag.tag),
                         ],
                       ),
                     ),

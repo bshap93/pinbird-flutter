@@ -40,21 +40,6 @@ class PinsScreenView extends StatelessWidget {
                 ),
                 title: Column(
                   children: [
-                    // TextField(
-                    //   // See above
-                    //   controller: TextEditingController(text: pin.description),
-                    //   onTap: () => {},
-                    //   decoration: null,
-                    //   focusNode: AlwaysDisabledFocusNode(),
-                    //   // focusNode: model.getFocusNode(pin.id),
-                    //   maxLines: null,
-                    //   // onChanged: null,
-                    //   style: TextStyle(
-                    //     fontSize: 20,
-                    //     decoration:
-                    //         pin.wasRead ? TextDecoration.lineThrough : null,
-                    //   ),
-                    // ),
                     TextField(
                       // See above
                       controller: TextEditingController(text: pin_datum.url),
