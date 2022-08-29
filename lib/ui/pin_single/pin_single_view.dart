@@ -27,6 +27,10 @@ class _PinSingleViewState extends State<PinSingleView> {
         viewModelBuilder: () => PinSingleViewModel(widget.pin_datum.id),
         builder: (context, model, _) => Scaffold(
             appBar: AppBar(
+              leading: IconButton(
+                onPressed: () => _saveAndReturn(widget.pin_datum.id, model),
+                icon: const Icon(Icons.keyboard_return),
+              ),
               title: Text(widget.pin_datum.description),
               actions: <Widget>[
                 IconButton(
@@ -154,5 +158,9 @@ class _PinSingleViewState extends State<PinSingleView> {
         );
       },
     );
+  }
+
+  _saveAndReturn(String id, PinSingleViewModel model) {
+    // model.updatePinDataContent()
   }
 }

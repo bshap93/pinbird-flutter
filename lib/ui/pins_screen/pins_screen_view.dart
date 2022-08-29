@@ -16,6 +16,8 @@ class PinsScreenView extends StatefulWidget {
 }
 
 class _PinsScreenViewState extends State<PinsScreenView> {
+  FocusNode urlFocusNode = new FocusNode();
+
   Future<void> _tryDelete(String _id, PinsScreenViewModel model) async {
     return showDialog<void>(
       context: context,
@@ -94,7 +96,7 @@ class _PinsScreenViewState extends State<PinsScreenView> {
                             {launch("https://" + pin_datum.url)}
                         },
                         decoration: null,
-                        focusNode: AlwaysDisabledFocusNode(),
+                        focusNode: urlFocusNode,
                         maxLines: null,
                         style: TextStyle(
                           color: Colors.blue,
