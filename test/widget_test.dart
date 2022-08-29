@@ -40,9 +40,11 @@ void main() {
     expect(noPinMsg, findsOneWidget);
   });
 
-  testWidgets('description', (WidgetTester tester) async {
-    await tester.pumpWidget(const MyApp());
+  // testWidgets('description', (WidgetTester tester) async {
+  //   await tester.pumpWidget(const MyApp());
 
-    final homeFind = find.byElementType(ViewModelBuilder);
-  });
+  //   final homeFind = find.byElementType(MaterialApp);
+
+  //   expect(homeFind, findsOneWidget);
+  // });
 }
