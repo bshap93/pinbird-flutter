@@ -74,6 +74,8 @@ class _PinsScreenViewState extends State<PinsScreenView> {
                 ),
               ),
             ...model.pin_data.map((pin_datum) {
+              TextEditingController _urlController =
+                  TextEditingController(text: pin_datum.url);
               return Card(
                 child: ListTile(
                   leading: IconButton(
@@ -85,7 +87,7 @@ class _PinsScreenViewState extends State<PinsScreenView> {
                     children: [
                       TextField(
                         // See above
-                        controller: TextEditingController(text: pin_datum.url),
+                        controller: _urlController,
                         // ignore: deprecated_member_use
                         onTap: () => {
                           if (pin_datum.url == null)
@@ -112,8 +114,16 @@ class _PinsScreenViewState extends State<PinsScreenView> {
                     onPressed: () => Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                PinSingleView(pin_datum: pin_datum))),
+                            builder: (context) => PinSingleView(
+                                pin_datum: pin_datum,
+                                urlController: _urlController))).then((_) {
+                      model.updatePinContent(
+                        description: pin_datum.description,
+                        tag: pin_datum.tag,
+                        id: pin_datum.id,
+                        url: pin_datum.url,
+                      );
+                    }),
                   ),
                 ),
               );
