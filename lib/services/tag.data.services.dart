@@ -1,5 +1,6 @@
 import 'package:stacked/stacked.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+
 import '../models/tag.dart';
 
 class TagService with ReactiveServiceMixin {

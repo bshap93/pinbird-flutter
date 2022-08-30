@@ -20,40 +20,6 @@ class PinsScreenView extends StatefulWidget {
 class _PinsScreenViewState extends State<PinsScreenView> {
   FocusNode urlFocusNode = new FocusNode();
 
-  Future<void> _tryDelete(String _id, PinsScreenViewModel model) async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Are you sure?'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: const <Widget>[
-                Text('Are you sure you want to delete this pin?'),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('No'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: const Text('Yes'),
-              onPressed: () {
-                Navigator.of(context).pop();
-                model.removePin(_id);
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<PinsScreenViewModel>.reactive(
@@ -63,18 +29,7 @@ class _PinsScreenViewState extends State<PinsScreenView> {
         body: ListView(
           padding: const EdgeInsets.symmetric(vertical: 16),
           children: [
-            if (model.pin_data.isEmpty)
-              Opacity(
-                opacity: 0.5,
-                child: Column(
-                  children: const [
-                    SizedBox(height: 64),
-                    Icon(Icons.emoji_food_beverage_outlined, size: 48),
-                    SizedBox(height: 16),
-                    Text('No pins yet. Click + to add a new one.'),
-                  ],
-                ),
-              ),
+            if (model.pin_data.isEmpty) _showEmptyPage(),
             ...model.pin_data.map((pin_datum) {
               TextEditingController _urlController =
                   TextEditingController(text: pin_datum.url);
@@ -133,6 +88,41 @@ class _PinsScreenViewState extends State<PinsScreenView> {
       ),
     );
   }
+  // End of build method. Below are the other methods
+
+  Future<void> _tryDelete(String _id, PinsScreenViewModel model) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Are you sure?'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text('Are you sure you want to delete this pin?'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('No'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Yes'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                model.removePin(_id);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   void _startAddNewPin(BuildContext ctx) {
     showModalBottomSheet(
@@ -144,6 +134,20 @@ class _PinsScreenViewState extends State<PinsScreenView> {
           behavior: HitTestBehavior.opaque,
         );
       },
+    ).then((value) => null);
+  }
+
+  _showEmptyPage() {
+    return Opacity(
+      opacity: 0.5,
+      child: Column(
+        children: const [
+          SizedBox(height: 64),
+          Icon(Icons.emoji_food_beverage_outlined, size: 48),
+          SizedBox(height: 16),
+          Text('No pins yet. Click + to add a new one.'),
+        ],
+      ),
     );
   }
 }
