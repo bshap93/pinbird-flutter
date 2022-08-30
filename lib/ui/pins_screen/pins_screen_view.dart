@@ -108,23 +108,15 @@ class _PinsScreenViewState extends State<PinsScreenView> {
                     ],
                   ),
                   trailing: IconButton(
-                    icon: Icon(
-                      Icons.arrow_right,
-                    ),
-                    onPressed: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => PinSingleView(
-                                pin_datum: pin_datum,
-                                urlController: _urlController))).then((_) {
-                      model.updatePinContent(
-                        description: pin_datum.description,
-                        tag: pin_datum.tag,
-                        id: pin_datum.id,
-                        url: pin_datum.url,
-                      );
-                    }),
-                  ),
+                      icon: Icon(
+                        Icons.arrow_right,
+                      ),
+                      onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PinSingleView(
+                                  pin_datum: pin_datum,
+                                  urlController: _urlController)))),
                 ),
               );
             }),
