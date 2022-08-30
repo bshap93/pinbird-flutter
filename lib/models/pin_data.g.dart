@@ -27,7 +27,7 @@ class PinDataAdapter extends TypeAdapter<PinData> {
   @override
   void write(BinaryWriter writer, PinData obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -35,7 +35,9 @@ class PinDataAdapter extends TypeAdapter<PinData> {
       ..writeByte(2)
       ..write(obj.description)
       ..writeByte(3)
-      ..write(obj.tag);
+      ..write(obj.tag)
+      ..writeByte(4)
+      ..write(obj.datetime);
   }
 
   @override

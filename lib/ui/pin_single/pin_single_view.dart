@@ -5,6 +5,7 @@ import 'package:pinboard_clone/ui/pin_single/pin_single_viewmodel.dart';
 import 'package:pinboard_clone/ui/pins_screen/pins_screen_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:intl/intl.dart';
 
 import '../../models/pin_data.dart';
 import '../pins_screen/pins_screen_view.dart';
@@ -100,6 +101,27 @@ class _PinSingleViewState extends State<PinSingleView> {
                     onPressed: () {
                       FocusScope.of(context).requestFocus(urlFocusNode);
                     },
+                  ),
+                ),
+                ListTile(
+                  leading: Icon(Icons.date_range),
+                  title: TextField(
+                    // See above
+                    controller: TextEditingController(
+                        text: ("Created " +
+                            DateFormat('yyyy-MM-dd')
+                                .format(widget.pin_datum.datetime) +
+                            " at " +
+                            DateFormat('jm')
+                                .format(widget.pin_datum.datetime))),
+                    decoration: null,
+                    focusNode: new AlwaysDisabledFocusNode(),
+                    maxLines: null,
+                    onChanged: null,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                    ),
                   ),
                 ),
                 ListTile(

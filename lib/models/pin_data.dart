@@ -13,6 +13,8 @@ class PinData {
   String description;
   @HiveField(3)
   Tag tag;
+  @HiveField(4)
+  final DateTime datetime = DateTime.now();
 
   PinData(
       {required this.id,
