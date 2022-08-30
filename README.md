@@ -1,17 +1,15 @@
-# pinboard_clone
+# Pinner Flutter 
 
 A new Flutter project.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+The Pinner is a bookmark manager that works cross-platform, made possible by Flutter.
 
-A few resources to get you started if this is your first Flutter project:
+To run the app in debug mode:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-# pinboard_clone
+- Clone the repo
+- Install Flutter and add it to your Path.
+- Run From the terminal: Run `flutter pub get`.
+- Open mobile emulator or desired target device.
+- Run `flutter run`.
