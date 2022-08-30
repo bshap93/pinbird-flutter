@@ -43,6 +43,9 @@ class _NewPinPanelState extends State<NewPinPanel> {
     );
   }
 
+  final createNotification =
+      SnackBar(content: Text("Use the right arrow to view an individual pin"));
+
   void submitData(BuildContext ctx, NewPinPanelViewModel nppvm) {
     final enteredDescription = descriptionController.text;
     final eneteredURL = urlController.text;
@@ -72,6 +75,7 @@ class _NewPinPanelState extends State<NewPinPanel> {
     );
 
     Navigator.of(context).pop();
+    ScaffoldMessenger.of(context).showSnackBar(createNotification);
   }
 
   @override

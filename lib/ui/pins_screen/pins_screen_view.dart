@@ -79,7 +79,7 @@ class _PinsScreenViewState extends State<PinsScreenView> {
               return Card(
                 child: ListTile(
                   leading: IconButton(
-                    icon: const Icon(Icons.horizontal_rule),
+                    icon: const Icon(Icons.delete_outline_outlined),
                     // onPressed: () => model.removePin(pin_datum.id),
                     onPressed: () => _tryDelete(pin_datum.id, model),
                   ),
@@ -109,7 +109,7 @@ class _PinsScreenViewState extends State<PinsScreenView> {
                   ),
                   trailing: IconButton(
                       icon: Icon(
-                        Icons.arrow_right,
+                        Icons.arrow_forward,
                       ),
                       onPressed: () => Navigator.push(
                           context,
@@ -123,7 +123,9 @@ class _PinsScreenViewState extends State<PinsScreenView> {
           ],
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () => _startAddNewPin(context),
+          onPressed: () {
+            _startAddNewPin(context);
+          },
           child: const Icon(Icons.add),
         ),
       ),
