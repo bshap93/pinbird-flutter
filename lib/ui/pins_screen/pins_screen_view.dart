@@ -1,12 +1,14 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
-import 'package:pinboard_clone/ui/new_pin_panel/new_pin_panel_view.dart';
-import 'package:pinboard_clone/ui/pin_single/pin_single_view.dart';
-import 'package:pinboard_clone/ui/pins_screen/pins_screen_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'pins_screen_viewmodel.dart';
+
+// Local lib imports
+import '../new_pin_panel/new_pin_panel_view.dart';
+import '../pin_single/pin_single_view.dart';
+import './pins_screen_viewmodel.dart';
 
 class PinsScreenView extends StatefulWidget {
   const PinsScreenView({Key? key}) : super(key: key);

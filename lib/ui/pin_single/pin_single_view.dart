@@ -1,12 +1,11 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
-import 'package:pinboard_clone/ui/pin_single/pin_single_viewmodel.dart';
-import 'package:pinboard_clone/ui/pins_screen/pins_screen_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
 
+import './pin_single_viewmodel.dart';
 import '../../models/pin_data.dart';
 import '../pins_screen/pins_screen_view.dart';
 
