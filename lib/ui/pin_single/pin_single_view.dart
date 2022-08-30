@@ -45,9 +45,7 @@ class _PinSingleViewState extends State<PinSingleView> {
                     // See above
                     controller: TextEditingController(
                         text: widget.pin_datum.description),
-                    decoration: null,
                     focusNode: descriptionFocusNode,
-                    maxLines: null,
                     onChanged: (text) => model.updatePinDataContent(
                       id: widget.pin_datum.id,
                       url: widget.pin_datum.url,
@@ -81,7 +79,6 @@ class _PinSingleViewState extends State<PinSingleView> {
                       else
                         {launch("https://" + widget.pin_datum.url)}
                     },
-                    decoration: null,
                     onChanged: (text) => model.updatePinDataContent(
                       id: widget.pin_datum.id,
                       url: text,
@@ -89,7 +86,6 @@ class _PinSingleViewState extends State<PinSingleView> {
                       tag: widget.pin_datum.tag,
                     ),
                     focusNode: urlFocusNode,
-                    maxLines: null,
                     style: TextStyle(
                       color: Colors.blue,
                       fontSize: 20,
@@ -115,10 +111,7 @@ class _PinSingleViewState extends State<PinSingleView> {
                             " at " +
                             DateFormat('jm')
                                 .format(widget.pin_datum.datetime))),
-                    decoration: null,
                     focusNode: new AlwaysDisabledFocusNode(),
-                    maxLines: null,
-                    onChanged: null,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 20,

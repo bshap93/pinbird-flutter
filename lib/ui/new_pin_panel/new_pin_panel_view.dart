@@ -43,28 +43,23 @@ class _NewPinPanelState extends State<NewPinPanel> {
     );
   }
 
-  final createNotification =
-      SnackBar(content: Text("Use the right arrow to view an individual pin"));
-
   void submitData(BuildContext ctx, NewPinPanelViewModel nppvm) {
     final enteredDescription = descriptionController.text;
     final eneteredURL = urlController.text;
     final enteredTagStr = tagController.text;
 
+    final createNotification = SnackBar(
+      content:
+          Text("Use the right arrow to view an individual pin or click here."),
+      backgroundColor: Theme.of(context).colorScheme.secondary,
+    );
+
     if (eneteredURL.isEmpty) {
-      // TODO pop up dialog
       return;
     }
 
     nppvm.newTag(enteredTagStr);
     Tag enteredTag = nppvm.getNewestTag();
-
-    // if (enteredTagStr.isEmpty) {
-    //   enteredTag = Tag(tag: "None");
-    // } else {
-    //   enteredTag = Tag(tag: enteredTagStr);
-    // }
-
     final String newId = nppvm.newPinDataWithId();
 
     nppvm.updatePinContent(

@@ -1,8 +1,10 @@
+// Package Imports
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:pinboard_clone/models/pin_data.dart';
 import 'package:pinboard_clone/models/tag.dart';
 
+// Local Imports
 import 'app/locator.dart';
 import 'models/pin.adapter.dart';
 import 'ui/pins_screen/pins_screen_view.dart';
@@ -11,20 +13,21 @@ import 'models/tag.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Start Hive
   await Hive.initFlutter();
-  // Hive.registerAdapter(TagAdapter());
-  // Hive.registerAdapter(PinDataAdapter());
+  // Register model adapters and create data 'boxes'
+  // to allow local storage
   Hive.registerAdapter(PinAdapter());
   await Hive.openBox('pins');
-  // await Hive.openBox('pin_data');
   Hive.registerAdapter(TagAdapter());
   await Hive.openBox('tags');
-
   Hive.registerAdapter(PinDataAdapter());
   await Hive.openBox('pin_data');
 
+  // Start up our services
   setupLocator();
-
+  // Run UI
   runApp(const MyApp());
 }
 
@@ -33,6 +36,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // New widget to be home page
     var pinsScreenView = PinsScreenView();
     return MaterialApp(
       home: pinsScreenView,
