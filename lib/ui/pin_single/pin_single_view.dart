@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:pinboard_clone/ui/pin_single/pin_single_viewmodel.dart';
+import 'package:pinboard_clone/ui/pins_screen/pins_screen_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -9,9 +10,11 @@ import '../../models/pin_data.dart';
 import '../pins_screen/pins_screen_view.dart';
 
 class PinSingleView extends StatefulWidget {
-  const PinSingleView({super.key, required this.pin_datum});
+  const PinSingleView(
+      {super.key, required this.pin_datum, required this.urlController});
 
   final PinData pin_datum;
+  final TextEditingController urlController;
 
   @override
   State<PinSingleView> createState() => _PinSingleViewState();
@@ -66,8 +69,8 @@ class _PinSingleViewState extends State<PinSingleView> {
                 ListTile(
                   title: TextField(
                     // See above
-                    controller:
-                        TextEditingController(text: widget.pin_datum.url),
+                    controller: widget.urlController,
+                    // TextEditingController(text: widget.pin_datum.url),
                     // ignore: deprecated_member_use
                     onTap: () => {
                       if (widget.pin_datum.url == null)

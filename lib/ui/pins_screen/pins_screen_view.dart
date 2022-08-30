@@ -16,6 +16,8 @@ class PinsScreenView extends StatefulWidget {
 }
 
 class _PinsScreenViewState extends State<PinsScreenView> {
+  FocusNode urlFocusNode = new FocusNode();
+
   Future<void> _tryDelete(String _id, PinsScreenViewModel model) async {
     return showDialog<void>(
       context: context,
@@ -72,6 +74,8 @@ class _PinsScreenViewState extends State<PinsScreenView> {
                 ),
               ),
             ...model.pin_data.map((pin_datum) {
+              TextEditingController _urlController =
+                  TextEditingController(text: pin_datum.url);
               return Card(
                 child: ListTile(
                   leading: IconButton(
@@ -83,7 +87,7 @@ class _PinsScreenViewState extends State<PinsScreenView> {
                     children: [
                       TextField(
                         // See above
-                        controller: TextEditingController(text: pin_datum.url),
+                        controller: _urlController,
                         // ignore: deprecated_member_use
                         onTap: () => {
                           if (pin_datum.url == null)
@@ -94,7 +98,7 @@ class _PinsScreenViewState extends State<PinsScreenView> {
                             {launch("https://" + pin_datum.url)}
                         },
                         decoration: null,
-                        focusNode: AlwaysDisabledFocusNode(),
+                        focusNode: urlFocusNode,
                         maxLines: null,
                         style: TextStyle(
                           color: Colors.blue,
@@ -104,15 +108,15 @@ class _PinsScreenViewState extends State<PinsScreenView> {
                     ],
                   ),
                   trailing: IconButton(
-                    icon: Icon(
-                      Icons.arrow_right,
-                    ),
-                    onPressed: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                PinSingleView(pin_datum: pin_datum))),
-                  ),
+                      icon: Icon(
+                        Icons.arrow_right,
+                      ),
+                      onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PinSingleView(
+                                  pin_datum: pin_datum,
+                                  urlController: _urlController)))),
                 ),
               );
             }),
