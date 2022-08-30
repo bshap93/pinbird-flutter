@@ -108,7 +108,8 @@ class _PinSingleViewState extends State<PinSingleView> {
                   title: TextField(
                     // See above
                     controller: TextEditingController(
-                        text: ("Created " +
+                        // Concatenated string ->
+                        text: ("Added " +
                             DateFormat('yyyy-MM-dd')
                                 .format(widget.pin_datum.datetime) +
                             " at " +
