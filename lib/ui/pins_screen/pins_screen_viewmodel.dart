@@ -15,10 +15,14 @@ class PinsScreenViewModel extends ReactiveViewModel {
   // pull in service methods view ViewModel
   late final removePin = _pinDataService.removePinDatum;
   late final updatePinContent = _pinDataService.updatePinDataContent;
+  late final getTagByName = _tagService.getTagByName;
 
   // getters for pin and tag
   List<PinData> get pin_data => _pinDataService.pin_data;
+
   List<Tag> get tags => _tagService.tags;
+
+  Tag get currentTag => _tagService.currentTag;
 
   void newPin() {
     _pinDataService.newPinDatum();

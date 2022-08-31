@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:pinboard_clone/ui/tag_picker/tag_picker.dart';
 import 'package:pinboard_clone/ui/tag_picker/tag_picker_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../models/tag.dart';
 import 'pins_screen_viewmodel.dart';
 
 // Local lib imports
@@ -25,75 +28,79 @@ class _PinsScreenViewState extends State<PinsScreenView> {
   Widget build(BuildContext context) {
     return ViewModelBuilder<PinsScreenViewModel>.reactive(
       viewModelBuilder: () => PinsScreenViewModel(),
-      builder: (context, model, _) => Scaffold(
-        appBar: AppBar(
-            leading: IconButton(
-              onPressed: () => {TagPicker().showPickerModal(context, tpvm)},
-              icon: Icon(Icons.tag_rounded),
-            ),
-            title: const Text('Pin Bookmarks')),
-        body: ListView(
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          children: [
-            if (model.pin_data.isEmpty) _showEmptyPage(),
-            ...model.pin_data.map((pin_datum) {
-              TextEditingController _urlController =
-                  TextEditingController(text: pin_datum.url);
-              return Card(
-                child: ListTile(
-                  leading: IconButton(
-                    icon: const Icon(Icons.delete_outline_outlined),
-                    // onPressed: () => model.removePin(pin_datum.id),
-                    onPressed: () => _tryDelete(pin_datum.id, model),
-                  ),
-                  title: Column(
-                    children: [
-                      TextField(
-                        // See above
-                        controller: _urlController,
-                        // ignore: deprecated_member_use
-                        onTap: () => {
-                          if (pin_datum.url == null)
-                            {
+      builder: (context, model, _) {
+        return Scaffold(
+          appBar: AppBar(
+              leading: IconButton(
+                onPressed: () => {TagPicker().showPickerModal(context, tpvm)},
+                icon: Icon(Icons.tag_rounded),
+              ),
+              title: (model.currentTag.tag == "None")
+                  ? const Text('All Pins')
+                  : Text(model.currentTag.tag)),
+          body: ListView(
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            children: [
+              if (model.pin_data.isEmpty) _showEmptyPage(),
+              ...model.pin_data.map((pin_datum) {
+                TextEditingController _urlController =
+                    TextEditingController(text: pin_datum.url);
+                return Card(
+                  child: ListTile(
+                    leading: IconButton(
+                      icon: const Icon(Icons.delete_outline_outlined),
+                      // onPressed: () => model.removePin(pin_datum.id),
+                      onPressed: () => _tryDelete(pin_datum.id, model),
+                    ),
+                    title: Column(
+                      children: [
+                        TextField(
+                          // See above
+                          controller: _urlController,
+                          // ignore: deprecated_member_use
+                          onTap: () => {
+                            if (pin_datum.url == null)
+                              {
+                                // ignore: deprecated_member_use
+                                launch("https://www.google.com"),
+                              }
+                            else
                               // ignore: deprecated_member_use
-                              launch("https://www.google.com"),
-                            }
-                          else
-                            // ignore: deprecated_member_use
-                            {launch("https://" + pin_datum.url)}
-                        },
-                        decoration: null,
-                        focusNode: urlFocusNode,
-                        maxLines: null,
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontSize: 20,
+                              {launch("https://" + pin_datum.url)}
+                          },
+                          decoration: null,
+                          focusNode: urlFocusNode,
+                          maxLines: null,
+                          style: TextStyle(
+                            color: Colors.blue,
+                            fontSize: 20,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
+                    trailing: IconButton(
+                        icon: Icon(
+                          Icons.arrow_forward,
+                        ),
+                        onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PinSingleView(
+                                    pin_datum: pin_datum,
+                                    urlController: _urlController)))),
                   ),
-                  trailing: IconButton(
-                      icon: Icon(
-                        Icons.arrow_forward,
-                      ),
-                      onPressed: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PinSingleView(
-                                  pin_datum: pin_datum,
-                                  urlController: _urlController)))),
-                ),
-              );
-            }),
-          ],
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            _startAddNewPin(context);
-          },
-          child: const Icon(Icons.add),
-        ),
-      ),
+                );
+              }),
+            ],
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              _startAddNewPin(context);
+            },
+            child: const Icon(Icons.add),
+          ),
+        );
+      },
     );
   }
   // End of build method. Below are the other methods

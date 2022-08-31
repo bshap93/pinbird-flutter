@@ -8,13 +8,22 @@ class TagService with ReactiveServiceMixin {
     Hive.box('tags').get('tags', defaultValue: []).cast<Tag>(),
   );
 
+  final _currentTag = ReactiveValue<Tag>(
+    Hive.box('current_tag').get('current_tag', defaultValue: Tag(tag: "None")),
+  );
+
   List<Tag> get tags => _tags.value;
+
+  Tag get currentTag => _currentTag.value;
 
   TagService() {
     listenToReactiveValues([_tags]);
   }
 
-  void _saveToHive() => Hive.box('tags').put('tags', _tags.value);
+  void _saveToHive() {
+    Hive.box('tags').put('tags', _tags.value);
+    Hive.box('current_tag').put('current_tag', _currentTag.value);
+  }
 
   void newTag(String _tag) {
     _tags.value.insert(0, Tag(tag: _tag));
@@ -23,6 +32,16 @@ class TagService with ReactiveServiceMixin {
   }
 
   Tag getNewestTag() => _tags.value.elementAt(0);
+
+  // Tags with equal tag string to be treated as equivalent and interchangeable
+  Tag getTagByName(String name) {
+    if (_tags.value.length > 0) {
+      return _tags.value.where((tag) => tag.tag == name).first;
+    } else {
+      newTag("None");
+      return getNewestTag();
+    }
+  }
 
   bool removeTag(String _t) {
     final index = _tags.value.indexWhere((_tag) => _tag.tag == _t);

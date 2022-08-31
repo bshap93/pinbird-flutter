@@ -18,6 +18,7 @@ class TagPicker extends StatelessWidget {
   }
 
   showPickerModal(BuildContext context, TagPickerViewModel model) {
+    //
     new Picker(
         footer: Text("Choose a tag"),
         adapter:
@@ -27,7 +28,6 @@ class TagPicker extends StatelessWidget {
         textStyle: TextStyle(color: Colors.white),
         hideHeader: false,
         onConfirm: (Picker picker, List value) {
-          print(value.toString());
           print(picker.adapter.text);
         }).showModal(context);
   }
