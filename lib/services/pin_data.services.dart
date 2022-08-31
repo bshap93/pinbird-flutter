@@ -15,6 +15,10 @@ class PinDataService with ReactiveServiceMixin {
 
   List<PinData> get pin_data => _pin_data.value;
 
+  List<PinData> pin_data_by_tag(String _tagName) {
+    return pin_data.where((pin) => pin.tag.tag == _tagName).toList();
+  }
+
   PinDataService() {
     listenToReactiveValues([_pin_data]);
   }
@@ -62,7 +66,6 @@ class PinDataService with ReactiveServiceMixin {
       _pin_data.value[index].url = url;
       _pin_data.value[index].description = description;
       _pin_data.value[index].tag = tag;
-      // TODO: Implement tags, but for now just let tag be None
       _saveToHive();
       return true;
     } else {

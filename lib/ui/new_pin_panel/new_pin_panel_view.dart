@@ -51,8 +51,8 @@ class _NewPinPanelState extends State<NewPinPanel> {
     final enteredTagStr = tagController.text;
 
     final createNotification = SnackBar(
-      content:
-          Text("Use the right arrow to view an individual pin or click here."),
+      content: Text(
+          "Use the right arrow to view an individual pin or the # symbol to filter  by tags."),
       backgroundColor: Theme.of(context).colorScheme.secondary,
     );
 
@@ -72,7 +72,10 @@ class _NewPinPanelState extends State<NewPinPanel> {
     );
 
     Navigator.of(context).pop();
-    ScaffoldMessenger.of(context).showSnackBar(createNotification);
+    int count = nppvm.pins.length;
+    if (count < 2) {
+      ScaffoldMessenger.of(context).showSnackBar(createNotification);
+    }
   }
 
   @override

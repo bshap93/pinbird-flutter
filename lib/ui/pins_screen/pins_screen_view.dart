@@ -1,6 +1,6 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:flutter/material.dart';
+import 'package:pinboard_clone/ui/tag_picker/tag_picker.dart';
+import 'package:pinboard_clone/ui/tag_picker/tag_picker_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'pins_screen_viewmodel.dart';
@@ -19,13 +19,19 @@ class PinsScreenView extends StatefulWidget {
 
 class _PinsScreenViewState extends State<PinsScreenView> {
   FocusNode urlFocusNode = new FocusNode();
+  TagPickerViewModel tpvm = new TagPickerViewModel();
 
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<PinsScreenViewModel>.reactive(
       viewModelBuilder: () => PinsScreenViewModel(),
       builder: (context, model, _) => Scaffold(
-        appBar: AppBar(title: const Text('Pin Bookmarks')),
+        appBar: AppBar(
+            leading: IconButton(
+              onPressed: () => {TagPicker().showPickerModal(context, tpvm)},
+              icon: Icon(Icons.tag_rounded),
+            ),
+            title: const Text('Pin Bookmarks')),
         body: ListView(
           padding: const EdgeInsets.symmetric(vertical: 16),
           children: [
@@ -49,9 +55,11 @@ class _PinsScreenViewState extends State<PinsScreenView> {
                         onTap: () => {
                           if (pin_datum.url == null)
                             {
+                              // ignore: deprecated_member_use
                               launch("https://www.google.com"),
                             }
                           else
+                            // ignore: deprecated_member_use
                             {launch("https://" + pin_datum.url)}
                         },
                         decoration: null,
