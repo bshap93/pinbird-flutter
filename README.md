@@ -1,10 +1,10 @@
-# Pinner Flutter 
+# Cross-Platform Pinner App 
 
-A new Flutter project.
+The app has been tested on iOS 15.5. Currently Web is not supported. Android is supported but may not work on all devices.
 
 ## Getting Started
 
-The Pinner is a bookmark manager that works cross-platform, made possible by Flutter.
+The Pinner is a bookmark manager that works cross-platform, made possible by Flutter. Inspiration came from the pinboard.io project.
 
 To run the app in debug mode:
 
