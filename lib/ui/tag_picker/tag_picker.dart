@@ -28,7 +28,11 @@ class TagPicker extends StatelessWidget {
         textStyle: TextStyle(color: Colors.white),
         hideHeader: false,
         onConfirm: (Picker picker, List value) {
-          print(picker.adapter.text);
+          String pickText = picker.adapter.text;
+          // Remove bracket characters that Picker library adds for some reason
+          pickText = pickText.substring(1, pickText.length - 1);
+          print(pickText);
+          model.setCurrentTag(pickText);
         }).showModal(context);
   }
 

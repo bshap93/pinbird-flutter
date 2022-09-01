@@ -29,6 +29,7 @@ class _PinsScreenViewState extends State<PinsScreenView> {
     return ViewModelBuilder<PinsScreenViewModel>.reactive(
       viewModelBuilder: () => PinsScreenViewModel(),
       builder: (context, model, _) {
+        Tag noneTag = model.getTagByName("None");
         return Scaffold(
           appBar: AppBar(
               leading: IconButton(
@@ -42,7 +43,14 @@ class _PinsScreenViewState extends State<PinsScreenView> {
             padding: const EdgeInsets.symmetric(vertical: 16),
             children: [
               if (model.pin_data.isEmpty) _showEmptyPage(),
-              ...model.pin_data.map((pin_datum) {
+              // ...model.pin_data.map((pin_datum) {
+              // .where((pin_datum) => ((pin_datum == "None") ||
+              // (pin_datum.tag.tag == model.currentTag.tag))
+              ...model.pin_data
+                  .where((pin_datum) =>
+                      pin_datum.tag.tag == model.currentTag.tag ||
+                      model.currentTag.tag == "None")
+                  .map((pin_datum) {
                 TextEditingController _urlController =
                     TextEditingController(text: pin_datum.url);
                 return Card(
@@ -91,6 +99,8 @@ class _PinsScreenViewState extends State<PinsScreenView> {
                   ),
                 );
               }),
+              // if ((pin_datum.tag.tag == "None") ||
+              //     (pin_datum.tag.tag == model.currentTag.tag)) {
             ],
           ),
           floatingActionButton: FloatingActionButton(

@@ -33,7 +33,6 @@ class PinDataService with ReactiveServiceMixin {
 
   void newPinDatum() {
     String _id = _randomId();
-    print("ID_0 is ${_id}");
     _pin_data.value.insert(0, PinData(id: _id));
     _saveToHive();
     notifyListeners();

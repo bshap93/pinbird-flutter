@@ -20,6 +20,13 @@ class TagService with ReactiveServiceMixin {
     listenToReactiveValues([_tags]);
   }
 
+  void setCurrentTag(String tagName) {
+    Tag toSetTag = getTagByName(tagName);
+    _currentTag.value = toSetTag;
+    _saveToHive();
+    notifyListeners();
+  }
+
   void _saveToHive() {
     Hive.box('tags').put('tags', _tags.value);
     Hive.box('current_tag').put('current_tag', _currentTag.value);
@@ -35,10 +42,11 @@ class TagService with ReactiveServiceMixin {
 
   // Tags with equal tag string to be treated as equivalent and interchangeable
   Tag getTagByName(String name) {
-    if (_tags.value.length > 0) {
-      return _tags.value.where((tag) => tag.tag == name).first;
+    List<Tag> tagsNamed = _tags.value.where((tag) => tag.tag == name).toList();
+    if (tagsNamed.length > 0) {
+      return tagsNamed.first;
     } else {
-      newTag("None");
+      newTag(name);
       return getNewestTag();
     }
   }

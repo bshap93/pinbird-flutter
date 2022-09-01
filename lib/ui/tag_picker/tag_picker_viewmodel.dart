@@ -11,7 +11,11 @@ class TagPickerViewModel extends ReactiveViewModel {
   // pull in services via locator
   final _pinDataService = locator<PinDataService>();
   final _tagService = locator<TagService>();
+  late final setCurrentTag = _tagService.setCurrentTag;
+
+  // Getters
   List<Tag> get tags => _tagService.tags;
+  Tag get currentTag => _tagService.currentTag;
 
   @override
   List<ReactiveServiceMixin> get reactiveServices =>
