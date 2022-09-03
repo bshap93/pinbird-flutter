@@ -3,7 +3,7 @@ import 'package:stacked/stacked.dart';
 
 import '../../app/locator.dart';
 import '../../models/pin_data.dart';
-import '../../services/pin_data.services.dart';
+import '../../services/reactive_services/pin_data.services.dart';
 
 class PinSingleViewModel extends ReactiveViewModel {
   final String _id;

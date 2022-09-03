@@ -2,8 +2,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:stacked/stacked.dart';
 import 'dart:math';
 
-import '../models/pin_data.dart';
-import '../models/tag.dart';
+import '../../../models/pin_data.dart';
+import '../../../models/tag.dart';
 
 class PinDataService with ReactiveServiceMixin {
   final _pin_data = ReactiveValue<List<PinData>>(

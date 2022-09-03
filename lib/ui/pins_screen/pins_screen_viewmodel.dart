@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:pinboard_clone/models/pin_data.dart';
-import 'package:pinboard_clone/services/tag.data.services.dart';
+import 'package:pinboard_clone/services/reactive_services/tag.data.services.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../app/locator.dart';
 import '../../models/tag.dart';
-import '../../services/pin_data.services.dart';
+import '../../services/reactive_services/pin_data.services.dart';
 
 class PinsScreenViewModel extends ReactiveViewModel {
   final _firstPinFocusNode = FocusNode();
