@@ -6,7 +6,6 @@ import 'package:pinboard_clone/models/tag.dart';
 
 // Local Imports
 import 'app/locator.dart';
-import 'models/pin.adapter.dart';
 import 'ui/pins_screen/pins_screen_view.dart';
 import 'models/pin_data.dart';
 import 'models/tag.dart';
@@ -18,7 +17,7 @@ void main() async {
   await Hive.initFlutter();
   // Register model adapters and create data 'boxes'
   // to allow local storage
-  Hive.registerAdapter(PinAdapter());
+  // Hive.registerAdapter(PinAdapter());
   await Hive.openBox('pins');
   Hive.registerAdapter(TagAdapter());
   await Hive.openBox('tags');

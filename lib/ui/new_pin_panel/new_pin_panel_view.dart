@@ -82,37 +82,44 @@ class _NewPinPanelState extends State<NewPinPanel> {
   Widget build(BuildContext context) {
     return ViewModelBuilder<NewPinPanelViewModel>.reactive(
         viewModelBuilder: () => NewPinPanelViewModel(),
-        builder: (context, model, _) => Container(
-            padding: EdgeInsets.all(10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: <Widget>[
-                TextField(
-                  decoration: InputDecoration(labelText: 'Link Description'),
-                  controller: descriptionController,
-                  onSubmitted: (_) => submitData(context, model),
-                ),
-                TextField(
-                  decoration: InputDecoration(labelText: 'Link URL'),
-                  controller: urlController,
-                  onSubmitted: (_) => submitData(context, model),
-                ),
-                TextField(
-                  decoration: InputDecoration(labelText: 'Add a tag'),
-                  controller: tagController,
-                  onSubmitted: (_) => submitData(context, model),
-                ),
-                RaisedButton(
-                    textColor: Colors.white,
-                    onPressed: () {
-                      if (urlController.text.isEmpty) {
-                        _showNoURLDialog();
-                      } else {
-                        submitData(context, model);
-                      }
-                    },
-                    child: Text('Add Pin Link')),
-              ],
-            )));
+        builder: (context, model, _) {
+          if (model.currentTag.tag != "None") {
+            tagController.text = model.currentTag.tag;
+          }
+          final ButtonStyle _style = ElevatedButton.styleFrom(
+              textStyle: const TextStyle(fontSize: 20, color: Colors.white));
+          return Container(
+              padding: EdgeInsets.all(10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  TextField(
+                    decoration: InputDecoration(labelText: 'Link Description'),
+                    controller: descriptionController,
+                    onSubmitted: (_) => submitData(context, model),
+                  ),
+                  TextField(
+                    decoration: InputDecoration(labelText: 'Link URL'),
+                    controller: urlController,
+                    onSubmitted: (_) => submitData(context, model),
+                  ),
+                  TextField(
+                    decoration: InputDecoration(labelText: 'Add a tag'),
+                    controller: tagController,
+                    onSubmitted: (_) => submitData(context, model),
+                  ),
+                  ElevatedButton(
+                      style: _style,
+                      onPressed: () {
+                        if (urlController.text.isEmpty) {
+                          _showNoURLDialog();
+                        } else {
+                          submitData(context, model);
+                        }
+                      },
+                      child: Text('Add Pin Link')),
+                ],
+              ));
+        });
   }
 }

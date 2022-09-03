@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:pinboard_clone/ui/tag_picker/tag_picker.dart';
 import 'package:pinboard_clone/ui/tag_picker/tag_picker_viewmodel.dart';
@@ -21,7 +19,9 @@ class PinsScreenView extends StatefulWidget {
 }
 
 class _PinsScreenViewState extends State<PinsScreenView> {
+  // persist URL state across views
   FocusNode urlFocusNode = new FocusNode();
+  // Create a Picker object to filter by tags
   TagPickerViewModel tpvm = new TagPickerViewModel();
 
   @override
@@ -43,9 +43,6 @@ class _PinsScreenViewState extends State<PinsScreenView> {
             padding: const EdgeInsets.symmetric(vertical: 16),
             children: [
               if (model.pin_data.isEmpty) _showEmptyPage(),
-              // ...model.pin_data.map((pin_datum) {
-              // .where((pin_datum) => ((pin_datum == "None") ||
-              // (pin_datum.tag.tag == model.currentTag.tag))
               ...model.pin_data
                   .where((pin_datum) =>
                       pin_datum.tag.tag == model.currentTag.tag ||
@@ -170,7 +167,11 @@ class _PinsScreenViewState extends State<PinsScreenView> {
           SizedBox(height: 64),
           Icon(Icons.emoji_food_beverage_outlined, size: 48),
           SizedBox(height: 16),
-          Text('No pins yet. Click + to add a new one.'),
+          Text(
+            'No pins yet. Click + below to add a new one. \n\n Click # above to select a tag.',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 14),
+          ),
         ],
       ),
     );

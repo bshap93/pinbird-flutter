@@ -99,13 +99,11 @@ class _PinSingleViewState extends State<PinSingleView> {
                   ),
                 ),
                 ListTile(
-                  leading: Icon(Icons.date_range),
                   title: TextField(
                     // See above
                     controller: TextEditingController(
                         // Concatenated string ->
-                        text: ("Added " +
-                            DateFormat('yyyy-MM-dd')
+                        text: (DateFormat('yyyy-MM-dd')
                                 .format(widget.pin_datum.datetime) +
                             " at " +
                             DateFormat('jm')
@@ -115,6 +113,11 @@ class _PinSingleViewState extends State<PinSingleView> {
                       color: Colors.white,
                       fontSize: 20,
                     ),
+                  ),
+                  trailing: IconButton(
+                    focusNode: AlwaysDisabledFocusNode(),
+                    icon: Icon(Icons.date_range),
+                    onPressed: () {},
                   ),
                 ),
                 ListTile(

@@ -15,6 +15,8 @@ class NewPinPanelViewModel extends ReactiveViewModel {
   final _tagService = locator<TagService>();
   late final newTag = _tagService.newTag;
 
+  Tag get currentTag => _tagService.currentTag;
+
   List<PinData> get pins => _pinDataService.pin_data;
 
   // return pin id
