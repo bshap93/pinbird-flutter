@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:pinboard_clone/models/pinboard_pin.dart';
+import 'package:stacked/stacked.dart';
 
-class DioClient {
+class DioClient with ReactiveServiceMixin {
   final Dio _dio = Dio();
 
   final _baseUrl = 'https://api.pinboard.in/v1';
@@ -10,6 +11,8 @@ class DioClient {
   static const _apiToken = 'bshap93:0D30C0B39A9A25638BAE';
 
   final _authAppendage = '?auth_token=' + _apiToken + "format=json";
+
+  Future<List<PinboardPin>> get recent_pins async => await getRecentPosts();
 
   Future<List<PinboardPin>> getRecentPosts() async {
     // Perform GET request to the endpoint "/users/<id>"
