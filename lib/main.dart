@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:pinboard_clone/models/pin_data.dart';
 import 'package:pinboard_clone/models/tag.dart';
+import 'package:pinboard_clone/ui/pinboard_pins/recent_pins/recent_pins_view.dart';
 
 // Local Imports
 import 'app/locator.dart';
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // New widget to be home page
-    var pinsScreenView = PinsScreenView();
+    var pinsScreenView = RecentPinsView();
     return MaterialApp(
       home: pinsScreenView,
       theme: ThemeData.dark(),

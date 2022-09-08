@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pinboard_clone/services/api_services/dio_client.dart';
 import 'package:pinboard_clone/ui/pinboard_pins/recent_pins/recent_pins_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -16,7 +17,15 @@ class RecentPinsView extends StatefulWidget {
 class _RecentPinsViewState extends State<RecentPinsView> {
   // persist URL state across views
   FocusNode urlFocusNode = new FocusNode();
+  List<PinboardPin> my_recent_pins = [];
   // Create a Picker object to filter by tags
+  void initState() {
+    super.initState();
+    DioClient dioClient = DioClient();
+    dioClient.getRecentPosts().then((value) {
+      my_recent_pins = value;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +33,6 @@ class _RecentPinsViewState extends State<RecentPinsView> {
       viewModelBuilder: () => RecentPinsViewModel(),
       builder: (context, model, _) {
         // Tag noneTag = model.getTagByName("None");
-        List<PinboardPin> my_recent_pins =
-            model.recent_pins as List<PinboardPin>;
         return Scaffold(
           appBar: AppBar(title: Text("Recent Pins")),
           body: ListView(
@@ -33,48 +40,7 @@ class _RecentPinsViewState extends State<RecentPinsView> {
             children: [
               if (my_recent_pins.isEmpty) _showEmptyPage(),
               ...my_recent_pins.map((recent_pin_datum) {
-                TextEditingController _urlController =
-                    TextEditingController(text: recent_pin_datum.href);
-                return Card(
-                  child: ListTile(
-                    title: Column(
-                      children: [
-                        TextField(
-                          // See above
-                          controller: _urlController,
-                          // ignore: deprecated_member_use
-                          onTap: () => {
-                            if (recent_pin_datum.href == null)
-                              {
-                                // ignore: deprecated_member_use
-                                launch("https://www.google.com"),
-                              }
-                            else
-                              // ignore: deprecated_member_use
-                              {launch("https://" + recent_pin_datum.href)}
-                          },
-                          decoration: null,
-                          focusNode: urlFocusNode,
-                          maxLines: null,
-                          style: TextStyle(
-                            color: Colors.blue,
-                            fontSize: 20,
-                          ),
-                        ),
-                      ],
-                    ),
-                    // trailing: IconButton(
-                    //     icon: Icon(
-                    //       Icons.arrow_forward,
-                    //     ),
-                    //     onPressed: () => Navigator.push(
-                    //         context,
-                    //         MaterialPageRoute(
-                    //             builder: (context) => PinSingleView(
-                    //                 recent_pin_datum: recent_pin_datum,
-                    //                 urlController: _urlController)))),
-                  ),
-                );
+                return Text(recent_pin_datum.description);
               }),
               // if ((pin_datum.tag.tag == "None") ||
               //     (pin_datum.tag.tag == model.currentTag.tag)) {

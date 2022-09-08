@@ -10,9 +10,9 @@ class DioClient with ReactiveServiceMixin {
   // will not be hardcoded in any push
   static const _apiToken = 'bshap93:0D30C0B39A9A25638BAE';
 
-  final _authAppendage = '?auth_token=' + _apiToken + "format=json";
+  final _authAppendage = '?auth_token=' + _apiToken + "&format=json";
 
-  Future<List<PinboardPin>> get recent_pins async => await getRecentPosts();
+  //
 
   Future<List<PinboardPin>> getRecentPosts() async {
     // Perform GET request to the endpoint "/users/<id>"
