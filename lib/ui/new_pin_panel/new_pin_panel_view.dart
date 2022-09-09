@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import '../../models/tag.dart';
+import '../shared/dialogs.dart';
 import 'new_pin_panel_viewmodel.dart';
 
 class NewPinPanel extends StatefulWidget {
@@ -17,33 +18,33 @@ class _NewPinPanelState extends State<NewPinPanel> {
   final urlController = TextEditingController();
   final tagController = TextEditingController();
 
-  Future<void> _showNoURLDialog() async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: true, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('No URL'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: const <Widget>[
-                Text('Your bookmark pin has no URL.'),
-                Text('Please add a URL or path for your pin.'),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
+  // Future<void> _showNoURLDialog() async {
+  //   return showDialog<void>(
+  //     context: context,
+  //     barrierDismissible: true, // user must tap button!
+  //     builder: (BuildContext context) {
+  //       return AlertDialog(
+  //         title: const Text('No URL'),
+  //         content: SingleChildScrollView(
+  //           child: ListBody(
+  //             children: const <Widget>[
+  //               Text('Your bookmark pin has no URL.'),
+  //               Text('Please add a URL or path for your pin.'),
+  //             ],
+  //           ),
+  //         ),
+  //         actions: <Widget>[
+  //           TextButton(
+  //             child: const Text('OK'),
+  //             onPressed: () {
+  //               Navigator.of(context).pop();
+  //             },
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 
   void submitData(BuildContext ctx, NewPinPanelViewModel nppvm) {
     final enteredDescription = descriptionController.text;
@@ -62,7 +63,7 @@ class _NewPinPanelState extends State<NewPinPanel> {
 
     nppvm.newTag(enteredTagStr);
     Tag enteredTag = nppvm.getNewestTag();
-    final String newId = nppvm.newPinDataWithId();
+    final String newId = nppvm.newPostWithId();
 
     nppvm.updatePinContent(
       id: newId,
@@ -112,7 +113,7 @@ class _NewPinPanelState extends State<NewPinPanel> {
                       style: _style,
                       onPressed: () {
                         if (urlController.text.isEmpty) {
-                          _showNoURLDialog();
+                          Dialogs.showNoURLDialog(context);
                         } else {
                           submitData(context, model);
                         }

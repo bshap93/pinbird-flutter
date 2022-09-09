@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:pinboard_clone/models/post.dart';
 import 'package:pinboard_clone/services/reactive_services/tag.data.services.dart';
 import 'package:stacked/stacked.dart';
 

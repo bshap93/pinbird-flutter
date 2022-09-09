@@ -7,9 +7,9 @@ import '../../models/post.dart';
 import '../../services/reactive_services/post.services.dart';
 
 class NewPinPanelViewModel extends ReactiveViewModel {
-  final _pinDataService = locator<PostService>();
+  final _postService = locator<PostService>();
   final _tagDataService = locator<TagService>();
-  late final updatePinContent = _pinDataService.updatePinDataContent;
+  late final updatePinContent = _postService.updatePinDataContent;
   late final getNewestTag = _tagDataService.getNewestTag;
 
   final _tagService = locator<TagService>();
@@ -17,13 +17,13 @@ class NewPinPanelViewModel extends ReactiveViewModel {
 
   Tag get currentTag => _tagService.currentTag;
 
-  List<Post> get pins => _pinDataService.posts;
+  List<Post> get pins => _postService.posts;
 
   // return pin id
-  String newPinDataWithId() {
-    _pinDataService.newPost();
+  String newPostWithId() {
+    _postService.newPost();
     // _firstPinFocusNode.requestFocus();
-    String? _id = _pinDataService.newPostId();
+    String? _id = _postService.newPostId();
     if (_id == null) {
       throw NullThrownError();
     } else {
@@ -32,5 +32,5 @@ class NewPinPanelViewModel extends ReactiveViewModel {
   }
 
   @override
-  List<ReactiveServiceMixin> get reactiveServices => [_pinDataService];
+  List<ReactiveServiceMixin> get reactiveServices => [_postService];
 }
