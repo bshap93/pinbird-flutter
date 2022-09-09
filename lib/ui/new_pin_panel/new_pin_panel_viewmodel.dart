@@ -3,11 +3,11 @@ import 'package:stacked/stacked.dart';
 
 import '../../app/locator.dart';
 import '../../models/tag.dart';
-import '../../models/pin_data.dart';
-import '../../services/reactive_services/pin_data.services.dart';
+import '../../models/post.dart';
+import '../../services/reactive_services/post.services.dart';
 
 class NewPinPanelViewModel extends ReactiveViewModel {
-  final _pinDataService = locator<PinDataService>();
+  final _pinDataService = locator<PostService>();
   final _tagDataService = locator<TagService>();
   late final updatePinContent = _pinDataService.updatePinDataContent;
   late final getNewestTag = _tagDataService.getNewestTag;
@@ -17,7 +17,7 @@ class NewPinPanelViewModel extends ReactiveViewModel {
 
   Tag get currentTag => _tagService.currentTag;
 
-  List<Post> get pins => _pinDataService.pin_data;
+  List<Post> get pins => _pinDataService.posts;
 
   // return pin id
   String newPinDataWithId() {

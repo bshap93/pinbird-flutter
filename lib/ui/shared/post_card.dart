@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../models/pin_data.dart';
+import '../../models/post.dart';
 
 class PinCard extends StatelessWidget {
-  const PinCard({Post post});
+  const PinCard({required Post post});
 
   @override
   Widget build(BuildContext context) {

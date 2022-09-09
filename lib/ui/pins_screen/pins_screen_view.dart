@@ -42,8 +42,8 @@ class _PinsScreenViewState extends State<PinsScreenView> {
           body: ListView(
             padding: const EdgeInsets.symmetric(vertical: 16),
             children: [
-              if (model.pin_data.isEmpty) _showEmptyPage(),
-              ...model.pin_data
+              if (model.posts.isEmpty) _showEmptyPage(),
+              ...model.posts
                   .where((pin_datum) =>
                       pin_datum.tag.tag == model.currentTag.tag ||
                       model.currentTag.tag == "None")

@@ -5,21 +5,21 @@ import 'dart:math';
 import '../../models/post.dart';
 import '../../../models/tag.dart';
 
-class PinDataService with ReactiveServiceMixin {
-  final _pin_data = ReactiveValue<List<Post>>(
-    Hive.box('pin_data').get('pin_data', defaultValue: []).cast<Post>(),
+class PostService with ReactiveServiceMixin {
+  final _posts = ReactiveValue<List<Post>>(
+    Hive.box('posts').get('posts', defaultValue: []).cast<Post>(),
   );
 
   final _random = Random();
 
-  List<Post> get pin_data => _pin_data.value;
+  List<Post> get posts => _posts.value;
 
-  List<Post> pin_data_by_tag(String _tagName) {
-    return pin_data.where((pin) => pin.tag.tag == _tagName).toList();
+  List<Post> posts_by_tag(String _tagName) {
+    return posts.where((pin) => pin.tag.tag == _tagName).toList();
   }
 
-  PinDataService() {
-    listenToReactiveValues([_pin_data]);
+  PostService() {
+    listenToReactiveValues([_posts]);
   }
 
   String _randomId() {
@@ -28,23 +28,23 @@ class PinDataService with ReactiveServiceMixin {
     );
   }
 
-  void _saveToHive() => Hive.box('pin_data').put('pin_data', _pin_data.value);
+  void _saveToHive() => Hive.box('posts').put('posts', _posts.value);
 
   void newPinDatum() {
     String _id = _randomId();
-    _pin_data.value.insert(0, Post(id: _id));
+    _posts.value.insert(0, Post(id: _id));
     _saveToHive();
     notifyListeners();
   }
 
   String? newPinDataId() {
-    return _pin_data.value.first.id;
+    return _posts.value.first.id;
   }
 
   bool removePinDatum(String id) {
-    final index = _pin_data.value.indexWhere((pin_datum) => pin_datum.id == id);
+    final index = _posts.value.indexWhere((pin_datum) => pin_datum.id == id);
     if (index != -1) {
-      _pin_data.value.removeAt(index);
+      _posts.value.removeAt(index);
       _saveToHive();
       notifyListeners();
       return true;
@@ -59,11 +59,11 @@ class PinDataService with ReactiveServiceMixin {
     String description = '',
     Tag tag = const Tag(tag: "None"),
   }) {
-    final index = _pin_data.value.indexWhere((pin_datum) => pin_datum.id == id);
+    final index = _posts.value.indexWhere((pin_datum) => pin_datum.id == id);
     if (index != -1) {
-      _pin_data.value[index].url = url;
-      _pin_data.value[index].description = description;
-      _pin_data.value[index].tag = tag;
+      _posts.value[index].url = url;
+      _posts.value[index].description = description;
+      _posts.value[index].tag = tag;
       _saveToHive();
       return true;
     } else {
