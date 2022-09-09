@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pinboard_clone/services/api_services/dio_client.dart';
 import 'package:pinboard_clone/ui/pinboard_pins/recent_pins/recent_pins_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -19,13 +17,6 @@ class _RecentPinsViewState extends State<RecentPinsView> {
   FocusNode urlFocusNode = new FocusNode();
   List<PinboardPin> my_recent_pins = [];
   // Create a Picker object to filter by tags
-  void initState() {
-    super.initState();
-    DioClient dioClient = DioClient();
-    dioClient.getRecentPosts().then((value) {
-      my_recent_pins = value;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,17 +26,31 @@ class _RecentPinsViewState extends State<RecentPinsView> {
         // Tag noneTag = model.getTagByName("None");
         return Scaffold(
           appBar: AppBar(title: Text("Recent Pins")),
-          body: ListView(
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            children: [
-              if (my_recent_pins.isEmpty) _showEmptyPage(),
-              ...my_recent_pins.map((recent_pin_datum) {
-                return Text(recent_pin_datum.description);
+          body: FutureBuilder(
+              future: model.recent_pins,
+              builder: (BuildContext context,
+                  AsyncSnapshot<List<PinboardPin>> snapshot) {
+                if (!snapshot.hasData) {
+                  // while data is loading:
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else {
+                  // data loaded:
+                  my_recent_pins = snapshot.data!;
+                  return ListView(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    children: [
+                      if (my_recent_pins.isEmpty) _showEmptyPage(),
+                      ...my_recent_pins.map((recent_pin_datum) {
+                        return Text(recent_pin_datum.description);
+                      }),
+                      // if ((pin_datum.tag.tag == "None") ||
+                      //     (pin_datum.tag.tag == model.currentTag.tag)) {
+                    ],
+                  );
+                }
               }),
-              // if ((pin_datum.tag.tag == "None") ||
-              //     (pin_datum.tag.tag == model.currentTag.tag)) {
-            ],
-          ),
         );
       },
     );

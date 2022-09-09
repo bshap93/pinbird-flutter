@@ -8,11 +8,12 @@ import '../../../services/api_services/dio_client.dart';
 class RecentPinsViewModel extends ReactiveViewModel {
   final _firstPinFocusNode = FocusNode();
   // pull in services via locator
-  final _dioClient = locator<DioClient>();
+  final _pinboardPinsService = locator<PinboardPinsService>();
   // pull in service methods view ViewModel
   // getters for pin and tag
-  Future<List<PinboardPin>> get recent_pins => _dioClient.getRecentPosts();
+  Future<List<PinboardPin>> get recent_pins =>
+      _pinboardPinsService.getRecentPosts();
 
   @override
-  List<ReactiveServiceMixin> get reactiveServices => [_dioClient];
+  List<ReactiveServiceMixin> get reactiveServices => [_pinboardPinsService];
 }

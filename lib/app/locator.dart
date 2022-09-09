@@ -8,5 +8,5 @@ final locator = GetIt.instance;
 setupLocator() {
   locator.registerLazySingleton(() => PinDataService());
   locator.registerLazySingleton(() => TagService());
-  locator.registerLazySingleton(() => DioClient());
+  locator.registerLazySingleton(() => PinboardPinsService());
 }

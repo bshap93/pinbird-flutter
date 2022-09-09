@@ -2,8 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:pinboard_clone/models/pinboard_pin.dart';
 import 'package:stacked/stacked.dart';
 
-class DioClient with ReactiveServiceMixin {
-  final Dio _dio = Dio();
+class PinboardPinsService with ReactiveServiceMixin {
+  final Dio _dioClient = Dio();
 
   final _baseUrl = 'https://api.pinboard.in/v1';
 
@@ -17,7 +17,7 @@ class DioClient with ReactiveServiceMixin {
   Future<List<PinboardPin>> getRecentPosts() async {
     // Perform GET request to the endpoint "/users/<id>"
     Response pinboardPinData =
-        await _dio.get(_baseUrl + '/posts/recent' + _authAppendage);
+        await _dioClient.get(_baseUrl + '/posts/recent' + _authAppendage);
 
     List<PinboardPin> results = <PinboardPin>[];
     // Prints the raw data returned by the server
@@ -28,6 +28,8 @@ class DioClient with ReactiveServiceMixin {
       PinboardPin p = PinboardPin.fromJson(_pinboardPin);
       results.add(p);
     }
+
+    notifyListeners();
 
     return results;
   }
