@@ -13,7 +13,7 @@ class PinSingleView extends StatefulWidget {
   const PinSingleView(
       {super.key, required this.pin_datum, required this.urlController});
 
-  final PinData pin_datum;
+  final Post pin_datum;
   final TextEditingController urlController;
 
   @override

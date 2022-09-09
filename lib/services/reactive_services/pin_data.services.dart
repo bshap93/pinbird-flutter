@@ -2,19 +2,19 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:stacked/stacked.dart';
 import 'dart:math';
 
-import '../../../models/pin_data.dart';
+import '../../models/post.dart';
 import '../../../models/tag.dart';
 
 class PinDataService with ReactiveServiceMixin {
-  final _pin_data = ReactiveValue<List<PinData>>(
-    Hive.box('pin_data').get('pin_data', defaultValue: []).cast<PinData>(),
+  final _pin_data = ReactiveValue<List<Post>>(
+    Hive.box('pin_data').get('pin_data', defaultValue: []).cast<Post>(),
   );
 
   final _random = Random();
 
-  List<PinData> get pin_data => _pin_data.value;
+  List<Post> get pin_data => _pin_data.value;
 
-  List<PinData> pin_data_by_tag(String _tagName) {
+  List<Post> pin_data_by_tag(String _tagName) {
     return pin_data.where((pin) => pin.tag.tag == _tagName).toList();
   }
 
@@ -32,7 +32,7 @@ class PinDataService with ReactiveServiceMixin {
 
   void newPinDatum() {
     String _id = _randomId();
-    _pin_data.value.insert(0, PinData(id: _id));
+    _pin_data.value.insert(0, Post(id: _id));
     _saveToHive();
     notifyListeners();
   }

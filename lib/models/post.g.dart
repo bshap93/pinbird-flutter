@@ -1,22 +1,22 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'pin_data.dart';
+part of 'post.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class PinDataAdapter extends TypeAdapter<PinData> {
+class PostAdapter extends TypeAdapter<Post> {
   @override
   final int typeId = 3;
 
   @override
-  PinData read(BinaryReader reader) {
+  Post read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return PinData(
+    return Post(
       id: fields[0] as String,
       url: fields[1] as String,
       description: fields[2] as String,
@@ -25,7 +25,7 @@ class PinDataAdapter extends TypeAdapter<PinData> {
   }
 
   @override
-  void write(BinaryWriter writer, PinData obj) {
+  void write(BinaryWriter writer, Post obj) {
     writer
       ..writeByte(5)
       ..writeByte(0)
@@ -46,7 +46,7 @@ class PinDataAdapter extends TypeAdapter<PinData> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is PinDataAdapter &&
+      other is PostAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

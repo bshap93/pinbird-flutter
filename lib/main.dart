@@ -23,7 +23,7 @@ void main() async {
   Hive.registerAdapter(TagAdapter());
   await Hive.openBox('tags');
   await Hive.openBox('current_tag');
-  Hive.registerAdapter(PinDataAdapter());
+  Hive.registerAdapter(PostAdapter());
   await Hive.openBox('pin_data');
 
   // Start up our services

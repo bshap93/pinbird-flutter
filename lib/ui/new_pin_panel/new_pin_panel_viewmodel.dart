@@ -17,7 +17,7 @@ class NewPinPanelViewModel extends ReactiveViewModel {
 
   Tag get currentTag => _tagService.currentTag;
 
-  List<PinData> get pins => _pinDataService.pin_data;
+  List<Post> get pins => _pinDataService.pin_data;
 
   // return pin id
   String newPinDataWithId() {

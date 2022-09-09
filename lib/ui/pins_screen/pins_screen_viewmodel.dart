@@ -10,22 +10,22 @@ import '../../services/reactive_services/pin_data.services.dart';
 class PinsScreenViewModel extends ReactiveViewModel {
   final _firstPinFocusNode = FocusNode();
   // pull in services via locator
-  final _pinDataService = locator<PinDataService>();
+  final _postService = locator<PinDataService>();
   final _tagService = locator<TagService>();
   // pull in service methods view ViewModel
-  late final removePin = _pinDataService.removePinDatum;
-  late final updatePinContent = _pinDataService.updatePinDataContent;
+  late final removePin = _postService.removePinDatum;
+  late final updatePinContent = _postService.updatePinDataContent;
   late final getTagByName = _tagService.getTagByName;
 
   // getters for pin and tag
-  List<PinData> get pin_data => _pinDataService.pin_data;
+  List<Post> get pin_data => _postService.pin_data;
 
   List<Tag> get tags => _tagService.tags;
 
   Tag get currentTag => _tagService.currentTag;
 
   void newPin() {
-    _pinDataService.newPinDatum();
+    _postService.newPinDatum();
     _firstPinFocusNode.requestFocus();
   }
 
@@ -36,5 +36,5 @@ class PinsScreenViewModel extends ReactiveViewModel {
 
   @override
   List<ReactiveServiceMixin> get reactiveServices =>
-      [_pinDataService, _tagService];
+      [_postService, _tagService];
 }

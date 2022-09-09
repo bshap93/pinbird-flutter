@@ -15,10 +15,10 @@ class PinSingleViewModel extends ReactiveViewModel {
 
   PinSingleViewModel(this._id);
 
-  List<PinData> get pin_data => _pinDataService.pin_data;
+  List<Post> get pin_data => _pinDataService.pin_data;
 
   // Get the right pin
-  PinData get pin_datum =>
+  Post get pin_datum =>
       _pinDataService.pin_data.where((pin_datum) => pin_datum.id == _id).first;
 
   FocusNode? getFocusNode(String id) {

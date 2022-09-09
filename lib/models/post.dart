@@ -1,10 +1,10 @@
 import 'package:hive/hive.dart';
 
 import 'tag.dart';
-part 'pin_data.g.dart';
+part 'post.g.dart';
 
 @HiveType(typeId: 3)
-class PinData {
+class Post {
   @HiveField(0)
   final String id;
   @HiveField(1)
@@ -16,7 +16,7 @@ class PinData {
   @HiveField(4)
   final DateTime datetime = DateTime.now();
 
-  PinData(
+  Post(
       {required this.id,
       this.url = '',
       this.description = '',
