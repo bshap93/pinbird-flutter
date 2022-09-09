@@ -42,11 +42,9 @@ class _RecentPinsViewState extends State<RecentPinsView> {
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     children: [
                       if (my_recent_pins.isEmpty) _showEmptyPage(),
-                      ...my_recent_pins.map((recent_pin_datum) {
-                        return Text(recent_pin_datum.description);
+                      ...my_recent_pins.map((recent_posts) {
+                        return Text(recent_posts.description);
                       }),
-                      // if ((pin_datum.tag.tag == "None") ||
-                      //     (pin_datum.tag.tag == model.currentTag.tag)) {
                     ],
                   );
                 }

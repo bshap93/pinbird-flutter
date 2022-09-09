@@ -13,7 +13,7 @@ class PinsScreenViewModel extends ReactiveViewModel {
   final _postService = locator<PostService>();
   final _tagService = locator<TagService>();
   // pull in service methods view ViewModel
-  late final removePin = _postService.removePinDatum;
+  late final removePin = _postService.removePost;
   late final updatePinContent = _postService.updatePinDataContent;
   late final getTagByName = _tagService.getTagByName;
 
@@ -25,12 +25,12 @@ class PinsScreenViewModel extends ReactiveViewModel {
   Tag get currentTag => _tagService.currentTag;
 
   void newPin() {
-    _postService.newPinDatum();
+    _postService.newPost();
     _firstPinFocusNode.requestFocus();
   }
 
   FocusNode? getFocusNode(String id) {
-    final index = posts.indexWhere((pin_datum) => pin_datum.id == id);
+    final index = posts.indexWhere((post) => post.id == id);
     return index == 0 ? _firstPinFocusNode : null;
   }
 

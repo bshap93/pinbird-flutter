@@ -44,18 +44,17 @@ class _PinsScreenViewState extends State<PinsScreenView> {
             children: [
               if (model.posts.isEmpty) _showEmptyPage(),
               ...model.posts
-                  .where((pin_datum) =>
-                      pin_datum.tag.tag == model.currentTag.tag ||
+                  .where((post) =>
+                      post.tag.tag == model.currentTag.tag ||
                       model.currentTag.tag == "None")
-                  .map((pin_datum) {
+                  .map((post) {
                 TextEditingController _urlController =
-                    TextEditingController(text: pin_datum.url);
+                    TextEditingController(text: post.url);
                 return Card(
                   child: ListTile(
                     leading: IconButton(
                       icon: const Icon(Icons.delete_outline_outlined),
-                      // onPressed: () => model.removePin(pin_datum.id),
-                      onPressed: () => _tryDelete(pin_datum.id, model),
+                      onPressed: () => _tryDelete(post.id, model),
                     ),
                     title: Column(
                       children: [
@@ -64,14 +63,14 @@ class _PinsScreenViewState extends State<PinsScreenView> {
                           controller: _urlController,
                           // ignore: deprecated_member_use
                           onTap: () => {
-                            if (pin_datum.url == null)
+                            if (post.url == null)
                               {
                                 // ignore: deprecated_member_use
                                 launch("https://www.google.com"),
                               }
                             else
                               // ignore: deprecated_member_use
-                              {launch("https://" + pin_datum.url)}
+                              {launch("https://" + post.url)}
                           },
                           decoration: null,
                           focusNode: urlFocusNode,
@@ -91,13 +90,11 @@ class _PinsScreenViewState extends State<PinsScreenView> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => PinSingleView(
-                                    pin_datum: pin_datum,
+                                    post: post,
                                     urlController: _urlController)))),
                   ),
                 );
               }),
-              // if ((pin_datum.tag.tag == "None") ||
-              //     (pin_datum.tag.tag == model.currentTag.tag)) {
             ],
           ),
           floatingActionButton: FloatingActionButton(

@@ -10,7 +10,7 @@ class PinSingleViewModel extends ReactiveViewModel {
 
   final _firstPinFocusNode = FocusNode();
   final _pinDataService = locator<PostService>();
-  late final removePin = _pinDataService.removePinDatum;
+  late final removePin = _pinDataService.removePost;
   late final updatePinDataContent = _pinDataService.updatePinDataContent;
 
   PinSingleViewModel(this._id);
@@ -18,11 +18,10 @@ class PinSingleViewModel extends ReactiveViewModel {
   List<Post> get posts => _pinDataService.posts;
 
   // Get the right pin
-  Post get pin_datum =>
-      _pinDataService.posts.where((pin_datum) => pin_datum.id == _id).first;
+  Post get post => _pinDataService.posts.where((post) => post.id == _id).first;
 
   FocusNode? getFocusNode(String id) {
-    final index = posts.indexWhere((pin_datum) => pin_datum.id == id);
+    final index = posts.indexWhere((post) => post.id == id);
     return index == 0 ? _firstPinFocusNode : null;
   }
 

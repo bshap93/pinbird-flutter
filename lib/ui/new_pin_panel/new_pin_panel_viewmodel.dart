@@ -21,9 +21,9 @@ class NewPinPanelViewModel extends ReactiveViewModel {
 
   // return pin id
   String newPinDataWithId() {
-    _pinDataService.newPinDatum();
+    _pinDataService.newPost();
     // _firstPinFocusNode.requestFocus();
-    String? _id = _pinDataService.newPinDataId();
+    String? _id = _pinDataService.newPostId();
     if (_id == null) {
       throw NullThrownError();
     } else {

@@ -11,9 +11,9 @@ import '../pins_screen/pins_screen_view.dart';
 
 class PinSingleView extends StatefulWidget {
   const PinSingleView(
-      {super.key, required this.pin_datum, required this.urlController});
+      {super.key, required this.post, required this.urlController});
 
-  final Post pin_datum;
+  final Post post;
   final TextEditingController urlController;
 
   @override
@@ -27,13 +27,13 @@ class _PinSingleViewState extends State<PinSingleView> {
     FocusNode urlFocusNode = new FocusNode();
 
     return ViewModelBuilder<PinSingleViewModel>.reactive(
-        viewModelBuilder: () => PinSingleViewModel(widget.pin_datum.id),
+        viewModelBuilder: () => PinSingleViewModel(widget.post.id),
         builder: (context, model, _) => Scaffold(
             appBar: AppBar(
-              title: Text(widget.pin_datum.description),
+              title: Text(widget.post.description),
               actions: <Widget>[
                 IconButton(
-                    onPressed: () => _tryDelete(widget.pin_datum.id, model),
+                    onPressed: () => _tryDelete(widget.post.id, model),
                     icon: const Icon(Icons.delete_outline))
               ],
             ),
@@ -42,14 +42,14 @@ class _PinSingleViewState extends State<PinSingleView> {
                 ListTile(
                   title: TextField(
                     // See above
-                    controller: TextEditingController(
-                        text: widget.pin_datum.description),
+                    controller:
+                        TextEditingController(text: widget.post.description),
                     focusNode: descriptionFocusNode,
                     onChanged: (text) => model.updatePinDataContent(
-                      id: widget.pin_datum.id,
-                      url: widget.pin_datum.url,
+                      id: widget.post.id,
+                      url: widget.post.url,
                       description: text,
-                      tag: widget.pin_datum.tag,
+                      tag: widget.post.tag,
                     ),
                     style: TextStyle(
                       color: Colors.white,
@@ -57,7 +57,7 @@ class _PinSingleViewState extends State<PinSingleView> {
                     ),
                   ),
                   trailing: IconButton(
-                    focusNode: model.getFocusNode(widget.pin_datum.id),
+                    focusNode: model.getFocusNode(widget.post.id),
                     icon: Icon(Icons.edit),
                     onPressed: () {
                       FocusScope.of(context).requestFocus(descriptionFocusNode);
@@ -68,21 +68,21 @@ class _PinSingleViewState extends State<PinSingleView> {
                   title: TextField(
                     // See above
                     controller: widget.urlController,
-                    // TextEditingController(text: widget.pin_datum.url),
+
                     // ignore: deprecated_member_use
                     onTap: () => {
-                      if (widget.pin_datum.url == null)
+                      if (widget.post.url == null)
                         {
                           launch("https://www.google.com"),
                         }
                       else
-                        {launch("https://" + widget.pin_datum.url)}
+                        {launch("https://" + widget.post.url)}
                     },
                     onChanged: (text) => model.updatePinDataContent(
-                      id: widget.pin_datum.id,
+                      id: widget.post.id,
                       url: text,
-                      description: widget.pin_datum.description,
-                      tag: widget.pin_datum.tag,
+                      description: widget.post.description,
+                      tag: widget.post.tag,
                     ),
                     focusNode: urlFocusNode,
                     style: TextStyle(
@@ -91,7 +91,7 @@ class _PinSingleViewState extends State<PinSingleView> {
                     ),
                   ),
                   trailing: IconButton(
-                    focusNode: model.getFocusNode(widget.pin_datum.id),
+                    focusNode: model.getFocusNode(widget.post.id),
                     icon: Icon(Icons.edit),
                     onPressed: () {
                       FocusScope.of(context).requestFocus(urlFocusNode);
@@ -104,10 +104,9 @@ class _PinSingleViewState extends State<PinSingleView> {
                     controller: TextEditingController(
                         // Concatenated string ->
                         text: (DateFormat('yyyy-MM-dd')
-                                .format(widget.pin_datum.datetime) +
+                                .format(widget.post.datetime) +
                             " at " +
-                            DateFormat('jm')
-                                .format(widget.pin_datum.datetime))),
+                            DateFormat('jm').format(widget.post.datetime))),
                     focusNode: new AlwaysDisabledFocusNode(),
                     style: TextStyle(
                       color: Colors.white,
@@ -132,7 +131,7 @@ class _PinSingleViewState extends State<PinSingleView> {
                       child: Row(
                         children: [
                           Icon(Icons.tag),
-                          Text(widget.pin_datum.tag.tag),
+                          Text(widget.post.tag.tag),
                         ],
                       ),
                     ),
@@ -167,7 +166,7 @@ class _PinSingleViewState extends State<PinSingleView> {
               child: const Text('Yes'),
               onPressed: () {
                 Navigator.of(context).pop();
-                model.removePin(widget.pin_datum.id);
+                model.removePin(widget.post.id);
                 Navigator.of(context).pop();
               },
             ),

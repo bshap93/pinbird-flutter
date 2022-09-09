@@ -30,19 +30,19 @@ class PostService with ReactiveServiceMixin {
 
   void _saveToHive() => Hive.box('posts').put('posts', _posts.value);
 
-  void newPinDatum() {
+  void newPost() {
     String _id = _randomId();
     _posts.value.insert(0, Post(id: _id));
     _saveToHive();
     notifyListeners();
   }
 
-  String? newPinDataId() {
+  String? newPostId() {
     return _posts.value.first.id;
   }
 
-  bool removePinDatum(String id) {
-    final index = _posts.value.indexWhere((pin_datum) => pin_datum.id == id);
+  bool removePost(String id) {
+    final index = _posts.value.indexWhere((post) => post.id == id);
     if (index != -1) {
       _posts.value.removeAt(index);
       _saveToHive();
@@ -59,7 +59,7 @@ class PostService with ReactiveServiceMixin {
     String description = '',
     Tag tag = const Tag(tag: "None"),
   }) {
-    final index = _posts.value.indexWhere((pin_datum) => pin_datum.id == id);
+    final index = _posts.value.indexWhere((post) => post.id == id);
     if (index != -1) {
       _posts.value[index].url = url;
       _posts.value[index].description = description;
