@@ -15,8 +15,17 @@ class RecentPinsView extends StatefulWidget {
 }
 
 class _RecentPinsViewState extends State<RecentPinsView> {
+  Widget _getInformationMessage(String message) {
+    return Center(
+        child: Text(
+      message,
+      textAlign: TextAlign.center,
+      style: TextStyle(fontWeight: FontWeight.w900, color: Colors.grey[500]),
+    ));
+  }
+
   // persist URL state across views
-  List<PinboardPin> my_recent_posts = [];
+  List<PinboardPin> myRecentPosts = [];
   // Create a Picker object to filter by tags
 
   @override
@@ -36,72 +45,68 @@ class _RecentPinsViewState extends State<RecentPinsView> {
                       return Center(
                         child: CircularProgressIndicator(),
                       );
-                    } else {
-                      // data loaded:
-                      my_recent_posts = snapshot.data!;
-                      return ListView(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        children: [
-                          if (my_recent_posts.isEmpty) _showEmptyPage(),
-                          ...my_recent_posts.map((post) {
-                            TextEditingController _description_controller =
-                                TextEditingController(text: post.description);
-                            return Card(
-                              child: ListTile(
-                                leading: IconButton(
-                                  icon:
-                                      const Icon(Icons.delete_outline_outlined),
-                                  onPressed: () =>
-                                      {}, // _tryDelete(post.id, model),
-                                ),
-                                title: Column(
-                                  children: [
-                                    TextField(
-                                      // See above
-                                      controller: _description_controller,
-                                      // ignore: deprecated_member_use
-                                      onTap: () => {
-                                        if (post.href == null)
-                                          {
-                                            // ignore: deprecated_member_use
-                                            launch("https://www.google.com"),
-                                          }
-                                        else
-                                          // ignore: deprecated_member_use
-                                          {launch("https://" + post.href)}
-                                      },
-                                      decoration: null,
-                                      focusNode: AlwaysDisabledFocusNode(),
-                                      maxLines: 2,
-                                      style: TextStyle(
-                                        color: Colors.blue,
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                trailing: IconButton(
-                                    icon: Icon(
-                                      Icons.arrow_forward,
-                                    ),
-                                    // See below
-                                    onPressed: () => {}
-                                    // Navigator.push(
-                                    //     context,
-                                    //     MaterialPageRoute(
-                                    //         builder: (context) =>
-                                    //         PinSingleView(
-                                    //             post: post,
-                                    //             urlController: _description_controller)
-                                    //             )
-                                    //             ),
-                                    ),
-                              ),
-                            );
-                          }),
-                        ],
-                      );
+                    } else if (snapshot.hasError) {
+                      return _getInformationMessage(snapshot.error.toString());
                     }
+                    // data loaded:
+                    var myRecentPosts = snapshot.data;
+
+                    if (myRecentPosts?.length == 0) {
+                      return _getInformationMessage(
+                          'No data found for your account. Add something and check back.');
+                    }
+
+                    return ListView(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      children: [
+                        if (myRecentPosts!.isEmpty) _showEmptyPage(),
+                        ...myRecentPosts.map((post) {
+                          TextEditingController _description_controller =
+                              TextEditingController(text: post.description);
+                          return Card(
+                            child: ListTile(
+                              leading: IconButton(
+                                icon: const Icon(Icons.delete_outline_outlined),
+                                onPressed: () =>
+                                    {}, // _tryDelete(post.id, model),
+                              ),
+                              title: Column(
+                                children: [
+                                  TextField(
+                                    // See above
+                                    controller: _description_controller,
+                                    // ignore: deprecated_member_use
+                                    onTap: () => {
+                                      if (post.href == null)
+                                        {
+                                          // ignore: deprecated_member_use
+                                          launch("https://www.google.com"),
+                                        }
+                                      else
+                                        // ignore: deprecated_member_use
+                                        {launch("https://" + post.href)}
+                                    },
+                                    decoration: null,
+                                    focusNode: AlwaysDisabledFocusNode(),
+                                    maxLines: 2,
+                                    style: TextStyle(
+                                      color: Colors.blue,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              trailing: IconButton(
+                                  icon: Icon(
+                                    Icons.arrow_forward,
+                                  ),
+                                  // See below
+                                  onPressed: () => {}),
+                            ),
+                          );
+                        }),
+                      ],
+                    );
                   }));
         });
   }

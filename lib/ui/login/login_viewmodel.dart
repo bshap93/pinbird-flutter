@@ -10,6 +10,7 @@ class LoginViewModel extends ReactiveViewModel {
   final _pinboardPinService = locator<PinboardPinsService>();
   final _loginService = locator<LoginService>();
   late final startLogin = _loginService.startLogin;
+  late final setApiToken = _loginService.setApiToken;
 
   String get apiToken => _loginService.apiToken;
 

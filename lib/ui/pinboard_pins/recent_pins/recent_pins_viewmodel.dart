@@ -3,7 +3,7 @@ import 'package:pinboard_clone/models/pinboard_pin.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../../app/locator.dart';
-import '../../../services/api_services/dio_client.dart';
+import '../../../services/api_services/pinboard_pin.services.dart';
 
 class RecentPinsViewModel extends ReactiveViewModel {
   final _firstPinFocusNode = FocusNode();

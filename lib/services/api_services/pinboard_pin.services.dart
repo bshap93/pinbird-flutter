@@ -12,18 +12,16 @@ class PinboardPinsService with ReactiveServiceMixin {
 
   final _baseUrl = 'https://api.pinboard.in/v1';
 
-  // will not be hardcoded in any push
+  String get apiToken => _apiToken.value;
 
-  final _authAppendage = '?auth_token=' + _apiToken + "&format=json";
-
-  //
-
-  void _saveToHive() => Hive.box('api_token').put('api_token', _apiToken.value);
+  String _getAuthAppendage(String apiTok) {
+    return '?auth_token=' + _apiToken.value + "&format=json";
+  }
 
   Future<List<PinboardPin>> getRecentPosts() async {
     // Perform GET request to the endpoint "/users/<id>"
-    Response pinboardPinData =
-        await _dioClient.get(_baseUrl + '/posts/recent' + _authAppendage);
+    Response pinboardPinData = await _dioClient
+        .get(_baseUrl + '/posts/recent' + _getAuthAppendage(apiToken));
 
     List<PinboardPin> results = <PinboardPin>[];
     // Prints the raw data returned by the server

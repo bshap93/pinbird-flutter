@@ -4,6 +4,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:pinboard_clone/models/post.dart';
 import 'package:pinboard_clone/models/tag.dart';
 import 'package:pinboard_clone/ui/login/login_view.dart';
+import 'package:pinboard_clone/ui/pins_screen/pins_screen_view.dart';
 
 // Local Imports
 import 'app/locator.dart';
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // New widget to be home page
     // var pinsScreenView = LoginView();
-    var pinsScreenView = LoginView();
+    var pinsScreenView = PinsScreenView();
     return MaterialApp(
       home: pinsScreenView,
       theme: ThemeData.dark(),
