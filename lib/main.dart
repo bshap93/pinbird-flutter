@@ -8,6 +8,7 @@ import 'package:pinboard_clone/ui/pins_screen/pins_screen_view.dart';
 
 // Local Imports
 import 'app/locator.dart';
+import 'models/pinboard_pin.dart';
 import 'models/post.dart';
 import 'models/tag.dart';
 
@@ -51,6 +52,8 @@ Future<bool> HiveInit() async {
   await Hive.openBox('current_tag');
   Hive.registerAdapter(PostAdapter());
   await Hive.openBox('posts');
+  Hive.registerAdapter(PinboardPinAdapter());
+  await Hive.openBox('pinboard_pins');
 
   return true;
 }

@@ -1,8 +1,11 @@
+import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-// part 'pinboard_pin.g.dart';
+part 'pinboard_pin.g.dart';
 
-@JsonSerializable()
+// flutter pub run build_runner build
+
+@HiveType(typeId: 6)
 class PinboardPin {
   PinboardPin({
     required this.href,
@@ -16,14 +19,23 @@ class PinboardPin {
     required this.tags,
   });
 
+  @HiveField(0)
   String href;
+  @HiveField(1)
   String time;
+  @HiveField(2)
   String meta;
+  @HiveField(3)
   String description;
+  @HiveField(4)
   String extended;
+  @HiveField(5)
   String tags;
+  @HiveField(6)
   String shared;
+  @HiveField(7)
   String toread;
+  @HiveField(8)
   String hash;
 
   // yes this is the same as what's in pinboard_pin.g.. will decide which
