@@ -26,26 +26,37 @@ class _LoginViewState extends State<LoginView> {
                 title: Text("Login"),
                 actions: <Widget>[],
               ),
-              body: Column(
-                children: [
-                  Center(
-                    child: TextField(
-                        decoration:
-                            InputDecoration(labelText: 'Enter you API Token: '),
-                        controller: tokenController,
-                        onSubmitted: (_) => submitData(context, model)),
+              body: Container(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Card(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: TextField(
+                                decoration: InputDecoration(
+                                    labelText: 'Enter you API Token: '),
+                                controller: tokenController,
+                                onSubmitted: (_) => submitData(context, model)),
+                          ),
+                        ),
+                        ElevatedButton(
+                            style: Styles.buttonStyle1,
+                            onPressed: () {
+                              if (tokenController.text.isEmpty) {
+                                Dialogs.showNoURLDialog(context);
+                              } else {
+                                submitData(context, model);
+                              }
+                            },
+                            child: Text('Submit')),
+                      ],
+                    ),
                   ),
-                  ElevatedButton(
-                      style: Styles.buttonStyle1,
-                      onPressed: () {
-                        if (tokenController.text.isEmpty) {
-                          Dialogs.showNoURLDialog(context);
-                        } else {
-                          submitData(context, model);
-                        }
-                      },
-                      child: Text('Enter the Token.')),
-                ],
+                ),
               ),
             ));
   }
