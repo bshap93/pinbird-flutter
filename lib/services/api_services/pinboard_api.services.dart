@@ -3,7 +3,7 @@ import 'package:hive/hive.dart';
 import 'package:pinboard_clone/models/pinboard_pin.dart';
 import 'package:stacked/stacked.dart';
 
-class PinboardPinsService with ReactiveServiceMixin {
+class PinboardAPIService with ReactiveServiceMixin {
   final _apiToken = ReactiveValue<String>(
     Hive.box('api_token').get('api_token', defaultValue: ""),
   );
@@ -13,6 +13,19 @@ class PinboardPinsService with ReactiveServiceMixin {
   final _baseUrl = 'https://api.pinboard.in/v1';
 
   String get apiToken => _apiToken.value;
+
+  void _saveToHive() => Hive.box('api_token').put('api_token', _apiToken.value);
+
+  void setApiToken(String apiTok) {
+    _apiToken.value = apiTok;
+    _saveToHive();
+    notifyListeners();
+  }
+
+  startLogin(String apiTok) async {
+    setApiToken(apiTok);
+    return getRecentPosts();
+  }
 
   String _getAuthAppendage(String apiTok) {
     return '?auth_token=' + _apiToken.value + "&format=json";

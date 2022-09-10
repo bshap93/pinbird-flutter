@@ -5,23 +5,23 @@ import '../app/locator.dart';
 import 'api_services/pinboard_pin.services.dart';
 
 class LoginService with ReactiveServiceMixin {
-  final _apiToken = ReactiveValue<String>(
-    Hive.box('api_token').get('api_token', defaultValue: ""),
-  );
+  // final _apiToken = ReactiveValue<String>(
+  //   Hive.box('api_token').get('api_token', defaultValue: ""),
+  // );
 
-  final _pinboardPinService = locator<PinboardPinsService>();
+  // final _pinboardPinService = locator<PinboardPinsService>();
 
-  String get apiToken => _apiToken.value;
-  void _saveToHive() => Hive.box('api_token').put('api_token', _apiToken.value);
+  // String get apiToken => _apiToken.value;
+  // void _saveToHive() => Hive.box('api_token').put('api_token', _apiToken.value);
 
-  void setApiToken(String apiTok) {
-    _apiToken.value = apiTok;
-    _saveToHive();
-    notifyListeners();
-  }
+  // void setApiToken(String apiTok) {
+  //   _apiToken.value = apiTok;
+  //   _saveToHive();
+  //   notifyListeners();
+  // }
 
-  startLogin(String apiTok) async {
-    setApiToken(apiTok);
-    return _pinboardPinService.getRecentPosts();
-  }
+  // startLogin(String apiTok) async {
+  //   setApiToken(apiTok);
+  //   return _pinboardPinService.getRecentPosts();
+  // }
 }

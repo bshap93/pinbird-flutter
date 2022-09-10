@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'pinboard_pin.g.dart';
+// part 'pinboard_pin.g.dart';
 
 @JsonSerializable()
 class PinboardPin {
