@@ -1,18 +1,24 @@
 import 'package:dio/dio.dart';
+import 'package:hive/hive.dart';
 import 'package:pinboard_clone/models/pinboard_pin.dart';
 import 'package:stacked/stacked.dart';
 
 class PinboardPinsService with ReactiveServiceMixin {
+  final _apiToken = ReactiveValue<String>(
+    Hive.box('api_token').get('api_token', defaultValue: ""),
+  );
+
   final Dio _dioClient = Dio();
 
   final _baseUrl = 'https://api.pinboard.in/v1';
 
   // will not be hardcoded in any push
-  static const _apiToken = 'bshap93:0D30C0B39A9A25638BAE';
 
   final _authAppendage = '?auth_token=' + _apiToken + "&format=json";
 
   //
+
+  void _saveToHive() => Hive.box('api_token').put('api_token', _apiToken.value);
 
   Future<List<PinboardPin>> getRecentPosts() async {
     // Perform GET request to the endpoint "/users/<id>"

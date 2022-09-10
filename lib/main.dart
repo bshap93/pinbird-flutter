@@ -4,11 +4,9 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:pinboard_clone/models/post.dart';
 import 'package:pinboard_clone/models/tag.dart';
 import 'package:pinboard_clone/ui/login/login_view.dart';
-import 'package:pinboard_clone/ui/pinboard_pins/recent_pins/recent_pins_view.dart';
 
 // Local Imports
 import 'app/locator.dart';
-import 'ui/pins_screen/pins_screen_view.dart';
 import 'models/post.dart';
 import 'models/tag.dart';
 

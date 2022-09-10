@@ -43,11 +43,13 @@ class _LoginViewState extends State<LoginView> {
                           submitData(context, model);
                         }
                       },
-                      child: Text('Add Pin Link')),
+                      child: Text('Enter the Token.')),
                 ],
               ),
             ));
   }
 
-  submitData(BuildContext context, LoginViewModel model) {}
+  submitData(BuildContext context, LoginViewModel model) {
+    final enteredToken = tokenController.text;
+  }
 }
