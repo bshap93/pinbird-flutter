@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pinboard_clone/ui/api_serviced_views/recent_pins/recent_pins_viewmodel.dart';
 import 'package:stacked/stacked.dart';
+import 'package:test_api/expect.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../models/pinboard_pin/pinboard_pin.dart';
@@ -17,17 +18,36 @@ class RecentPinsView extends StatefulWidget {
 
 class _RecentPinsViewState extends State<RecentPinsView> {
   Widget _getInformationMessage(String message) {
-    return Center(
-        child: Text(
-      message,
-      textAlign: TextAlign.center,
-      style: TextStyle(fontWeight: FontWeight.w900, color: Colors.grey[500]),
-    ));
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Center(
+            child: Text(
+          message,
+          textAlign: TextAlign.center,
+          style:
+              TextStyle(fontWeight: FontWeight.w900, color: Colors.grey[500]),
+        )),
+        ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text("Return to Login")),
+      ],
+    );
   }
 
   // persist URL state across views
   List<PinboardPin> myRecentPosts = [];
   // Create a Picker object to filter by tags
+
+  void failWithSnackBar(context, message) {
+    Navigator.pop(context);
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
+
+    return;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +56,27 @@ class _RecentPinsViewState extends State<RecentPinsView> {
         builder: (context, model, _) {
           // Tag noneTag = model.getTagByName("None");
           return Scaffold(
-              appBar: AppBar(title: Text("Recent Pins")),
+              drawer: Drawer(
+                  child: ListView(padding: EdgeInsets.zero, children: [
+                DrawerHeader(
+                    decoration: BoxDecoration(
+                        color: ThemeData.dark().colorScheme.background),
+                    child: Text('Pinboard Pages')),
+                ListTile(
+                  title: const Text('Logout'),
+                  onTap: () {
+                    model.logout();
+                    // Exit drawer
+                    Navigator.pop(context);
+                    // Pop back to login page
+                    Navigator.pop(context);
+                  },
+                ),
+              ])),
+              appBar: AppBar(
+                title: Text("Recent Pins"),
+                actions: <Widget>[],
+              ),
               body: FutureBuilder(
                   future: model.recent_pins,
                   builder: (BuildContext context,

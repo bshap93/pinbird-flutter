@@ -40,6 +40,11 @@ class PinboardAPIService with ReactiveServiceMixin {
     return dioGetRecentPins();
   }
 
+  logout() async {
+    setApiToken("");
+    return;
+  }
+
   String getAuthAppendage(String apiTok) {
     return '?auth_token=' + _apiToken.value + "&format=json";
   }

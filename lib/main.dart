@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // New widget to be home page
     // var pinsScreenView = LoginView();
-    var pinsScreenView = PinsScreenView();
+    var pinsScreenView = LoginView();
     return MaterialApp(
       home: pinsScreenView,
       theme: ThemeData.dark(),

@@ -10,6 +10,8 @@ class RecentPinsViewModel extends ReactiveViewModel {
   final _firstPinFocusNode = FocusNode();
   // pull in services via locator
   final _pinboardPinsService = locator<PinService>();
+  late final logout = _pinboardPinsService.logout;
+
   // pull in service methods view ViewModel
   // getters for pin and tag
   Future<List<PinboardPin>> get recent_pins =>
