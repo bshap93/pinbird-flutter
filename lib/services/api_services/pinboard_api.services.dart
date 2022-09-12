@@ -16,6 +16,19 @@ class PinboardAPIService with ReactiveServiceMixin {
 
   void _saveToHive() => Hive.box('api_token').put('api_token', _apiToken.value);
 
+  Future<bool> validateApiToken(String apiTok) async {
+    try {
+      dioGetRecentPins().then((pins) {
+        return true;
+      });
+    } catch (e) {
+      print(e);
+      return false;
+    }
+
+    return false;
+  }
+
   void setApiToken(String apiTok) {
     _apiToken.value = apiTok;
     _saveToHive();
@@ -24,14 +37,14 @@ class PinboardAPIService with ReactiveServiceMixin {
 
   startLogin(String apiTok) async {
     setApiToken(apiTok);
-    return getRecentPosts();
+    return dioGetRecentPins();
   }
 
   String getAuthAppendage(String apiTok) {
     return '?auth_token=' + _apiToken.value + "&format=json";
   }
 
-  Future<List<PinboardPin>> getRecentPosts() async {
+  Future<List<PinboardPin>> dioGetRecentPins() async {
     // Perform GET request to the endpoint "/users/<id>"
     Response pinboardPinData = await dioClient
         .get(baseUrl + '/posts/recent' + getAuthAppendage(apiToken));

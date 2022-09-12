@@ -8,7 +8,7 @@ import 'pins_screen_viewmodel.dart';
 
 // Local lib imports
 import '../new_pin_panel/new_pin_panel_view.dart';
-import '../pin_single/pin_single_view.dart';
+import '../post_single/post_single_view.dart';
 import './pins_screen_viewmodel.dart';
 
 class PinsScreenView extends StatefulWidget {
@@ -89,7 +89,7 @@ class _PinsScreenViewState extends State<PinsScreenView> {
                         onPressed: () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => PinSingleView(
+                                builder: (context) => PostSingleView(
                                     post: post,
                                     urlController: _urlController)))),
                   ),

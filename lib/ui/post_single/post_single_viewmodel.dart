@@ -5,7 +5,7 @@ import '../../app/locator.dart';
 import '../../models/post.dart';
 import '../../services/reactive_services/post.services.dart';
 
-class PinSingleViewModel extends ReactiveViewModel {
+class PostSingleViewModel extends ReactiveViewModel {
   final String _id;
 
   final _firstPinFocusNode = FocusNode();
@@ -13,7 +13,7 @@ class PinSingleViewModel extends ReactiveViewModel {
   late final removePin = _pinDataService.removePost;
   late final updatePinDataContent = _pinDataService.updatePinDataContent;
 
-  PinSingleViewModel(this._id);
+  PostSingleViewModel(this._id);
 
   List<Post> get posts => _pinDataService.posts;
 

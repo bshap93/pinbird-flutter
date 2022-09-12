@@ -5,29 +5,29 @@ import 'package:stacked/stacked.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
 
-import './pin_single_viewmodel.dart';
+import 'post_single_viewmodel.dart';
 import '../../models/post.dart';
 import '../pins_screen/pins_screen_view.dart';
 
-class PinSingleView extends StatefulWidget {
-  const PinSingleView(
+class PostSingleView extends StatefulWidget {
+  const PostSingleView(
       {super.key, required this.post, required this.urlController});
 
   final Post post;
   final TextEditingController urlController;
 
   @override
-  State<PinSingleView> createState() => _PinSingleViewState();
+  State<PostSingleView> createState() => _PostSingleViewState();
 }
 
-class _PinSingleViewState extends State<PinSingleView> {
+class _PostSingleViewState extends State<PostSingleView> {
   @override
   Widget build(BuildContext context) {
     FocusNode descriptionFocusNode = new FocusNode();
     FocusNode urlFocusNode = new FocusNode();
 
-    return ViewModelBuilder<PinSingleViewModel>.reactive(
-        viewModelBuilder: () => PinSingleViewModel(widget.post.id),
+    return ViewModelBuilder<PostSingleViewModel>.reactive(
+        viewModelBuilder: () => PostSingleViewModel(widget.post.id),
         builder: (context, model, _) => Scaffold(
             appBar: AppBar(
               title: Text(widget.post.description),
@@ -141,7 +141,7 @@ class _PinSingleViewState extends State<PinSingleView> {
             )));
   }
 
-  Future<void> _tryDelete(String id, PinSingleViewModel model) async {
+  Future<void> _tryDelete(String id, PostSingleViewModel model) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!

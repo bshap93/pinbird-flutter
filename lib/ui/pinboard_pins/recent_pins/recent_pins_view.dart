@@ -4,6 +4,7 @@ import 'package:stacked/stacked.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../models/pinboard_pin.dart';
+import '../../pinboard_pin/pinboard_pin_view.dart';
 
 // Line 53 and 90 have commented out yet important code.
 
@@ -42,8 +43,9 @@ class _RecentPinsViewState extends State<RecentPinsView> {
                       AsyncSnapshot<List<PinboardPin>> snapshot) {
                     if (!snapshot.hasData) {
                       // while data is loading:
+                      // ignore: prefer_const_constructors
                       return Center(
-                        child: CircularProgressIndicator(),
+                        child: const CircularProgressIndicator(),
                       );
                     } else if (snapshot.hasError) {
                       return _getInformationMessage(snapshot.error.toString());
@@ -51,6 +53,7 @@ class _RecentPinsViewState extends State<RecentPinsView> {
                     // data loaded:
                     var myRecentPosts = snapshot.data;
 
+                    // ignore: prefer_is_empty
                     if (myRecentPosts?.length == 0) {
                       return _getInformationMessage(
                           'No data found for your account. Add something and check back.');
@@ -61,50 +64,51 @@ class _RecentPinsViewState extends State<RecentPinsView> {
                       children: [
                         if (myRecentPosts!.isEmpty) _showEmptyPage(),
                         ...myRecentPosts.map((post) {
-                          TextEditingController _description_controller =
+                          TextEditingController description_controller =
                               TextEditingController(text: post.description);
                           return Card(
-                            child: ListTile(
-                              leading: IconButton(
-                                icon: const Icon(Icons.delete_outline_outlined),
-                                onPressed: () =>
-                                    {}, // _tryDelete(post.id, model),
-                              ),
-                              title: Column(
-                                children: [
-                                  TextField(
-                                    // See above
-                                    controller: _description_controller,
-                                    // ignore: deprecated_member_use
-                                    onTap: () => {
-                                      if (post.href == null)
-                                        {
-                                          // ignore: deprecated_member_use
-                                          launch("https://www.google.com"),
-                                        }
-                                      else
+                              child: ListTile(
+                            title: Column(
+                              children: [
+                                TextField(
+                                  // See above
+                                  controller: description_controller,
+                                  // ignore: deprecated_member_use
+                                  onTap: () => {
+                                    if (post.href == null)
+                                      {
                                         // ignore: deprecated_member_use
-                                        {launch("https://" + post.href)}
-                                    },
-                                    decoration: null,
-                                    focusNode: AlwaysDisabledFocusNode(),
-                                    maxLines: 2,
-                                    style: TextStyle(
-                                      color: Colors.blue,
-                                      fontSize: 20,
-                                    ),
+                                        launch("https://www.google.com"),
+                                      }
+                                    else
+                                      // ignore: deprecated_member_use
+                                      {launch("https://" + post.href)}
+                                  },
+                                  decoration: null,
+                                  focusNode: AlwaysDisabledFocusNode(),
+                                  maxLines: 2,
+                                  style: const TextStyle(
+                                    color: Colors.blue,
+                                    fontSize: 20,
                                   ),
-                                ],
-                              ),
-                              trailing: IconButton(
-                                  icon: Icon(
-                                    Icons.arrow_forward,
-                                  ),
-                                  // See below
-                                  onPressed: () => {}),
+                                ),
+                              ],
                             ),
-                          );
-                        }),
+                            // ignore: prefer_const_constructors
+                            trailing: IconButton(
+                              // ignore: prefer_const_constructors
+                              icon: Icon(
+                                Icons.arrow_forward,
+                              ),
+                              onPressed: () {},
+                              // onPressed: () => Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) => {},
+                              //             // PinboardPinView(post.href)))),
+                            ),
+                          ));
+                        })
                       ],
                     );
                   }));
