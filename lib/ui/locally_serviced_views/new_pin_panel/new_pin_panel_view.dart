@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
-import '../../models/tag.dart';
-import '../shared/dialogs.dart';
+import '../../../models/tag/tag.dart';
+import '../../shared/dialogs.dart';
 import 'new_pin_panel_viewmodel.dart';
 
 class NewPinPanel extends StatefulWidget {

@@ -2,8 +2,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:stacked/stacked.dart';
 import 'dart:math';
 
-import '../../models/post.dart';
-import '../../../models/tag.dart';
+import '../../models/post/post.dart';
+import '../../models/tag/tag.dart';
 
 class PostService with ReactiveServiceMixin {
   final _posts = ReactiveValue<List<Post>>(

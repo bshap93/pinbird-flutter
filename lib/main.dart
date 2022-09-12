@@ -1,16 +1,16 @@
 // Package Imports
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:pinboard_clone/models/post.dart';
-import 'package:pinboard_clone/models/tag.dart';
-import 'package:pinboard_clone/ui/login/login_view.dart';
-import 'package:pinboard_clone/ui/pins_screen/pins_screen_view.dart';
+import 'package:pinboard_clone/models/post/post.dart';
+import 'package:pinboard_clone/models/tag/tag.dart';
+import 'package:pinboard_clone/ui/api_serviced_views/login/login_view.dart';
+import 'package:pinboard_clone/ui/locally_serviced_views/pins_screen/pins_screen_view.dart';
 
 // Local Imports
 import 'app/locator.dart';
-import 'models/pinboard_pin.dart';
-import 'models/post.dart';
-import 'models/tag.dart';
+import 'models/pinboard_pin/pinboard_pin.dart';
+import 'models/post/post.dart';
+import 'models/tag/tag.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

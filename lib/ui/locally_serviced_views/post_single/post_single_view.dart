@@ -6,7 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
 
 import 'post_single_viewmodel.dart';
-import '../../models/post.dart';
+import '../../../models/post/post.dart';
 import '../pins_screen/pins_screen_view.dart';
 
 class PostSingleView extends StatefulWidget {

@@ -1,7 +1,7 @@
 import 'package:stacked/stacked.dart';
 
-import '../../models/post.dart';
-import '../../models/tag.dart';
+import '../../models/post/post.dart';
+import '../../models/tag/tag.dart';
 
 class Defaults {
   static Tag noneTag = Tag();

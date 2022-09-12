@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pinboard_clone/models/pinboard_pin.dart';
+import 'package:pinboard_clone/models/pinboard_pin/pinboard_pin.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../../app/locator.dart';

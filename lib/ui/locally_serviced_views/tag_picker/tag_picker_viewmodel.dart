@@ -1,9 +1,9 @@
-import 'package:pinboard_clone/services/reactive_services/tag.data.services.dart';
+import 'package:pinboard_clone/services/local_services/tag.data.services.dart';
 import 'package:stacked/stacked.dart';
 
-import '../../app/locator.dart';
-import '../../models/tag.dart';
-import '../../services/reactive_services/post.services.dart';
+import '../../../app/locator.dart';
+import '../../../models/tag/tag.dart';
+import '../../../services/local_services/post.services.dart';
 
 class TagPickerViewModel extends ReactiveViewModel {
   // pull in services via locator

@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:hive/hive.dart';
-import 'package:pinboard_clone/models/pinboard_pin.dart';
+import 'package:pinboard_clone/models/pinboard_pin/pinboard_pin.dart';
 import 'package:stacked/stacked.dart';
 
 class PinboardAPIService with ReactiveServiceMixin {

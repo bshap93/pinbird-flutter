@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pinboard_clone/ui/tag_picker/tag_picker.dart';
-import 'package:pinboard_clone/ui/tag_picker/tag_picker_viewmodel.dart';
+import 'package:pinboard_clone/ui/locally_serviced_views/tag_picker/tag_picker.dart';
+import 'package:pinboard_clone/ui/locally_serviced_views/tag_picker/tag_picker_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../models/tag.dart';
+import '../../../models/tag/tag.dart';
 import 'pins_screen_viewmodel.dart';
 
 // Local lib imports

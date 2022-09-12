@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
-import '../../app/locator.dart';
-import '../../models/post.dart';
-import '../../services/api_services/pin_services/pin.services.dart';
-import '../../services/reactive_services/post.services.dart';
+import '../../../app/locator.dart';
+import '../../../models/post/post.dart';
+import '../../../services/api_services/pin_services/pin.services.dart';
+import '../../../services/local_services/post.services.dart';
 
 class PinViewModel extends ReactiveViewModel {
   final String _id;

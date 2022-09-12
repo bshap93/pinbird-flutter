@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_picker/Picker.dart';
 import 'package:stacked/stacked.dart';
 
-import '../../models/tag.dart';
+import '../../../models/tag/tag.dart';
 import './tag_picker_viewmodel.dart';
 
 class TagPicker extends StatelessWidget {

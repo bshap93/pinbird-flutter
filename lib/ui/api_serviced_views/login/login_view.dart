@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pinboard_clone/ui/pinboard_pins/recent_pins/recent_pins_view.dart';
+import 'package:pinboard_clone/ui/api_serviced_views/recent_pins/recent_pins_view.dart';
 import 'package:stacked/stacked.dart';
 // project files
-import '../shared/dialogs.dart';
-import '../shared/styles.dart';
+import '../../shared/dialogs.dart';
+import '../../shared/styles.dart';
 import 'login_viewmodel.dart';
 
 class LoginView extends StatefulWidget {

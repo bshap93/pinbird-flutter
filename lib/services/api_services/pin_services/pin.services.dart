@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:hive/hive.dart';
-import 'package:pinboard_clone/models/pinboard_pin.dart';
+import 'package:pinboard_clone/models/pinboard_pin/pinboard_pin.dart';
 import 'package:pinboard_clone/services/api_services/pinboard_api.services.dart';
 import 'package:stacked/stacked.dart';
 

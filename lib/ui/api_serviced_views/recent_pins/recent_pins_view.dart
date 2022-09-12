@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:pinboard_clone/ui/pinboard_pins/recent_pins/recent_pins_viewmodel.dart';
+import 'package:pinboard_clone/ui/api_serviced_views/recent_pins/recent_pins_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../models/pinboard_pin.dart';
-import '../../pinboard_pin/pinboard_pin_view.dart';
+import '../../../models/pinboard_pin/pinboard_pin.dart';
+import '../pinboard_pin/pinboard_pin_view.dart';
 
 // Line 53 and 90 have commented out yet important code.
 

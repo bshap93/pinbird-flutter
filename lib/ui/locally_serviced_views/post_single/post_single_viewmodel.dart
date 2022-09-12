@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
-import '../../app/locator.dart';
-import '../../models/post.dart';
-import '../../services/reactive_services/post.services.dart';
+import '../../../app/locator.dart';
+import '../../../models/post/post.dart';
+import '../../../services/local_services/post.services.dart';
 
 class PostSingleViewModel extends ReactiveViewModel {
   final String _id;
