@@ -23,6 +23,19 @@ class _PinSingleViewState extends State<PinSingleView> {
               title: Text(widget.pin.description),
               actions: <Widget>[],
             ),
-            body: Container()));
+            body: ListView(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              children: [...createListTilesForProperties()],
+            )));
+  }
+
+  List<Widget> createListTilesForProperties() {
+    final mapOfProps = widget.pin.toJson();
+    final listTileList = <ListTile>[];
+
+    for (var key in mapOfProps.keys) {
+      listTileList.add(ListTile(title: Text("$key equals ${mapOfProps[key]}")));
+    }
+    return listTileList;
   }
 }
