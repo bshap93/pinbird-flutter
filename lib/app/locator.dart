@@ -1,7 +1,7 @@
 import 'package:get_it/get_it.dart';
 
 import '../services/api_services/pin_services/pin.services.dart';
-import '../services/api_services/pinboard_api.services.dart';
+import '../services/api_services/pin_services/pinboard_api.services.dart';
 import '../services/local_services/post.services.dart';
 import '../services/local_services/tag.data.services.dart';
 // internal files

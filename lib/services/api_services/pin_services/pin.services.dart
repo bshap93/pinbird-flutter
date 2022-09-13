@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:hive/hive.dart';
 import 'package:pinboard_clone/models/pinboard_pin/pinboard_pin.dart';
-import 'package:pinboard_clone/services/api_services/pinboard_api.services.dart';
+import 'package:pinboard_clone/services/api_services/pin_services/pinboard_api.services.dart';
 import 'package:stacked/stacked.dart';
 
 class PinService extends PinboardAPIService {
@@ -31,18 +31,7 @@ class PinService extends PinboardAPIService {
 
       print(resp.data);
     } on DioError catch (e) {
-      // The request was made and the server responded with a status code
-      // that falls out of the range of 2xx and is also not 304.
-      if (e.response != null) {
-        print('Dio error!');
-        print('STATUS: ${e.response?.statusCode}');
-        print('DATA: ${e.response?.data}');
-        print('HEADERS: ${e.response?.headers}');
-      } else {
-        // Error due to setting up or sending the request
-        print('Error sending request!');
-        print(e.message);
-      }
+      logErrors(e);
     }
   }
 
@@ -52,27 +41,45 @@ class PinService extends PinboardAPIService {
     try {
       Response pinboardPinData = await dioClient
           .get(baseUrl + '/posts/recent' + getAuthAppendage(apiToken));
-      print('Pinboard pins: ${pinboardPinData.data["posts"]}');
+      // print('Pinboard pins: ${pinboardPinData.data["posts"]}');
       for (var _pinboardPin in pinboardPinData.data["posts"]) {
         PinboardPin p = PinboardPin.fromJson(_pinboardPin);
         results.add(p);
       }
       notifyListeners();
     } on DioError catch (e) {
-      // The request was made and the server responded with a status code
-      // that falls out of the range of 2xx and is also not 304.
-      if (e.response != null) {
-        print('Dio error!');
-        print('STATUS: ${e.response?.statusCode}');
-        print('DATA: ${e.response?.data}');
-        print('HEADERS: ${e.response?.headers}');
-      } else {
-        // Error due to setting up or sending the request
-        print('Error sending request!');
-        print(e.message);
-      }
+      logErrors(e);
     }
 
     return results;
+  }
+
+  Future<PinboardPin> dioGetPin(String url) async {
+    // Perform GET request to the endpoint "/users/<id>"
+    Map<String, dynamic> params = {};
+    late final PinboardPin result;
+
+    params["url"] = Uri.encodeComponent(url);
+    Response pinboardPinData =
+        await dioClient.get(baseUrl + '/posts/get' + getFullAppendage(params));
+
+    List<PinboardPin> results = <PinboardPin>[];
+    // Prints the raw data returned by the server
+    print('Pinboard pins: ${pinboardPinData.data}');
+
+    // Parsing the raw JSON data to the User class
+    // If there are multiple pins with the same URL, only the first
+    // will be returned.
+    List posts = pinboardPinData.data["posts"];
+
+    try {
+      result = PinboardPin.fromJson(posts.first);
+    } catch (e) {
+      throw Exception("Response could not be parsed");
+    }
+
+    notifyListeners();
+
+    return result;
   }
 }

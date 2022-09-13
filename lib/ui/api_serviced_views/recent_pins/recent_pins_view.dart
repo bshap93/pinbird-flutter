@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pinboard_clone/ui/api_serviced_views/recent_pins/recent_pins_viewmodel.dart';
 import 'package:stacked/stacked.dart';
-import 'package:test_api/expect.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../models/pinboard_pin/pinboard_pin.dart';
-import '../pinboard_pin/pinboard_pin_view.dart';
 
 // Line 53 and 90 have commented out yet important code.
 
@@ -40,15 +38,6 @@ class _RecentPinsViewState extends State<RecentPinsView> {
   // persist URL state across views
   List<PinboardPin> myRecentPosts = [];
   // Create a Picker object to filter by tags
-
-  void failWithSnackBar(context, message) {
-    Navigator.pop(context);
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(message)));
-
-    return;
-  }
-
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<RecentPinsViewModel>.reactive(
@@ -61,7 +50,7 @@ class _RecentPinsViewState extends State<RecentPinsView> {
                 DrawerHeader(
                     decoration: BoxDecoration(
                         color: ThemeData.dark().colorScheme.background),
-                    child: Text('Pinboard Pages')),
+                    child: const Text('Pinboard Pages')),
                 ListTile(
                   title: const Text('Logout'),
                   onTap: () {
@@ -140,7 +129,8 @@ class _RecentPinsViewState extends State<RecentPinsView> {
                               icon: Icon(
                                 Icons.arrow_forward,
                               ),
-                              onPressed: () {},
+                              onPressed: () =>
+                                  model.startGet(post.href, context),
                               // onPressed: () => Navigator.push(
                               //     context,
                               //     MaterialPageRoute(

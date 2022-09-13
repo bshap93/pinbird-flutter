@@ -7,14 +7,14 @@ import '../../../services/api_services/pin_services/pin.services.dart';
 import '../../../services/local_services/post.services.dart';
 
 class PinViewModel extends ReactiveViewModel {
-  final String _id;
+  final String url;
 
   final _firstPinFocusNode = FocusNode();
   final _pinService = locator<PinService>();
   // late final removePin = _pinDataService.removePost;
   // late final updatePinDataContent = _pinDataService.updatePinDataContent;
 
-  PinViewModel(this._id);
+  PinViewModel(this.url);
 
   // List<Post> get posts => _pinService.;
 
