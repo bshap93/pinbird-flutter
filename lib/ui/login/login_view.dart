@@ -24,7 +24,7 @@ class _LoginViewState extends State<LoginView> {
         viewModelBuilder: () => LoginViewModel(),
         builder: (context, model, _) => Scaffold(
               appBar: AppBar(
-                  title: Text("Login to Pinboard"),
+                  title: Text("Login via Pinboard"),
                   leading: IconButton(
                       onPressed: () => {},
                       icon: const Icon(
