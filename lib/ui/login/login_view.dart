@@ -24,9 +24,13 @@ class _LoginViewState extends State<LoginView> {
         viewModelBuilder: () => LoginViewModel(),
         builder: (context, model, _) => Scaffold(
               appBar: AppBar(
-                title: Text("Login"),
-                actions: <Widget>[],
-              ),
+                  title: Text("Login to Pinboard"),
+                  leading: IconButton(
+                      onPressed: () => {},
+                      icon: const Icon(
+                        Icons.question_mark,
+                        color: Colors.white,
+                      ))),
               body: Container(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),

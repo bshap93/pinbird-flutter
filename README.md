@@ -15,3 +15,5 @@ To run the app in debug mode:
 - Run From the terminal: Run `flutter pub get`.
 - Open mobile emulator or desired target device.
 - Run `flutter run`.
+
+The release version will be on the app store and most easily intalled that way. The above directions are for developers who wish to run the app locally to try it out or contribute to the project.

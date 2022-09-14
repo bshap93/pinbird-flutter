@@ -4,6 +4,7 @@ import 'package:stacked/stacked.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../models/pinboard_pin/pinboard_pin.dart';
+import '../../shared/formatter.dart';
 
 // Line 53 and 90 have commented out yet important code.
 
@@ -64,7 +65,9 @@ class _RecentPinsViewState extends State<RecentPinsView> {
               ])),
               appBar: AppBar(
                 title: Text("Recent Pins"),
-                actions: <Widget>[],
+                actions: <Widget>[
+                  // TODO
+                ],
               ),
               body: FutureBuilder(
                   future: model.recent_pins,
@@ -92,9 +95,9 @@ class _RecentPinsViewState extends State<RecentPinsView> {
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       children: [
                         if (myRecentPosts!.isEmpty) _showEmptyPage(),
-                        ...myRecentPosts.map((post) {
+                        ...myRecentPosts.map((pin) {
                           TextEditingController description_controller =
-                              TextEditingController(text: post.description);
+                              TextEditingController(text: pin.description);
                           return Card(
                               child: ListTile(
                             title: Column(
@@ -104,14 +107,14 @@ class _RecentPinsViewState extends State<RecentPinsView> {
                                   controller: description_controller,
                                   // ignore: deprecated_member_use
                                   onTap: () => {
-                                    if (post.href == null)
+                                    if (pin.href == null)
                                       {
                                         // ignore: deprecated_member_use
                                         launch("https://www.google.com"),
                                       }
                                     else
                                       // ignore: deprecated_member_use
-                                      {launch("https://" + post.href)}
+                                      {launch("https://" + pin.href)}
                                   },
                                   decoration: null,
                                   focusNode: AlwaysDisabledFocusNode(),
@@ -121,6 +124,19 @@ class _RecentPinsViewState extends State<RecentPinsView> {
                                     fontSize: 20,
                                   ),
                                 ),
+                                Padding(padding: EdgeInsets.all(2.0)),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Created ${Formatter.formatDate(pin.time)}",
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  ],
+                                ),
+                                // don't waste space if there aren't tags
+                                Formatter.ifShowTags(pin.tags),
+                                Padding(padding: EdgeInsets.all(2.0)),
                               ],
                             ),
                             // ignore: prefer_const_constructors
@@ -130,7 +146,7 @@ class _RecentPinsViewState extends State<RecentPinsView> {
                                 Icons.arrow_forward,
                               ),
                               onPressed: () =>
-                                  model.startGet(post.href, context),
+                                  model.startGet(pin.href, context),
                               // onPressed: () => Navigator.push(
                               //     context,
                               //     MaterialPageRoute(
