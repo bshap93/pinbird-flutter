@@ -16,7 +16,7 @@ class Formatter {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text(
-            "Tags ${tags}",
+            "Tags: ${tags}",
             textAlign: TextAlign.left,
           ),
         ],
@@ -25,4 +25,6 @@ class Formatter {
       return Padding(padding: EdgeInsets.zero);
     }
   }
+
+  // internal functions
 }
