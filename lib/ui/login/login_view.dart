@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:pinboard_clone/ui/api_serviced_views/recent_pins/recent_pins_view.dart';
 import 'package:stacked/stacked.dart';
 // project files
-import '../../shared/dialogs.dart';
-import '../../shared/styles.dart';
+import '../locally_serviced_views/local_pins_screen/pins_screen_view.dart';
+import '../shared/dialogs.dart';
+import '../shared/styles.dart';
 import 'login_viewmodel.dart';
 
 class LoginView extends StatefulWidget {
@@ -53,6 +54,13 @@ class _LoginViewState extends State<LoginView> {
                               }
                             },
                             child: Text('Submit')),
+                        TextButton(
+                          child: Text('Or Continue with Only Local Data'),
+                          onPressed: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PinsScreenView())),
+                        )
                       ],
                     ),
                   ),

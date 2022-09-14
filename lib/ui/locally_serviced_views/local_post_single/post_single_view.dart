@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 
 import 'post_single_viewmodel.dart';
 import '../../../models/post/post.dart';
-import '../pins_screen/pins_screen_view.dart';
+import '../local_pins_screen/pins_screen_view.dart';
 
 class PostSingleView extends StatefulWidget {
   const PostSingleView(

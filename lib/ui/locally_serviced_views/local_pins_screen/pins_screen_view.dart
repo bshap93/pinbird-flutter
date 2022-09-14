@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:pinboard_clone/ui/locally_serviced_views/tag_picker/tag_picker.dart';
-import 'package:pinboard_clone/ui/locally_serviced_views/tag_picker/tag_picker_viewmodel.dart';
+import 'package:pinboard_clone/ui/locally_serviced_views/local_tag_picker/tag_picker.dart';
+import 'package:pinboard_clone/ui/locally_serviced_views/local_tag_picker/tag_picker_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../models/tag/tag.dart';
 import 'pins_screen_viewmodel.dart';
 
 // Local lib imports
-import '../new_pin_panel/new_pin_panel_view.dart';
-import '../post_single/post_single_view.dart';
+import '../local_new_pin_panel/new_pin_panel_view.dart';
+import '../local_post_single/post_single_view.dart';
 import './pins_screen_viewmodel.dart';
 
 class PinsScreenView extends StatefulWidget {
@@ -31,11 +31,29 @@ class _PinsScreenViewState extends State<PinsScreenView> {
       builder: (context, model, _) {
         Tag noneTag = model.getTagByName("None");
         return Scaffold(
+          drawer: Drawer(
+              child: ListView(padding: EdgeInsets.zero, children: [
+            DrawerHeader(
+                decoration: BoxDecoration(
+                    color: ThemeData.dark().colorScheme.background),
+                child: const Text('Local Pin Pages')),
+            ListTile(
+              title: const Text('Login to Pinboard'),
+              onTap: () {
+                // Pop back to login page
+                Navigator.pop(context);
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: const Text('Pick a Tag to Filter By'),
+              onTap: () {
+                // Pop back to login page
+                TagPicker().showPickerModal(context, tpvm);
+              },
+            ),
+          ])),
           appBar: AppBar(
-              leading: IconButton(
-                onPressed: () => {TagPicker().showPickerModal(context, tpvm)},
-                icon: Icon(Icons.tag_rounded),
-              ),
               title: (model.currentTag.tag == "None")
                   ? const Text('All Pins')
                   : Text(model.currentTag.tag)),
