@@ -36,7 +36,7 @@ class PinService extends PinboardAPIService {
     }
   }
 
-  Future<List<PinboardPin>> dioGetRecentPins() async {
+  Future<List<PinboardPin>> testRequest() async {
     List<PinboardPin> results = <PinboardPin>[];
     // Perform GET request to the endpoint "/users/<id>"
     try {

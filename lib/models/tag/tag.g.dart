@@ -18,15 +18,18 @@ class TagAdapter extends TypeAdapter<Tag> {
     };
     return Tag(
       tag: fields[0] as String,
+      count: fields[1] as int,
     );
   }
 
   @override
   void write(BinaryWriter writer, Tag obj) {
     writer
-      ..writeByte(1)
+      ..writeByte(2)
       ..writeByte(0)
-      ..write(obj.tag);
+      ..write(obj.tag)
+      ..writeByte(1)
+      ..write(obj.count);
   }
 
   @override

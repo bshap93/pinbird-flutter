@@ -18,7 +18,7 @@ class PinboardAPIService with ReactiveServiceMixin {
 
   Future<bool> validateApiToken(String apiTok) async {
     try {
-      dioGetRecentPins().then((pins) {
+      testRequest().then((pins) {
         return true;
       });
     } catch (e) {
@@ -85,7 +85,7 @@ class PinboardAPIService with ReactiveServiceMixin {
     return fullAppendage.toString();
   }
 
-  Future<List<PinboardPin>> dioGetRecentPins() async {
+  Future<List<PinboardPin>> testRequest() async {
     // Perform GET request to the endpoint "/users/<id>"
     Response pinboardPinData = await dioClient
         .get(baseUrl + '/posts/recent' + getAuthAppendage(apiToken));
