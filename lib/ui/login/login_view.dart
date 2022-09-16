@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pinboard_clone/ui/api_serviced_views/recent_pins/recent_pins_view.dart';
+import 'package:pinboard_clone/ui/api_serviced_views/pins_list/pins_list_view.dart';
 import 'package:stacked/stacked.dart';
 // project files
 import '../locally_serviced_views/local_pins_screen/pins_screen_view.dart';
@@ -78,6 +78,6 @@ class _LoginViewState extends State<LoginView> {
     model.startLogin(enteredToken);
     print("Login started");
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => RecentPinsView()));
+        context, MaterialPageRoute(builder: (context) => PinsListView()));
   }
 }

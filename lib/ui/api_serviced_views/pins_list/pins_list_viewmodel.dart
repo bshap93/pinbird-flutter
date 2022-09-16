@@ -4,10 +4,10 @@ import 'package:pinboard_clone/ui/api_serviced_views/pin_single/pin_single.dart'
 import 'package:stacked/stacked.dart';
 
 import '../../../app/locator.dart';
-import '../../../services/api_services/pin_services/pin.services.dart';
-import '../../../services/api_services/pin_services/pinboard_api.services.dart';
+import '../../../services/pin/pin.services.dart';
+import '../../../services/api/api.services.dart';
 
-class RecentPinsViewModel extends ReactiveViewModel {
+class PinsListViewModel extends ReactiveViewModel {
   final _firstPinFocusNode = FocusNode();
   // pull in services via locator
   final _pinboardPinsService = locator<PinService>();

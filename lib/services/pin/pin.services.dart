@@ -1,8 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:hive/hive.dart';
 import 'package:pinboard_clone/models/pinboard_pin/pinboard_pin.dart';
-import 'package:pinboard_clone/services/api_services/pin_services/pinboard_api.services.dart';
 import 'package:stacked/stacked.dart';
+
+import '../api/api.services.dart';
 
 class PinService extends PinboardAPIService {
   // Local storage from Hive to match with remote data from Pinboard

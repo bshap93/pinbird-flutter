@@ -3,7 +3,7 @@ import 'package:stacked/stacked.dart';
 
 import '../../../app/locator.dart';
 import '../../../models/post/post.dart';
-import '../../../services/local_services/post.services.dart';
+import '../../../services/pin/post.services.dart';
 
 class PostSingleViewModel extends ReactiveViewModel {
   final String _id;

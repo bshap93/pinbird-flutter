@@ -17,3 +17,8 @@ To run the app in debug mode:
 - Run `flutter run`.
 
 The release version will be on the app store and most easily intalled that way. The above directions are for developers who wish to run the app locally to try it out or contribute to the project.
+
+TODO
+Create Tag Service
+Filter by Tag
+Text Tag Search
