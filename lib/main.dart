@@ -1,15 +1,12 @@
 // Package Imports
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:pinboard_clone/models/post/post.dart';
 import 'package:pinboard_clone/models/tag/tag.dart';
 import 'package:pinboard_clone/ui/login/login_view.dart';
-import 'package:pinboard_clone/ui/locally_serviced_views/local_pins_screen/pins_screen_view.dart';
 
 // Local Imports
 import 'app/locator.dart';
 import 'models/pinboard_pin/pinboard_pin.dart';
-import 'models/post/post.dart';
 import 'models/tag/tag.dart';
 
 void main() async {
@@ -50,8 +47,6 @@ Future<bool> HiveInit() async {
   Hive.registerAdapter(TagAdapter());
   await Hive.openBox('tags');
   await Hive.openBox('current_tag');
-  Hive.registerAdapter(PostAdapter());
-  await Hive.openBox('posts');
   Hive.registerAdapter(PinboardPinAdapter());
   await Hive.openBox('pinboard_pins');
 

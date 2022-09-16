@@ -1,12 +1,9 @@
 import 'package:stacked/stacked.dart';
 
-import '../../models/post/post.dart';
 import '../../models/tag/tag.dart';
 
 class Defaults {
-  static Tag noneTag = Tag();
-
-  static Post nonePost = Post(id: "None", description: "None", tag: noneTag);
+  static Tag noneTag = Tag(count: 0);
 }
 
 // think of this class as part of Defaults type

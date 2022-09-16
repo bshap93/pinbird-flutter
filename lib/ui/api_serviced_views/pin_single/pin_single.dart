@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../../models/pinboard_pin/pinboard_pin.dart';
-import '../../locally_serviced_views/local_pins_screen/pins_screen_view.dart';
 import '../../shared/formatter.dart';
 import 'pin_single_viewmodel.dart';
 
@@ -81,4 +80,9 @@ class _PinSingleViewState extends State<PinSingleView> {
     }
     return listTileList;
   }
+}
+
+class AlwaysDisabledFocusNode extends FocusNode {
+  @override
+  bool get hasFocus => false;
 }

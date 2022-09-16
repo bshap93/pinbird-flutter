@@ -1,9 +1,10 @@
+import 'package:pinboard_clone/services/tag/tag_api.services.dart';
 import 'package:stacked/stacked.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../models/tag/tag.dart';
 
-class TagService with ReactiveServiceMixin {
+class TagService extends TagAPIService {
   final _tags = ReactiveValue<List<Tag>>(
     Hive.box('tags').get('tags', defaultValue: []).cast<Tag>(),
   );
@@ -12,7 +13,15 @@ class TagService with ReactiveServiceMixin {
     Hive.box('current_tag').get('current_tag', defaultValue: Tag(tag: "None")),
   );
 
-  List<Tag> get tags => _tags.value;
+  List<Tag> get tags {
+    List<Tag> result = [];
+    if (_tags.value.isNotEmpty) {
+      return _tags.value;
+    } else {
+      dioGetTags().then((value) => result = value);
+      return result;
+    }
+  }
 
   Tag get currentTag => _currentTag.value;
 

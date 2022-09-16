@@ -6,8 +6,14 @@ class TagAPIService extends PinboardAPIService {
   List<Tag> results = <Tag>[];
   Future<List<Tag>> dioGetTags() async {
     try {
-      Response resp = await dioClient
+      Response tagData = await dioClient
           .get(baseUrl + '/tags/get' + getAuthAppendage(apiToken));
+
+      for (var _tag in tagData.data["posts"]) {
+        Tag p = Tag.fromJson(_tag);
+        results.add(p);
+      }
+      notifyListeners();
     } on DioError catch (e) {
       logErrors(e);
     }

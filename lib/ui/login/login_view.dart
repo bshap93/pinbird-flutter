@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:pinboard_clone/ui/api_serviced_views/pins_list/pins_list_view.dart';
 import 'package:stacked/stacked.dart';
 // project files
-import '../locally_serviced_views/local_pins_screen/pins_screen_view.dart';
 import '../shared/dialogs.dart';
 import '../shared/styles.dart';
 import 'login_viewmodel.dart';
@@ -58,13 +57,13 @@ class _LoginViewState extends State<LoginView> {
                               }
                             },
                             child: Text('Submit')),
-                        TextButton(
-                          child: Text('Or Continue with Only Local Data'),
-                          onPressed: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => PinsScreenView())),
-                        )
+                        // TextButton(
+                        //   child: Text('Or Continue with Only Local Data'),
+                        //   onPressed: () => Navigator.push(
+                        //       context,
+                        //       MaterialPageRoute(
+                        //           builder: (context) => PinsScreenView())),
+                        // )
                       ],
                     ),
                   ),
