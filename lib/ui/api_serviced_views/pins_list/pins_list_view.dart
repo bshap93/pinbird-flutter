@@ -35,7 +35,10 @@ class _PinsListViewState extends State<PinsListView> {
         drawer: mainDrawer(model, context),
         appBar: AppBar(
           title: Text(title),
-          actions: <Widget>[],
+          actions: <Widget>[
+            IconButton(
+                onPressed: () => dispalyTags(model), icon: Icon(Icons.apple)),
+          ],
         ),
         body: pinsListFutureBuilder(model));
   }
@@ -69,15 +72,17 @@ class _PinsListViewState extends State<PinsListView> {
             children: [
               if (myRecentPosts!.isEmpty) _showEmptyPage(),
               ...myRecentPosts.map((pin) {
-                TextEditingController description_controller =
+                TextEditingController descriptionController =
                     TextEditingController(text: pin.description);
                 return Card(
                     child: ListTile(
                   title: Column(
                     children: [
                       TextField(
+                        // within tile links themselves should not be scrollable
+                        scrollPhysics: const NeverScrollableScrollPhysics(),
                         // See above
-                        controller: description_controller,
+                        controller: descriptionController,
                         // ignore: deprecated_member_use
                         onTap: () => {
                           if (pin.href == null)
@@ -87,7 +92,7 @@ class _PinsListViewState extends State<PinsListView> {
                             }
                           else
                             // ignore: deprecated_member_use
-                            {launch("https://" + pin.href)}
+                            {launch("https://${pin.href}")}
                         },
                         decoration: null,
                         focusNode: AlwaysDisabledFocusNode(),
@@ -97,7 +102,7 @@ class _PinsListViewState extends State<PinsListView> {
                           fontSize: 20,
                         ),
                       ),
-                      Padding(padding: EdgeInsets.all(2.0)),
+                      const Padding(padding: EdgeInsets.all(2.0)),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -109,7 +114,7 @@ class _PinsListViewState extends State<PinsListView> {
                       ),
                       // don't waste space if there aren't tags
                       Formatter.ifShowTags(pin.tags),
-                      Padding(padding: EdgeInsets.all(2.0)),
+                      const Padding(padding: EdgeInsets.all(2.0)),
                     ],
                   ),
                   // ignore: prefer_const_constructors
@@ -185,6 +190,41 @@ class _PinsListViewState extends State<PinsListView> {
             child: Text("Return to Login")),
       ],
     );
+  }
+
+  dispalyTags(PinsListViewModel model) {
+    return showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return FutureBuilder(
+              future: model.tags,
+              builder: ((context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                } else if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.hasError) {
+                    return _getInformationMessage(snapshot.error.toString());
+                  } else if (snapshot.hasData) {
+                    return Container(
+                        color: Theme.of(context).backgroundColor,
+                        child: Center(
+                            child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(snapshot.data.toString(),
+                                style: const TextStyle(
+                                    color: Colors.cyan, fontSize: 36))
+                          ],
+                        )));
+                  } else {
+                    return const Text('Empty data');
+                  }
+                } else {
+                  return Text('State: ${snapshot.connectionState}');
+                }
+              }));
+        });
   }
 }
 

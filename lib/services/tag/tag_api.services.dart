@@ -9,7 +9,9 @@ class TagAPIService extends PinboardAPIService {
       Response tagData = await dioClient
           .get(baseUrl + '/tags/get' + getAuthAppendage(apiToken));
 
-      for (var _tag in tagData.data["posts"]) {
+      print(tagData.data.toString());
+
+      for (var _tag in tagData.data) {
         Tag p = Tag.fromJson(_tag);
         results.add(p);
       }

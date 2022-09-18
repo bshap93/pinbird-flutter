@@ -21,7 +21,7 @@ class PinsListViewModel extends ReactiveViewModel {
   Future<List<PinboardPin>> get recent_pins =>
       _pinboardPinsService.testRequest();
 
-  List<Tag> get tags => _tagsService.tags;
+  Future<List<Tag>> get tags => _tagsService.tags;
 
   @override
   List<ReactiveServiceMixin> get reactiveServices => [_pinboardPinsService];

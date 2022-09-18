@@ -13,13 +13,12 @@ class TagService extends TagAPIService {
     Hive.box('current_tag').get('current_tag', defaultValue: Tag(tag: "None")),
   );
 
-  List<Tag> get tags {
+  Future<List<Tag>> get tags async {
     List<Tag> result = [];
     if (_tags.value.isNotEmpty) {
       return _tags.value;
     } else {
-      dioGetTags().then((value) => result = value);
-      return result;
+      return await dioGetTags();
     }
   }
 
