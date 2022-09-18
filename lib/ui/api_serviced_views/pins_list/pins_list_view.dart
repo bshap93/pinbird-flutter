@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:pinboard_clone/ui/api_serviced_views/pins_list/pin_card.dart';
 import 'package:pinboard_clone/ui/api_serviced_views/pins_list/pins_list_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -74,58 +77,10 @@ class _PinsListViewState extends State<PinsListView> {
               ...myRecentPosts.map((pin) {
                 TextEditingController descriptionController =
                     TextEditingController(text: pin.description);
-                return Card(
-                    child: ListTile(
-                  title: Column(
-                    children: [
-                      TextField(
-                        // within tile links themselves should not be scrollable
-                        scrollPhysics: const NeverScrollableScrollPhysics(),
-                        // See above
-                        controller: descriptionController,
-                        // ignore: deprecated_member_use
-                        onTap: () => {
-                          if (pin.href == null)
-                            {
-                              // ignore: deprecated_member_use
-                              launch("https://www.google.com"),
-                            }
-                          else
-                            // ignore: deprecated_member_use
-                            {launch("https://${pin.href}")}
-                        },
-                        decoration: null,
-                        focusNode: AlwaysDisabledFocusNode(),
-                        maxLines: 2,
-                        style: const TextStyle(
-                          color: Colors.blue,
-                          fontSize: 20,
-                        ),
-                      ),
-                      const Padding(padding: EdgeInsets.all(2.0)),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Created ${Formatter.formatDate(pin.time)}",
-                            textAlign: TextAlign.left,
-                          ),
-                        ],
-                      ),
-                      // don't waste space if there aren't tags
-                      Formatter.ifShowTags(pin.tags),
-                      const Padding(padding: EdgeInsets.all(2.0)),
-                    ],
-                  ),
-                  // ignore: prefer_const_constructors
-                  trailing: IconButton(
-                    // ignore: prefer_const_constructors
-                    icon: Icon(
-                      Icons.arrow_forward,
-                    ),
-                    onPressed: () => model.startGet(pin.href, context),
-                  ),
-                ));
+                return PinCard(
+                    pin: pin,
+                    model: model,
+                    descriptionController: descriptionController);
               })
             ],
           );
@@ -226,9 +181,4 @@ class _PinsListViewState extends State<PinsListView> {
               }));
         });
   }
-}
-
-class AlwaysDisabledFocusNode extends FocusNode {
-  @override
-  bool get hasFocus => false;
 }
