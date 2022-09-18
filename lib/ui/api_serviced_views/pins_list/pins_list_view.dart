@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:pinboard_clone/ui/api_serviced_views/pins_list/pin_card.dart';
 import 'package:pinboard_clone/ui/api_serviced_views/pins_list/pins_list_viewmodel.dart';
@@ -70,19 +68,26 @@ class _PinsListViewState extends State<PinsListView> {
                 'No data found for your account. Add something and check back.');
           }
 
-          return ListView(
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            children: [
-              if (myRecentPosts!.isEmpty) _showEmptyPage(),
-              ...myRecentPosts.map((pin) {
-                TextEditingController descriptionController =
-                    TextEditingController(text: pin.description);
-                return PinCard(
-                    pin: pin,
-                    model: model,
-                    descriptionController: descriptionController);
-              })
-            ],
+          return NotificationListener<ScrollEndNotification>(
+            child: ListView(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              children: [
+                if (myRecentPosts!.isEmpty) _showEmptyPage(),
+                ...myRecentPosts.map((pin) {
+                  TextEditingController descriptionController =
+                      TextEditingController(text: pin.description);
+                  return PinCard(
+                      pin: pin,
+                      model: model,
+                      descriptionController: descriptionController);
+                })
+              ],
+            ),
+            onNotification: (notification) {
+              print(notification.metrics.pixels);
+              model.addRecentPins(15);
+              return true;
+            },
           );
         });
   }

@@ -36,23 +36,23 @@ class PinService extends PinboardAPIService {
     }
   }
 
-  Future<List<PinboardPin>> testRequest() async {
-    List<PinboardPin> results = <PinboardPin>[];
+  Future<List<PinboardPin>> getRecentPins({int count = 15}) async {
+    List<PinboardPin> pinboardPinList = <PinboardPin>[];
     // Perform GET request to the endpoint "/users/<id>"
     try {
-      Response pinboardPinData = await dioClient
-          .get(baseUrl + '/posts/recent' + getAuthAppendage(apiToken));
+      Response pinboardPinData = await dioClient.get(
+          '$baseUrl/posts/recent${getAuthAppendage(apiToken)}&count=$count');
       // print('Pinboard pins: ${pinboardPinData.data["posts"]}');
-      for (var _pinboardPin in pinboardPinData.data["posts"]) {
-        PinboardPin p = PinboardPin.fromJson(_pinboardPin);
-        results.add(p);
+      for (var pinboardPin in pinboardPinData.data["posts"]) {
+        PinboardPin myPin = PinboardPin.fromJson(pinboardPin);
+        pinboardPinList.add(myPin);
       }
       notifyListeners();
     } on DioError catch (e) {
       logErrors(e);
     }
 
-    return results;
+    return pinboardPinList;
   }
 
   Future<PinboardPin> dioGetPin(String url) async {

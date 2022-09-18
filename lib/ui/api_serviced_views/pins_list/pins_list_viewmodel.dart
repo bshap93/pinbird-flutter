@@ -15,11 +15,14 @@ class PinsListViewModel extends ReactiveViewModel {
   final _tagsService = locator<TagService>();
   late final logout = _pinboardPinsService.logout;
   late final dioGetPin = _pinboardPinsService.dioGetPin;
+  late final getRecentPins = _pinboardPinsService.getRecentPins;
+
+  var count = 15;
 
   // pull in service methods view ViewModel
   // getters for pin and tag
   Future<List<PinboardPin>> get recent_pins =>
-      _pinboardPinsService.testRequest();
+      _pinboardPinsService.getRecentPins(count: count);
 
   Future<List<Tag>> get tags => _tagsService.tags;
 
@@ -34,5 +37,10 @@ class PinsListViewModel extends ReactiveViewModel {
         context,
         MaterialPageRoute(
             builder: (context) => PinSingleView(pin: pinboardPin)));
+  }
+
+  void addRecentPins(int i) {
+    count += i;
+    getRecentPins(count: count);
   }
 }
