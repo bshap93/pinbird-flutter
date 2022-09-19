@@ -118,9 +118,9 @@ class _PinsListViewState extends State<PinsListView> {
         },
       ),
       ListTile(
-          // TODO dropdown
-          // DropdownButton<String>(value: "Choose a Tag", onChanged: (_) => {}),
-          ),
+          title: DropdownButtonFormField(
+              items: [DropdownMenuItem<String>(child: Text("test"))],
+              onChanged: (value) => model.setCurrentTag(value.toString())))
     ]));
   }
 

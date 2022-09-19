@@ -16,6 +16,7 @@ class PinsListViewModel extends ReactiveViewModel {
   late final logout = _pinboardPinsService.logout;
   late final dioGetPin = _pinboardPinsService.dioGetPin;
   late final getRecentPins = _pinboardPinsService.getRecentPins;
+  late final setCurrentTag = _tagsService.setCurrentTag;
 
   var count = 15;
 
