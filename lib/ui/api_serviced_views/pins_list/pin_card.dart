@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:pinboard_clone/ui/api_serviced_views/pins_list/pins_list_viewmodel.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -31,13 +33,9 @@ class PinCard extends StatelessWidget {
             // ignore: deprecated_member_use
             onTap: () => {
               if (pin.href == null)
-                {
-                  // ignore: deprecated_member_use
-                  launch("https://www.google.com"),
-                }
+                launch("https://www.google.com")
               else
-                // ignore: deprecated_member_use
-                {launch("https://${pin.href}")}
+                launch(pin.href)
             },
             decoration: null,
             focusNode: AlwaysDisabledFocusNode(),

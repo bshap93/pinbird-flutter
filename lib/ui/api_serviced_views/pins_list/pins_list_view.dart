@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pinboard_clone/ui/api_serviced_views/pins_list/pin_card.dart';
-import 'package:pinboard_clone/ui/api_serviced_views/pins_list/pins_list_viewmodel.dart';
+import 'pin_card.dart';
+import 'pins_list_viewmodel.dart';
 import 'package:stacked/stacked.dart';
-import 'package:url_launcher/url_launcher.dart';
-
 import '../../../models/pinboard_pin/pinboard_pin.dart';
-import '../../shared/formatter.dart';
-
-// Line 53 and 90 have commented out yet important code.
 
 class PinsListView extends StatefulWidget {
   const PinsListView({Key? key}) : super(key: key);
@@ -19,6 +14,7 @@ class PinsListView extends StatefulWidget {
 class _PinsListViewState extends State<PinsListView> {
   // persist URL state across views
   List<PinboardPin> myRecentPosts = [];
+  int numPagesLoaded = 1;
   // Create a Picker object to filter by tags
   @override
   Widget build(BuildContext context) {
@@ -33,15 +29,16 @@ class _PinsListViewState extends State<PinsListView> {
   Scaffold listScaffold(
       String title, PinsListViewModel model, BuildContext context) {
     return Scaffold(
-        drawer: mainDrawer(model, context),
-        appBar: AppBar(
-          title: Text(title),
-          actions: <Widget>[
-            IconButton(
-                onPressed: () => dispalyTags(model), icon: Icon(Icons.apple)),
-          ],
-        ),
-        body: pinsListFutureBuilder(model));
+      drawer: mainDrawer(model, context),
+      appBar: AppBar(
+        title: Text(title),
+        actions: <Widget>[
+          IconButton(
+              onPressed: () => dispalyTags(model), icon: Icon(Icons.apple)),
+        ],
+      ),
+      body: pinsListFutureBuilder(model),
+    );
   }
 
   FutureBuilder<List<PinboardPin>> pinsListFutureBuilder(
@@ -84,8 +81,19 @@ class _PinsListViewState extends State<PinsListView> {
               ],
             ),
             onNotification: (notification) {
-              print(notification.metrics.pixels);
-              model.addRecentPins(15);
+              // 15 elements are about 920 pixels long
+              // This varies slightly whether those pin elements have tags
+              // so we err on the side of more page loads, which also improves ui.
+
+              // NOTE the maximum recent pins the API will serve is 100...
+              // When 10 pages load, there can be no more pages. At that point
+              // a normal use case would be rather the search.
+              if (notification.metrics.pixels > (numPagesLoaded * 900)) {
+                model.addRecentPins(15);
+                // ignore: avoid_print
+                numPagesLoaded += 1;
+                print("$numPagesLoaded pages loaded");
+              }
               return true;
             },
           );
@@ -109,6 +117,10 @@ class _PinsListViewState extends State<PinsListView> {
           Navigator.pop(context);
         },
       ),
+      ListTile(
+          // TODO dropdown
+          // DropdownButton<String>(value: "Choose a Tag", onChanged: (_) => {}),
+          ),
     ]));
   }
 
