@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:pinboard_clone/main.dart';
-import 'package:pinboard_clone/ui/locally_serviced_views/local_pins_screen/pins_screen_view.dart';
+import 'package:pinboard_clone/ui/api_serviced_views/pins_list/pins_list_view.dart';
 import 'package:stacked/stacked.dart';
 
 void main() {
@@ -32,7 +32,7 @@ void main() {
 
   testWidgets('Pins screen view has no pins', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const PinsScreenView());
+    await tester.pumpWidget(const PinsListView());
 
     final noPinMsg = find.text('No pins yet. Click + to add a new one.');
 

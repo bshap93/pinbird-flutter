@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pinboard_clone/ui/api_serviced_views/tags_list/tags_list.dart';
+import 'package:pinboard_clone/ui/api_serviced_views/tags_list/tags_list_view.dart';
 import 'pin_card.dart';
 import 'pins_list_viewmodel.dart';
 import 'package:stacked/stacked.dart';
@@ -23,11 +23,11 @@ class _PinsListViewState extends State<PinsListView> {
         viewModelBuilder: () => PinsListViewModel(),
         builder: (context, model, _) {
           // Tag noneTag = model.getTagByName("None");
-          return listScaffold("Recent Pins", model, context);
+          return pinsListScaffold("Recent Pins", model, context);
         });
   }
 
-  Scaffold listScaffold(
+  Scaffold pinsListScaffold(
       String title, PinsListViewModel model, BuildContext context) {
     return Scaffold(
       drawer: mainDrawer(model, context),
@@ -55,14 +55,14 @@ class _PinsListViewState extends State<PinsListView> {
               child: const CircularProgressIndicator(),
             );
           } else if (snapshot.hasError) {
-            return _getInformationMessage(snapshot.error.toString());
+            return _getPinsListMessage(snapshot.error.toString());
           }
           // data loaded:
           var myRecentPosts = snapshot.data;
 
           // ignore: prefer_is_empty
           if (myRecentPosts?.length == 0) {
-            return _getInformationMessage(
+            return _getPinsListMessage(
                 'No data found for your account. Add something and check back.');
           }
 
@@ -149,7 +149,7 @@ class _PinsListViewState extends State<PinsListView> {
     );
   }
 
-  Widget _getInformationMessage(String message) {
+  Widget _getPinsListMessage(String message) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -180,7 +180,7 @@ class _PinsListViewState extends State<PinsListView> {
                   return CircularProgressIndicator();
                 } else if (snapshot.connectionState == ConnectionState.done) {
                   if (snapshot.hasError) {
-                    return _getInformationMessage(snapshot.error.toString());
+                    return _getPinsListMessage(snapshot.error.toString());
                   } else if (snapshot.hasData) {
                     return Container(
                         color: Theme.of(context).backgroundColor,

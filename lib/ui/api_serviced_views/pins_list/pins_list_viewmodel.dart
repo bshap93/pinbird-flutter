@@ -27,9 +27,6 @@ class PinsListViewModel extends ReactiveViewModel {
 
   Future<List<Tag>> get tags => _tagsService.tags;
 
-  @override
-  List<ReactiveServiceMixin> get reactiveServices => [_pinboardPinsService];
-
   tryDelete(PinboardPin post) {}
 
   Future<void> startGet(String href, BuildContext context) async {
@@ -44,4 +41,8 @@ class PinsListViewModel extends ReactiveViewModel {
     count += i;
     getRecentPins(count: count);
   }
+
+  @override
+  List<ReactiveServiceMixin> get reactiveServices =>
+      [_pinboardPinsService, _tagsService];
 }
