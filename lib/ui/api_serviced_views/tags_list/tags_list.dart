@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class TagView extends StatelessWidget {
-  const TagView({super.key});
+class TagsListView extends StatelessWidget {
+  const TagsListView({super.key});
 
   @override
   Widget build(BuildContext context) {

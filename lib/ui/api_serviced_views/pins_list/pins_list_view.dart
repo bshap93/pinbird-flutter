@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pinboard_clone/ui/api_serviced_views/tags_list/tags_list.dart';
 import 'pin_card.dart';
 import 'pins_list_viewmodel.dart';
 import 'package:stacked/stacked.dart';
@@ -118,9 +119,13 @@ class _PinsListViewState extends State<PinsListView> {
         },
       ),
       ListTile(
-          title: DropdownButtonFormField(
-              items: [DropdownMenuItem<String>(child: Text("test"))],
-              onChanged: (value) => model.setCurrentTag(value.toString())))
+        title: const Text("Choose a Tag"),
+        onTap: () {
+          Navigator.pop(context);
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => TagsListView()));
+        },
+      )
     ]));
   }
 
