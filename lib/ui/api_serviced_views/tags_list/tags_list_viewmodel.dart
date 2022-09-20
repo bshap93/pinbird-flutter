@@ -13,7 +13,7 @@ class TagsListViewModel extends ReactiveViewModel {
 
   late final setCurrentTag = _tagsService.setCurrentTag;
 
-  Future<List<Tag>> get tags => _tagsService.tags;
+  Future<List<Tag>> get tags => _tagsService.dioGetTags();
 
   @override
   List<ReactiveServiceMixin> get reactiveServices => [_tagsService];

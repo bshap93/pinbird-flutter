@@ -25,7 +25,7 @@ class PinsListViewModel extends ReactiveViewModel {
   Future<List<PinboardPin>> get recent_pins =>
       _pinboardPinsService.getRecentPins(count: count);
 
-  Future<List<Tag>> get tags => _tagsService.tags;
+  Future<List<Tag>> get tags => _tagsService.dioGetTags();
 
   tryDelete(PinboardPin post) {}
 

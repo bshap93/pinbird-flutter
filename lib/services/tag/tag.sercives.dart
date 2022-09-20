@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:pinboard_clone/services/tag/tag_api.services.dart';
 import 'package:stacked/stacked.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -13,14 +14,7 @@ class TagService extends TagAPIService {
     Hive.box('current_tag').get('current_tag', defaultValue: Tag(tag: "None")),
   );
 
-  Future<List<Tag>> get tags async {
-    List<Tag> result = [];
-    if (_tags.value.isNotEmpty) {
-      return _tags.value;
-    } else {
-      return await dioGetTags();
-    }
-  }
+  List<Tag> get tags => _tags.value;
 
   Tag get currentTag => _currentTag.value;
 
@@ -69,5 +63,23 @@ class TagService extends TagAPIService {
     } else {
       return false;
     }
+  }
+
+  List<Tag> results = <Tag>[];
+  Future<List<Tag>> dioGetTags() async {
+    try {
+      Response tagData = await dioClient
+          .get(baseUrl + '/tags/get' + getAuthAppendage(apiToken));
+
+      print(tagData.data.toString());
+
+      tagData.data.forEach((k, v) => results.add(Tag(tag: k, count: v)));
+
+      notifyListeners();
+    } on DioError catch (e) {
+      logErrors(e);
+    }
+    // TODO empty placeholder return
+    return results;
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pinboard_clone/ui/api_serviced_views/tags_list/tags_list_view.dart';
+import '../tags_list/tags_list_view.dart';
 import 'pin_card.dart';
+import '../../shared/empty_page.dart';
 import 'pins_list_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 import '../../../models/pinboard_pin/pinboard_pin.dart';
@@ -70,7 +71,7 @@ class _PinsListViewState extends State<PinsListView> {
             child: ListView(
               padding: const EdgeInsets.symmetric(vertical: 16),
               children: [
-                if (myRecentPosts!.isEmpty) _showEmptyPage(),
+                if (myRecentPosts!.isEmpty) EmptyPage.showEmptyPinPage(),
                 ...myRecentPosts.map((pin) {
                   TextEditingController descriptionController =
                       TextEditingController(text: pin.description);

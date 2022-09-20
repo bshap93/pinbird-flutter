@@ -7,7 +7,7 @@ import '../shared/styles.dart';
 import 'login_viewmodel.dart';
 
 class LoginView extends StatefulWidget {
-  LoginView({Key? key}) : super(key: key);
+  const LoginView({Key? key}) : super(key: key);
 
   @override
   State<LoginView> createState() => _LoginViewState();
@@ -17,13 +17,11 @@ class _LoginViewState extends State<LoginView> {
   final tokenController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    FocusNode apiTokenFocusNode = new FocusNode();
-
     return ViewModelBuilder<LoginViewModel>.reactive(
         viewModelBuilder: () => LoginViewModel(),
         builder: (context, model, _) => Scaffold(
               appBar: AppBar(
-                  title: Text("Login via Pinboard"),
+                  title: const Text("Login via Pinboard"),
                   leading: IconButton(
                       onPressed: () => {},
                       icon: const Icon(
@@ -41,7 +39,7 @@ class _LoginViewState extends State<LoginView> {
                           child: Padding(
                             padding: const EdgeInsets.all(16.0),
                             child: TextField(
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     labelText: 'Enter you API Token: '),
                                 controller: tokenController,
                                 onSubmitted: (_) => submitData(context, model)),
@@ -56,7 +54,7 @@ class _LoginViewState extends State<LoginView> {
                                 submitData(context, model);
                               }
                             },
-                            child: Text('Submit')),
+                            child: const Text('Submit')),
                         // TextButton(
                         //   child: Text('Or Continue with Only Local Data'),
                         //   onPressed: () => Navigator.push(
