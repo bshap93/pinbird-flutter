@@ -55,13 +55,6 @@ class _LoginViewState extends State<LoginView> {
                               }
                             },
                             child: const Text('Submit')),
-                        // TextButton(
-                        //   child: Text('Or Continue with Only Local Data'),
-                        //   onPressed: () => Navigator.push(
-                        //       context,
-                        //       MaterialPageRoute(
-                        //           builder: (context) => PinsScreenView())),
-                        // )
                       ],
                     ),
                   ),

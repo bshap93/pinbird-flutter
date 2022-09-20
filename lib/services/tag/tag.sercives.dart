@@ -19,7 +19,24 @@ class TagService extends TagAPIService {
   Tag get currentTag => _currentTag.value;
 
   TagService() {
-    listenToReactiveValues([_tags]);
+    listenToReactiveValues([_tags, _currentTag]);
+  }
+
+  Future<void> loadInTags() async {
+    final tagData = await dioGetTags();
+    for (var tag in tagData) {
+      if (_tags.value.contains(tag)) {
+        print("Hive has ${tag.tag}, with count ${tag.count}");
+      } else {
+        saveNewTag(tag.tag, tag.count);
+      }
+    }
+    notifyListeners();
+  }
+
+  Future<List<Tag>> loadThenGetAllTags() async {
+    await loadInTags();
+    return this.tags;
   }
 
   void setCurrentTag(String tagName) {
@@ -34,8 +51,8 @@ class TagService extends TagAPIService {
     Hive.box('current_tag').put('current_tag', _currentTag.value);
   }
 
-  void newTag(String _tag) {
-    _tags.value.insert(0, Tag(tag: _tag));
+  void saveNewTag(String _tag, int _count) {
+    _tags.value.insert(0, Tag(tag: _tag, count: _count));
     _saveToHive();
     notifyListeners();
   }
@@ -43,12 +60,13 @@ class TagService extends TagAPIService {
   Tag getNewestTag() => _tags.value.elementAt(0);
 
   // Tags with equal tag string to be treated as equivalent and interchangeable
-  Tag getTagByName(String name) {
-    List<Tag> tagsNamed = _tags.value.where((tag) => tag.tag == name).toList();
+  Tag getTagByName(String tagStr) {
+    List<Tag> tagsNamed =
+        _tags.value.where((tag) => tag.tag == tagStr).toList();
     if (tagsNamed.length > 0) {
       return tagsNamed.first;
     } else {
-      newTag(name);
+      saveNewTag(tagStr);
       return getNewestTag();
     }
   }
@@ -65,8 +83,8 @@ class TagService extends TagAPIService {
     }
   }
 
-  List<Tag> results = <Tag>[];
   Future<List<Tag>> dioGetTags() async {
+    List<Tag> results = <Tag>[];
     try {
       Response tagData = await dioClient
           .get(baseUrl + '/tags/get' + getAuthAppendage(apiToken));

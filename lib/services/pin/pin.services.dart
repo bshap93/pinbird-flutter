@@ -7,6 +7,9 @@ import '../api/api.services.dart';
 
 class PinService extends PinboardAPIService {
   // Local storage from Hive to match with remote data from Pinboard
+  PinService() {
+    listenToReactiveValues([_pins]);
+  }
 
   final _pins = ReactiveValue<List<PinboardPin>>(
     Hive.box('pinboard_pins')

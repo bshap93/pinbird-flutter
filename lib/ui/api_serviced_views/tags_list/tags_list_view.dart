@@ -25,70 +25,47 @@ class _TagsListViewState extends State<TagsListView> {
   Widget tagsListScaffold(
       String appBarTitle, TagsListViewModel model, BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(appBarTitle),
-        actions: <Widget>[],
-      ),
-      body: tagListFutureBuilder(model),
-    );
-  }
+        appBar: AppBar(
+          title: Text(appBarTitle),
+          actions: <Widget>[],
+        ),
+        body: FutureBuilder(
+          future: model.tags,
+          builder: (context, AsyncSnapshot<List<Tag>> snapshot) {
+            if (!snapshot.hasData) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (snapshot.hasError) {
+              return _getTagsListMessage(snapshot.error.toString());
+            }
 
-  tagListFutureBuilder(TagsListViewModel model) {
-    return FutureBuilder(
-      future: model.tags,
-      builder: (context, AsyncSnapshot<List<Tag>> snapshot) {
-        if (!snapshot.hasData) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        } else if (snapshot.hasError) {
-          return _getTagsListMessage(snapshot.error.toString());
-        }
+            var myRecentTags = snapshot.data;
 
-        var myRecentTags = snapshot.data;
+            if (myRecentTags?.length == 0) {
+              return _getTagsListMessage(
+                  'No data found for your account. Add something and check back.');
+            }
 
-        if (myRecentTags?.length == 0) {
-          return _getTagsListMessage(
-              'No data found for your account. Add something and check back.');
-        }
-
-        return NotificationListener<ScrollEndNotification>(
-          child: ListView(
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            children: [
-              if (myRecentTags!.isEmpty) EmptyPage.showEmptyTagPage(),
-              ...myRecentTags.map((tag) {
-                TextEditingController descriptionController =
-                    TextEditingController(text: tag.tag);
-                return Card(
-                  child: ListTile(
-                    title: Column(children: [
-                      Text(tag.tag),
-                    ]),
-                  ),
-                );
-              })
-            ],
-          ),
-          onNotification: (notification) {
-            // 15 elements are about 920 pixels long
-            // This varies slightly whether those pin elements have tags
-            // so we err on the side of more page loads, which also improves ui.
-
-            // NOTE the maximum recent pins the API will serve is 100...
-            // When 10 pages load, there can be no more pages. At that point
-            // a normal use case would be rather the search.
-            // if (notification.metrics.pixels > (numPagesLoaded * 900)) {
-            //   model.addRecentPins(15);
-            //   // ignore: avoid_print
-            //   numPagesLoaded += 1;
-            //   print("$numPagesLoaded pages loaded");
-            // }
-            return true;
+            return ListView(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              children: [
+                if (myRecentTags!.isEmpty) EmptyPage.showEmptyTagPage(),
+                ...myRecentTags.map((tag) {
+                  TextEditingController descriptionController =
+                      TextEditingController(text: tag.tag);
+                  return Card(
+                    child: ListTile(
+                      title: Column(children: [
+                        Text(tag.tag),
+                      ]),
+                    ),
+                  );
+                })
+              ],
+            );
           },
-        );
-      },
-    );
+        ));
   }
 
   _getTagsListMessage(String message) {

@@ -34,10 +34,7 @@ class _PinsListViewState extends State<PinsListView> {
       drawer: mainDrawer(model, context),
       appBar: AppBar(
         title: Text(title),
-        actions: <Widget>[
-          IconButton(
-              onPressed: () => dispalyTags(model), icon: Icon(Icons.apple)),
-        ],
+        actions: <Widget>[],
       ),
       body: pinsListFutureBuilder(model),
     );
@@ -168,40 +165,5 @@ class _PinsListViewState extends State<PinsListView> {
             child: Text("Return to Login")),
       ],
     );
-  }
-
-  dispalyTags(PinsListViewModel model) {
-    return showModalBottomSheet(
-        context: context,
-        builder: (context) {
-          return FutureBuilder(
-              future: model.tags,
-              builder: ((context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator();
-                } else if (snapshot.connectionState == ConnectionState.done) {
-                  if (snapshot.hasError) {
-                    return _getPinsListMessage(snapshot.error.toString());
-                  } else if (snapshot.hasData) {
-                    return Container(
-                        color: Theme.of(context).backgroundColor,
-                        child: Center(
-                            child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(snapshot.data.toString(),
-                                style: const TextStyle(
-                                    color: Colors.cyan, fontSize: 36))
-                          ],
-                        )));
-                  } else {
-                    return const Text('Empty data');
-                  }
-                } else {
-                  return Text('State: ${snapshot.connectionState}');
-                }
-              }));
-        });
   }
 }

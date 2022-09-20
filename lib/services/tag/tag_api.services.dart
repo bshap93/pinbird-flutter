@@ -3,8 +3,8 @@ import '../api/api.services.dart';
 import 'package:dio/dio.dart';
 
 class TagAPIService extends PinboardAPIService {
-  List<Tag> results = <Tag>[];
   Future<List<Tag>> dioGetTags() async {
+    List<Tag> results = <Tag>[];
     try {
       Response tagData = await dioClient
           .get(baseUrl + '/tags/get' + getAuthAppendage(apiToken));
@@ -20,6 +20,6 @@ class TagAPIService extends PinboardAPIService {
       logErrors(e);
     }
     // TODO empty placeholder return
-    return [];
+    return results;
   }
 }
