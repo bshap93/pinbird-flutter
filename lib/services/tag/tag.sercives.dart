@@ -11,7 +11,8 @@ class TagService extends TagAPIService {
   );
 
   final _currentTag = ReactiveValue<Tag>(
-    Hive.box('current_tag').get('current_tag', defaultValue: Tag(tag: "None")),
+    Hive.box('current_tag')
+        .get('current_tag', defaultValue: const Tag(tag: "None", count: 1)),
   );
 
   List<Tag> get tags => _tags.value;
@@ -66,7 +67,7 @@ class TagService extends TagAPIService {
     if (tagsNamed.length > 0) {
       return tagsNamed.first;
     } else {
-      saveNewTag(tagStr);
+      saveNewTag(tagStr, 0);
       return getNewestTag();
     }
   }

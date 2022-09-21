@@ -30,7 +30,7 @@ class _TagsListViewState extends State<TagsListView> {
           actions: <Widget>[],
         ),
         body: FutureBuilder(
-          future: model.tags,
+          future: model.loadThenGetAllTags(),
           builder: (context, AsyncSnapshot<List<Tag>> snapshot) {
             if (!snapshot.hasData) {
               return const Center(

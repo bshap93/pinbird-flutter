@@ -8,6 +8,7 @@ import '../../../models/tag/tag.dart';
 class TagsListViewModel extends ReactiveViewModel {
   final _tagsService = locator<TagService>();
   final _tagAPIService = locator<TagAPIService>();
+  late final loadThenGetAllTags = _tagsService.loadThenGetAllTags;
 
   late final setCurrentTag = _tagsService.setCurrentTag;
 

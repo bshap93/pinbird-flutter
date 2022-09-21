@@ -1,7 +1,7 @@
 import 'package:hive/hive.dart';
 part 'tag.g.dart';
 
-@HiveType(typeId: 2)
+@HiveType(typeId: 45)
 class Tag {
   @HiveField(0)
   final String tag;

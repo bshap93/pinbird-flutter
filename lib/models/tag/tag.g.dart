@@ -18,7 +18,8 @@ class TagAdapter extends TypeAdapter<Tag> {
     };
     return Tag(
       tag: fields[0] as String,
-      count: fields[1] as int,
+      //TODO count: fields[1] as int
+      count: 0,
     );
   }
 
