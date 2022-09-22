@@ -51,23 +51,32 @@ class TagService extends TagAPIService {
     Hive.box('current_tag').put('current_tag', _currentTag.value);
   }
 
-  void saveNewTag(String _tag, int _count) {
-    _tags.value.insert(0, Tag(tag: _tag, count: _count));
-    _saveToHive();
-    notifyListeners();
+  bool saveNewTag(String _tag, int _count) {
+    if (_tags.value.map((tag) => tag.tag).contains(_tag)) {
+      print("${_tag} already exists.");
+      return false;
+    } else {
+      _tags.value.insert(0, Tag(tag: _tag, count: _count));
+      print("${_tag} tag created!");
+      _saveToHive();
+      notifyListeners();
+      return true;
+    }
   }
 
   Tag getNewestTag() => _tags.value.elementAt(0);
 
   // Tags with equal tag string to be treated as equivalent and interchangeable
-  Tag getTagByName(String tagStr) {
-    List<Tag> tagsNamed =
-        _tags.value.where((tag) => tag.tag == tagStr).toList();
-    if (tagsNamed.length > 0) {
-      return tagsNamed.first;
-    } else {
-      saveNewTag(tagStr);
-      return getNewestTag();
+  Tag? getTagByName(String tagStr) {
+    try {
+      if (_tags.value.isNotEmpty) {
+        return _tags.value.where((tag) => tag.tag == tagStr).first;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      print(e.toString());
+      return null;
     }
   }
 
