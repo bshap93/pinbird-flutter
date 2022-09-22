@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../tags_list/tags_list_view.dart';
+import 'package:pinboard_clone/ui/shared/styles.dart';
 import 'pin_card.dart';
 import '../../shared/empty_page.dart';
 import 'pins_list_viewmodel.dart';
@@ -120,8 +120,35 @@ class _PinsListViewState extends State<PinsListView> {
         title: const Text("Choose a Tag"),
         onTap: () {
           Navigator.pop(context);
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => TagsListView()));
+          showModalBottomSheet(
+              context: context,
+              builder: (BuildContext context) {
+                return Container(
+                    height: 200,
+                    color: ThemeData.dark().colorScheme.background,
+                    child: ListView(
+                      children: <Widget>[
+                        ...model.tags.map((tag) {
+                          return ElevatedButton(
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStatePropertyAll<Color>(
+                                  ThemeData.dark().colorScheme.surface),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                tag.tag,
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          );
+                        })
+                      ],
+                    ));
+              });
         },
       )
     ]));

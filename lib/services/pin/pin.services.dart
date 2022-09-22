@@ -2,7 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:hive/hive.dart';
 import 'package:pinboard_clone/models/pinboard_pin/pinboard_pin.dart';
 import 'package:stacked/stacked.dart';
+import ''
 
+import '../../models/tag/tag.dart';
 import '../api/api.services.dart';
 
 class PinService extends PinboardAPIService {
@@ -36,6 +38,17 @@ class PinService extends PinboardAPIService {
       print(resp.data);
     } on DioError catch (e) {
       logErrors(e);
+    }
+  }
+
+  Future<bool> loadInRecentPins(Tag? myTag) {
+    if (myTag == null) {
+      getRecentPins().then((pinData) {
+        for (var pin in pinData) {
+          
+        }
+      });
+
     }
   }
 

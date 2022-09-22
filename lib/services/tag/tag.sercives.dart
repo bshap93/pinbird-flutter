@@ -19,36 +19,26 @@ class TagService extends TagAPIService {
   Tag get currentTag => _currentTag.value;
 
   TagService() {
+    loadInTags();
     listenToReactiveValues([_tags, _currentTag]);
   }
 
-  Future<void> loadInTags() async {
+  Future<bool> loadInTags() async {
     final tagData = await dioGetTags();
-    for (var tag in tagData) {
-      if (_tags.value.contains(tag)) {
-        print("Hive has ${tag.tag}, with count ${tag.count}");
-      } else {
-        saveNewTag(tag.tag, tag.count);
+    if (tagData.isNotEmpty) {
+      for (var tag in tagData) {
+        if (_tags.value.contains(tag)) {
+          print("Hive has ${tag.tag}, with count ${tag.count}");
+        } else {
+          saveNewTag(tag.tag, tag.count);
+        }
       }
+      notifyListeners();
+      return true;
+    } else {
+      print("No tags retrieved from dio.");
+      return false;
     }
-    notifyListeners();
-  }
-
-  Future<List<Tag>> loadThenGetAllTags() async {
-    await loadInTags();
-    return this.tags;
-  }
-
-  void setCurrentTag(String tagName) {
-    Tag toSetTag = getTagByName(tagName);
-    _currentTag.value = toSetTag;
-    _saveToHive();
-    notifyListeners();
-  }
-
-  void _saveToHive() {
-    Hive.box('tags').put('tags', _tags.value);
-    Hive.box('current_tag').put('current_tag', _currentTag.value);
   }
 
   bool saveNewTag(String _tag, int _count) {
@@ -62,6 +52,25 @@ class TagService extends TagAPIService {
       notifyListeners();
       return true;
     }
+  }
+
+  bool setCurrentTag(String tagName) {
+    Tag? myTag = getTagByName(tagName);
+    if (myTag == null) {
+      print("No tag called $tagName");
+      return false;
+    } else {
+      _currentTag.value = myTag;
+      print("Current tag set to $tagName");
+      _saveToHive();
+      notifyListeners();
+      return true;
+    }
+  }
+
+  void _saveToHive() {
+    Hive.box('tags').put('tags', _tags.value);
+    Hive.box('current_tag').put('current_tag', _currentTag.value);
   }
 
   Tag getNewestTag() => _tags.value.elementAt(0);
@@ -92,6 +101,7 @@ class TagService extends TagAPIService {
     }
   }
 
+  @override
   Future<List<Tag>> dioGetTags() async {
     List<Tag> results = <Tag>[];
     try {
