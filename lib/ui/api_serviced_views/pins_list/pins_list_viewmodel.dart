@@ -17,15 +17,25 @@ class PinsListViewModel extends ReactiveViewModel {
   late final dioGetPin = _pinboardPinsService.dioGetPin;
   late final getRecentPins = _pinboardPinsService.getRecentPins;
   late final setCurrentTag = _tagsService.setCurrentTag;
+  late final loadInRecentPins = _pinboardPinsService.loadInRecentPins;
+  late final emptyPinsHive = _pinboardPinsService.emptyHive;
 
   var count = 15;
 
+  List<PinboardPin> get pins => _pinboardPinsService.pinboardPins;
+
   // pull in service methods view ViewModel
   // getters for pin and tag
-  Future<List<PinboardPin>> get recent_pins =>
-      _pinboardPinsService.getRecentPins(count: count);
+  Future<List<PinboardPin>> recent_pins(Tag? tag) {
+    return _pinboardPinsService.getRecentPins(count: count, myTag: tag);
+  }
 
   List<Tag> get tags => _tagsService.tags;
+
+  void changeToNewTag(Tag myTag) {
+    setCurrentTag(myTag.tag);
+    loadInRecentPins(15, myTag);
+  }
 
   tryDelete(PinboardPin post) {}
 
@@ -37,9 +47,9 @@ class PinsListViewModel extends ReactiveViewModel {
             builder: (context) => PinSingleView(pin: pinboardPin)));
   }
 
-  void addRecentPins(int i) {
+  void addRecentPins(int i, myTag) {
     count += i;
-    getRecentPins(count: count);
+    loadInRecentPins(count, myTag);
   }
 
   @override

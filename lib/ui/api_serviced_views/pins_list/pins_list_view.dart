@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pinboard_clone/ui/shared/styles.dart';
+import '../../../models/tag/tag.dart';
 import 'pin_card.dart';
 import '../../shared/empty_page.dart';
 import 'pins_list_viewmodel.dart';
@@ -17,6 +18,7 @@ class _PinsListViewState extends State<PinsListView> {
   // persist URL state across views
   List<PinboardPin> myRecentPosts = [];
   int numPagesLoaded = 1;
+  Tag? currentTag = null;
   // Create a Picker object to filter by tags
   @override
   Widget build(BuildContext context) {
@@ -43,7 +45,7 @@ class _PinsListViewState extends State<PinsListView> {
   FutureBuilder<List<PinboardPin>> pinsListFutureBuilder(
       PinsListViewModel model) {
     return FutureBuilder(
-        future: model.recent_pins,
+        future: model.recent_pins(currentTag),
         builder:
             (BuildContext context, AsyncSnapshot<List<PinboardPin>> snapshot) {
           if (!snapshot.hasData) {
@@ -87,8 +89,8 @@ class _PinsListViewState extends State<PinsListView> {
               // NOTE the maximum recent pins the API will serve is 100...
               // When 10 pages load, there can be no more pages. At that point
               // a normal use case would be rather the search.
-              if (notification.metrics.pixels > (numPagesLoaded * 900)) {
-                model.addRecentPins(15);
+              if (notification.metrics.pixels > (numPagesLoaded * 700)) {
+                model.addRecentPins(15, null);
                 // ignore: avoid_print
                 numPagesLoaded += 1;
                 print("$numPagesLoaded pages loaded");
@@ -135,6 +137,9 @@ class _PinsListViewState extends State<PinsListView> {
                                   ThemeData.dark().colorScheme.surface),
                             ),
                             onPressed: () {
+                              model.setCurrentTag(tag.tag);
+                              currentTag = tag;
+                              model.emptyPinsHive();
                               Navigator.of(context).pop();
                             },
                             child: Padding(

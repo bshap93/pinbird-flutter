@@ -9,16 +9,22 @@ import '../api/api.services.dart';
 class PinService extends PinboardAPIService {
   // Local storage from Hive to match with remote data from Pinboard
   PinService() {
-    loadInRecentPins(null);
+    loadInRecentPins(15, null);
     listenToReactiveValues([_pins]);
   }
 
   final _pins = ReactiveValue<List<PinboardPin>>(
-    Hive.box('pinboard_pins').get('pinboard_pins', defaultValue: []),
+    Hive.box('pinboard_pins')
+        .get('pinboard_pins', defaultValue: []).cast<PinboardPin>(),
   );
   // to be called to change our state values
   void _saveToHive() =>
       Hive.box('pinboard_pins').put('pinboard_pins', _pins.value);
+
+  void emptyHive() {
+    Hive.box('pinboard_pins').clear();
+    notifyListeners();
+  }
 
   // Composite Action Calls, invoking Dio API call methods
 
@@ -55,7 +61,7 @@ class PinService extends PinboardAPIService {
     }
   }
 
-  Future<bool> loadInRecentPins(Tag? myTag) async =>
+  Future<bool> loadInRecentPins(int count, Tag? myTag) async =>
       getRecentPins(myTag: myTag).then((pinData) {
         if (pinData.isNotEmpty) {
           for (var myPin in pinData) {
@@ -93,6 +99,7 @@ class PinService extends PinboardAPIService {
         PinboardPin myPin = PinboardPin.fromJson(pinboardPin);
         pinboardPinList.add(myPin);
       }
+
       notifyListeners();
     } on DioError catch (e) {
       logErrors(e);
@@ -100,25 +107,6 @@ class PinService extends PinboardAPIService {
 
     return pinboardPinList;
   }
-
-  // Future<List<PinboardPin>> getRecentPins({int count = 15}) async {
-  //   List<PinboardPin> pinboardPinList = <PinboardPin>[];
-  //   // Perform GET request to the endpoint "/users/<id>"
-  //   try {
-  //     Response pinboardPinData = await dioClient.get(
-  //         '$baseUrl/posts/recent${getAuthAppendage(apiToken)}&count=$count');
-  //     // print('Pinboard pins: ${pinboardPinData.data["posts"]}');
-  //     for (var pinboardPin in pinboardPinData.data["posts"]) {
-  //       PinboardPin myPin = PinboardPin.fromJson(pinboardPin);
-  //       pinboardPinList.add(myPin);
-  //     }
-  //     notifyListeners();
-  //   } on DioError catch (e) {
-  //     logErrors(e);
-  //   }
-
-  //   return pinboardPinList;
-  // }
 
   Future<PinboardPin> dioGetPin(String url) async {
     // Perform GET request to the endpoint "/users/<id>"
