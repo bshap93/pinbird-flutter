@@ -65,7 +65,7 @@ class _LoginViewState extends State<LoginView> {
 
   submitData(BuildContext context, LoginViewModel model) {
     final enteredToken = tokenController.text;
-    model.startLogin(enteredToken);
+    model.setApiToken(enteredToken);
     print("Login started");
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => PinsListView()));

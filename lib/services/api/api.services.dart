@@ -35,14 +35,10 @@ class PinboardAPIService with ReactiveServiceMixin {
     notifyListeners();
   }
 
-  startLogin(String apiTok) async {
-    setApiToken(apiTok);
-    // return dioGetRecentPins();
-  }
-
-  logout() async {
-    setApiToken("");
-    return;
+  logout() {
+    _apiToken.value = "";
+    _saveToHive();
+    notifyListeners();
   }
 
   void logErrors(e) {

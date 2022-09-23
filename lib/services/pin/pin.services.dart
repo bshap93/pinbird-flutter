@@ -136,4 +136,8 @@ class PinService extends PinboardAPIService {
 
     return result;
   }
+
+  signalChange() {
+    notifyListeners();
+  }
 }

@@ -6,6 +6,7 @@ import '../../shared/empty_page.dart';
 import 'pins_list_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 import '../../../models/pinboard_pin/pinboard_pin.dart';
+import '../../../main.dart';
 
 class PinsListView extends StatefulWidget {
   const PinsListView({Key? key}) : super(key: key);
@@ -111,6 +112,7 @@ class _PinsListViewState extends State<PinsListView> {
       ListTile(
         title: const Text('Logout'),
         onTap: () {
+          MyApp.restartApp(context);
           model.logout();
           // Exit drawer
           Navigator.pop(context);
@@ -122,41 +124,69 @@ class _PinsListViewState extends State<PinsListView> {
         title: const Text("Choose a Tag"),
         onTap: () {
           Navigator.pop(context);
-          showModalBottomSheet(
-              context: context,
-              builder: (BuildContext context) {
-                return Container(
-                    height: 200,
-                    color: ThemeData.dark().colorScheme.background,
-                    child: ListView(
-                      children: <Widget>[
-                        ...model.tags.map((tag) {
-                          return ElevatedButton(
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStatePropertyAll<Color>(
-                                  ThemeData.dark().colorScheme.surface),
-                            ),
-                            onPressed: () {
-                              model.setCurrentTag(tag.tag);
-                              currentTag = tag;
-                              model.emptyPinsHive();
-                              Navigator.of(context).pop();
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                tag.tag,
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          );
-                        })
-                      ],
-                    ));
-              });
+          tagListModalSheet(context, model);
         },
       )
     ]));
+  }
+
+  Future<dynamic> tagListModalSheet(
+      BuildContext context, PinsListViewModel model) {
+    return showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          TextEditingController tagSearchController = TextEditingController();
+          return Container(
+              height: 350,
+              color: ThemeData.dark().colorScheme.background,
+              child: ListView(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(
+                      // within tile links themselves should not be scrollable
+                      scrollPhysics: const NeverScrollableScrollPhysics(),
+                      // See above
+                      controller: tagSearchController,
+                      onChanged: (newValue) => model.setTagFilter(newValue),
+                      // ignore: deprecated_member_use
+                      onTap: () => {},
+                      decoration: const InputDecoration(
+                          hintStyle:
+                              TextStyle(color: Colors.white, fontSize: 16),
+                          hintText: 'Search for a tag...'),
+                      focusNode: null,
+                      maxLines: 1,
+                      style: const TextStyle(
+                        color: Colors.blue,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                  ...model.filteredTags.map((tag) {
+                    return ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStatePropertyAll<Color>(
+                            ThemeData.dark().colorScheme.surface),
+                      ),
+                      onPressed: () {
+                        model.setCurrentTag(tag.tag);
+                        currentTag = tag;
+                        model.emptyPinsHive();
+                        Navigator.of(context).pop();
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          tag.tag,
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    );
+                  })
+                ],
+              ));
+        });
   }
 
   // End of build method. Below are the other methods

@@ -19,10 +19,21 @@ class PinsListViewModel extends ReactiveViewModel {
   late final setCurrentTag = _tagsService.setCurrentTag;
   late final loadInRecentPins = _pinboardPinsService.loadInRecentPins;
   late final emptyPinsHive = _pinboardPinsService.emptyHive;
+  late final signalChange = _pinboardPinsService.signalChange;
 
   var count = 15;
 
+  String? tagFilter = null;
+
   List<PinboardPin> get pins => _pinboardPinsService.pinboardPins;
+
+  List<Tag> get filteredTags {
+    if (tagFilter == null) {
+      return this.tags;
+    } else {
+      return this.tags.where((tag) => tag.tag.startsWith(tagFilter!)).toList();
+    }
+  }
 
   // pull in service methods view ViewModel
   // getters for pin and tag
@@ -55,4 +66,6 @@ class PinsListViewModel extends ReactiveViewModel {
   @override
   List<ReactiveServiceMixin> get reactiveServices =>
       [_pinboardPinsService, _tagsService];
+
+  setTagFilter(String newValue) {}
 }
