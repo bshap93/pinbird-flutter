@@ -135,35 +135,39 @@ class _PinsListViewState extends State<PinsListView> {
     return showModalBottomSheet(
         context: context,
         builder: (BuildContext context) {
-          TextEditingController tagSearchController = TextEditingController();
+          List<Tag> filter = [];
+          filter.addAll(model.tags);
           return Container(
               height: 350,
               color: ThemeData.dark().colorScheme.background,
               child: ListView(
                 children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextField(
-                      // within tile links themselves should not be scrollable
-                      scrollPhysics: const NeverScrollableScrollPhysics(),
-                      // See above
-                      controller: tagSearchController,
-                      onChanged: (newValue) => model.setTagFilter(newValue),
-                      // ignore: deprecated_member_use
-                      onTap: () => {},
-                      decoration: const InputDecoration(
-                          hintStyle:
-                              TextStyle(color: Colors.white, fontSize: 16),
-                          hintText: 'Search for a tag...'),
-                      focusNode: null,
-                      maxLines: 1,
-                      style: const TextStyle(
-                        color: Colors.blue,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                  ...model.filteredTags.map((tag) {
+                  // Padding(
+                  //   padding: const EdgeInsets.all(8.0),
+                  //   child: TextField(
+                  //     // within tile links themselves should not be scrollable
+                  //     scrollPhysics: const NeverScrollableScrollPhysics(),
+                  //     // See above
+                  //     onChanged: (newValue) => setState(() {
+                  //       filter.retainWhere((tag) {
+                  //         return tag.tag
+                  //             .toLowerCase()
+                  //             .startsWith(newValue.toLowerCase());
+                  //       });
+                  //     }),
+                  //     decoration: const InputDecoration(
+                  //         hintStyle:
+                  //             TextStyle(color: Colors.white, fontSize: 16),
+                  //         hintText: 'Search for a tag...'),
+                  //     focusNode: null,
+                  //     maxLines: 1,
+                  //     style: const TextStyle(
+                  //       color: Colors.blue,
+                  //       fontSize: 20,
+                  //     ),
+                  //   ),
+                  // ),
+                  ...filter.map((tag) {
                     return ElevatedButton(
                       style: ButtonStyle(
                         backgroundColor: MaterialStatePropertyAll<Color>(

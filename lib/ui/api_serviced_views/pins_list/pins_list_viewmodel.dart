@@ -27,14 +27,6 @@ class PinsListViewModel extends ReactiveViewModel {
 
   List<PinboardPin> get pins => _pinboardPinsService.pinboardPins;
 
-  List<Tag> get filteredTags {
-    if (tagFilter == null) {
-      return this.tags;
-    } else {
-      return this.tags.where((tag) => tag.tag.startsWith(tagFilter!)).toList();
-    }
-  }
-
   // pull in service methods view ViewModel
   // getters for pin and tag
   Future<List<PinboardPin>> recent_pins(Tag? tag) {
@@ -66,6 +58,4 @@ class PinsListViewModel extends ReactiveViewModel {
   @override
   List<ReactiveServiceMixin> get reactiveServices =>
       [_pinboardPinsService, _tagsService];
-
-  setTagFilter(String newValue) {}
 }
