@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:filter_list/filter_list.dart';
-import 'package:pinboard_clone/ui/pins_list/tag_filter_page.dart';
+
 import 'pin_card.dart';
 import 'pins_list_viewmodel.dart';
 import 'package:stacked/stacked.dart';
@@ -21,7 +21,7 @@ class _PinsListViewState extends State<PinsListView> {
   // persist URL state across views
   List<PinboardPin> myRecentPosts = [];
   int numPagesLoaded = 1;
-  Tag? currentTag = null;
+  Tag? currentTag;
   String appBarTitle = "Recent Pins";
   // Create a Picker object to filter by tags
   @override
@@ -106,9 +106,14 @@ class _PinsListViewState extends State<PinsListView> {
       listData: tagList,
       selectedListData: selectedTagList,
       themeData: FilterListThemeData.raw(
-          choiceChipTheme: ChoiceChipThemeData.dark(),
-          headerTheme: HeaderThemeData.dark(),
-          controlBarButtonTheme: ControlButtonBarThemeData.dark(context),
+          choiceChipTheme: ChoiceChipThemeData.light(context),
+          headerTheme: HeaderThemeData(
+            backgroundColor: ThemeData.dark().colorScheme.primary,
+          ),
+          controlBarButtonTheme: ControlButtonBarThemeData.raw(
+            controlButtonTheme: ControlButtonThemeData.dark(context),
+            backgroundColor: ThemeData.dark().colorScheme.surface,
+          ),
           borderRadius: 20,
           wrapAlignment: WrapAlignment.start,
           wrapCrossAxisAlignment: WrapCrossAlignment.start,
@@ -163,24 +168,6 @@ class _PinsListViewState extends State<PinsListView> {
 
   // End of build method. Below are the other methods
 
-  _showEmptyPage() {
-    return Opacity(
-      opacity: 0.5,
-      child: Column(
-        children: const [
-          SizedBox(height: 64),
-          Icon(Icons.emoji_food_beverage_outlined, size: 48),
-          SizedBox(height: 16),
-          Text(
-            'No pins yet. Click + below to add a new one. \n\n Click # above to select a tag.',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 14),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _getPinsListMessage(String message) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -196,71 +183,8 @@ class _PinsListViewState extends State<PinsListView> {
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: Text("Return to Login")),
+            child: const Text("Return to Login")),
       ],
     );
-  }
-
-  Future<dynamic> tagListModalSheet(
-      BuildContext context, PinsListViewModel model) {
-    return showModalBottomSheet(
-        context: context,
-        builder: (BuildContext context) {
-          List<Tag> filter = [];
-          filter.addAll(model.tags);
-          return Container(
-              height: 350,
-              color: ThemeData.dark().colorScheme.background,
-              child: ListView(
-                children: <Widget>[
-                  // Padding(
-                  //   padding: const EdgeInsets.all(8.0),
-                  //   child: TextField(
-                  //     // within tile links themselves should not be scrollable
-                  //     scrollPhysics: const NeverScrollableScrollPhysics(),
-                  //     // See above
-                  //     onChanged: (newValue) => setState(() {
-                  //       filter.retainWhere((tag) {
-                  //         return tag.tag
-                  //             .toLowerCase()
-                  //             .startsWith(newValue.toLowerCase());
-                  //       });
-                  //     }),
-                  //     decoration: const InputDecoration(
-                  //         hintStyle:
-                  //             TextStyle(color: Colors.white, fontSize: 16),
-                  //         hintText: 'Search for a tag...'),
-                  //     focusNode: null,
-                  //     maxLines: 1,
-                  //     style: const TextStyle(
-                  //       color: Colors.blue,
-                  //       fontSize: 20,
-                  //     ),
-                  //   ),
-                  // ),
-                  ...filter.map((tag) {
-                    return ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll<Color>(
-                            ThemeData.dark().colorScheme.surface),
-                      ),
-                      onPressed: () {
-                        model.setCurrentTag(tag.tag);
-                        currentTag = tag;
-                        model.emptyPinsHive();
-                        Navigator.of(context).pop();
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          tag.tag,
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    );
-                  })
-                ],
-              ));
-        });
   }
 }

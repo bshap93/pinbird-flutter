@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pinboard_clone/models/pinboard_pin/pinboard_pin.dart';
-import 'package:pinboard_clone/services/tag/tag.sercives.dart';
-import 'package:pinboard_clone/ui/pin_single/pin_single.dart';
 import 'package:stacked/stacked.dart';
 
+import '../../models/pinboard_pin/pinboard_pin.dart';
+import '../../services/tag/tag.sercives.dart';
+import '../pin_single/pin_single.dart';
 import '../../app/locator.dart';
 import '../../models/tag/tag.dart';
 import '../../services/pin/pin.services.dart';
