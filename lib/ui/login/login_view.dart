@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pinboard_clone/ui/api_serviced_views/pins_list/pins_list_view.dart';
+import 'package:pinboard_clone/ui/pins_list/pins_list_view.dart';
 import 'package:stacked/stacked.dart';
 // project files
 import '../shared/dialogs.dart';

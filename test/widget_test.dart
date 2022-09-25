@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:pinboard_clone/main.dart';
-import 'package:pinboard_clone/ui/api_serviced_views/pins_list/pins_list_view.dart';
+import 'package:pinboard_clone/ui/pins_list/pins_list_view.dart';
 import 'package:stacked/stacked.dart';
 
 void main() {

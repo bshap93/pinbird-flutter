@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
-import '../../../app/locator.dart';
-import '../../../services/pin/pin.services.dart';
+import '../../app/locator.dart';
+import '../../services/pin/pin.services.dart';
 
 class PinViewModel extends ReactiveViewModel {
   final String url;

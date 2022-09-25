@@ -1,11 +1,11 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
-import 'package:pinboard_clone/ui/api_serviced_views/pins_list/pins_list_viewmodel.dart';
+import 'package:pinboard_clone/ui/pins_list/pins_list_viewmodel.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../models/pinboard_pin/pinboard_pin.dart';
-import '../../shared/formatter.dart';
+import '../../models/pinboard_pin/pinboard_pin.dart';
+import '../shared/formatter.dart';
 
 class PinCard extends StatelessWidget {
   const PinCard({

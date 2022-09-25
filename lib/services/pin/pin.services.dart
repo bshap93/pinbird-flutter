@@ -50,7 +50,7 @@ class PinService extends PinboardAPIService {
 
   bool saveNewPin(PinboardPin myPin) {
     if (_pins.value.map((pin) => pin.hash).contains(myPin.hash)) {
-      print("${myPin.description} already exists.");
+      // print("${myPin.description} already exists.");
       return false;
     } else {
       _pins.value.insert(0, myPin);

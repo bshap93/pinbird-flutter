@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:stacked/stacked.dart';
 
-import '../../../models/pinboard_pin/pinboard_pin.dart';
-import '../../shared/formatter.dart';
+import '../../models/pinboard_pin/pinboard_pin.dart';
+import '../shared/formatter.dart';
 import 'pin_single_viewmodel.dart';
 
 class PinSingleView extends StatefulWidget {

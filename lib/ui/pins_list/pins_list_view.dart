@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:pinboard_clone/ui/shared/styles.dart';
-import '../../../models/tag/tag.dart';
+import 'package:filter_list/filter_list.dart';
+import 'package:pinboard_clone/ui/pins_list/tag_filter_page.dart';
 import 'pin_card.dart';
-import '../../shared/empty_page.dart';
 import 'pins_list_viewmodel.dart';
 import 'package:stacked/stacked.dart';
-import '../../../models/pinboard_pin/pinboard_pin.dart';
-import '../../../main.dart';
+
+import '../../models/pinboard_pin/pinboard_pin.dart';
+import '../../main.dart';
+import '../../models/tag/tag.dart';
+import '../shared/empty_page.dart';
 
 class PinsListView extends StatefulWidget {
   const PinsListView({Key? key}) : super(key: key);
@@ -20,6 +22,7 @@ class _PinsListViewState extends State<PinsListView> {
   List<PinboardPin> myRecentPosts = [];
   int numPagesLoaded = 1;
   Tag? currentTag = null;
+  String appBarTitle = "Recent Pins";
   // Create a Picker object to filter by tags
   @override
   Widget build(BuildContext context) {
@@ -27,20 +30,15 @@ class _PinsListViewState extends State<PinsListView> {
         viewModelBuilder: () => PinsListViewModel(),
         builder: (context, model, _) {
           // Tag noneTag = model.getTagByName("None");
-          return pinsListScaffold("Recent Pins", model, context);
+          return Scaffold(
+            drawer: mainDrawer(model, context),
+            appBar: AppBar(
+              title: Text(appBarTitle),
+              actions: <Widget>[],
+            ),
+            body: pinsListFutureBuilder(model),
+          );
         });
-  }
-
-  Scaffold pinsListScaffold(
-      String title, PinsListViewModel model, BuildContext context) {
-    return Scaffold(
-      drawer: mainDrawer(model, context),
-      appBar: AppBar(
-        title: Text(title),
-        actions: <Widget>[],
-      ),
-      body: pinsListFutureBuilder(model),
-    );
   }
 
   FutureBuilder<List<PinboardPin>> pinsListFutureBuilder(
@@ -102,6 +100,39 @@ class _PinsListViewState extends State<PinsListView> {
         });
   }
 
+  void openFilterDialog(tagList, List<Tag> selectedTagList, model) async {
+    await FilterListDialog.display<Tag>(
+      context,
+      listData: tagList,
+      selectedListData: selectedTagList,
+      themeData: FilterListThemeData.raw(
+          choiceChipTheme: ChoiceChipThemeData.dark(),
+          headerTheme: HeaderThemeData.dark(),
+          controlBarButtonTheme: ControlButtonBarThemeData.dark(context),
+          borderRadius: 20,
+          wrapAlignment: WrapAlignment.start,
+          wrapCrossAxisAlignment: WrapCrossAlignment.start,
+          wrapSpacing: 0.0,
+          backgroundColor: ThemeData.dark().colorScheme.background),
+      choiceChipLabel: (tag) => tag!.tag,
+      enableOnlySingleSelection: true,
+      validateSelectedItem: (list, val) => list!.contains(val),
+      onItemSearch: (tag, query) {
+        return tag.tag!.toLowerCase().contains(query.toLowerCase());
+      },
+      onApplyButtonClick: (tagList) {
+        setState(() {
+          selectedTagList = List.from(tagList!);
+          appBarTitle = selectedTagList.first.tag;
+        });
+        model.setCurrentTag(selectedTagList.first.tag);
+        currentTag = selectedTagList.first;
+        model.emptyPinsHive();
+        Navigator.of(context).pop();
+      },
+    );
+  }
+
   Drawer mainDrawer(PinsListViewModel model, BuildContext context) {
     return Drawer(
         child: ListView(padding: EdgeInsets.zero, children: [
@@ -124,10 +155,50 @@ class _PinsListViewState extends State<PinsListView> {
         title: const Text("Choose a Tag"),
         onTap: () {
           Navigator.pop(context);
-          tagListModalSheet(context, model);
+          openFilterDialog(model.tags, <Tag>[], model);
         },
       )
     ]));
+  }
+
+  // End of build method. Below are the other methods
+
+  _showEmptyPage() {
+    return Opacity(
+      opacity: 0.5,
+      child: Column(
+        children: const [
+          SizedBox(height: 64),
+          Icon(Icons.emoji_food_beverage_outlined, size: 48),
+          SizedBox(height: 16),
+          Text(
+            'No pins yet. Click + below to add a new one. \n\n Click # above to select a tag.',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 14),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _getPinsListMessage(String message) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Center(
+            child: Text(
+          message,
+          textAlign: TextAlign.center,
+          style:
+              TextStyle(fontWeight: FontWeight.w900, color: Colors.grey[500]),
+        )),
+        ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text("Return to Login")),
+      ],
+    );
   }
 
   Future<dynamic> tagListModalSheet(
@@ -191,45 +262,5 @@ class _PinsListViewState extends State<PinsListView> {
                 ],
               ));
         });
-  }
-
-  // End of build method. Below are the other methods
-
-  _showEmptyPage() {
-    return Opacity(
-      opacity: 0.5,
-      child: Column(
-        children: const [
-          SizedBox(height: 64),
-          Icon(Icons.emoji_food_beverage_outlined, size: 48),
-          SizedBox(height: 16),
-          Text(
-            'No pins yet. Click + below to add a new one. \n\n Click # above to select a tag.',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 14),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _getPinsListMessage(String message) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Center(
-            child: Text(
-          message,
-          textAlign: TextAlign.center,
-          style:
-              TextStyle(fontWeight: FontWeight.w900, color: Colors.grey[500]),
-        )),
-        ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: Text("Return to Login")),
-      ],
-    );
   }
 }
