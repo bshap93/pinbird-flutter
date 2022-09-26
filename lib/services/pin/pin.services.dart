@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:pinboard_clone/models/pinboard_pin/pinboard_pin.dart';
 import 'package:stacked/stacked.dart';
@@ -40,9 +41,11 @@ class PinService extends PinboardAPIService {
   Future<void> dioDeletePin({required String url}) async {
     try {
       Response resp = await dioClient.delete(
-          baseUrl + '/posts/delete?url=' + url + getAuthAppendage(apiToken));
+          '$baseUrl/posts/delete?url=$url${getAuthAppendage(apiToken)}');
 
-      print(resp.data);
+      if (kDebugMode) {
+        print(resp.data);
+      }
     } on DioError catch (e) {
       logErrors(e);
     }
@@ -54,7 +57,9 @@ class PinService extends PinboardAPIService {
       return false;
     } else {
       _pins.value.insert(0, myPin);
-      print("${myPin.description} pin created.");
+      if (kDebugMode) {
+        print("${myPin.description} pin created.");
+      }
       _saveToHive();
       notifyListeners();
       return true;
@@ -66,9 +71,13 @@ class PinService extends PinboardAPIService {
         if (pinData.isNotEmpty) {
           for (var myPin in pinData) {
             if (_pins.value.contains(myPin)) {
-              print("Hive has ${myPin.description} already.");
+              if (kDebugMode) {
+                print("Hive has ${myPin.description} already.");
+              }
             } else {
-              print("New pin created: ${myPin.description}");
+              if (kDebugMode) {
+                print("New pin created: ${myPin.description}");
+              }
               saveNewPin(myPin);
             }
           }
@@ -115,11 +124,12 @@ class PinService extends PinboardAPIService {
 
     params["url"] = Uri.encodeComponent(url);
     Response pinboardPinData =
-        await dioClient.get(baseUrl + '/posts/get' + getFullAppendage(params));
+        await dioClient.get('$baseUrl/posts/get${getFullAppendage(params)}');
 
-    List<PinboardPin> results = <PinboardPin>[];
     // Prints the raw data returned by the server
-    print('Pinboard pins: ${pinboardPinData.data}');
+    if (kDebugMode) {
+      print('Pinboard pins: ${pinboardPinData.data}');
+    }
 
     // Parsing the raw JSON data to the User class
     // If there are multiple pins with the same URL, only the first
