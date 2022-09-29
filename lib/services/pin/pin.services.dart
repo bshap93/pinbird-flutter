@@ -18,6 +18,7 @@ class PinService extends PinboardAPIService {
     Hive.box('pinboard_pins')
         .get('pinboard_pins', defaultValue: []).cast<PinboardPin>(),
   );
+
   // to be called to change our state values
   void _saveToHive() =>
       Hive.box('pinboard_pins').put('pinboard_pins', _pins.value);
@@ -34,6 +35,16 @@ class PinService extends PinboardAPIService {
   Future<bool> removePin(String url) async {
     throw Exception(
         "Sorry, Pinboard doesn't support deleting pins by conventional means.");
+  }
+
+  bool createPinOnPinboard(PinboardPin pinboardPin) {
+    try {
+      // TODO
+    } on DioError catch (e) {
+      logErrors(e);
+    }
+
+    return false;
   }
 
   // Dio API Calls
@@ -150,4 +161,6 @@ class PinService extends PinboardAPIService {
   signalChange() {
     notifyListeners();
   }
+
+  startCreatePin() {}
 }

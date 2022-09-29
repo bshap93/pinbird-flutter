@@ -37,6 +37,10 @@ class _PinsListViewState extends State<PinsListView> {
               actions: <Widget>[],
             ),
             body: pinsListFutureBuilder(model),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () => {},
+              child: Icon(Icons.add),
+            ),
           );
         });
   }
