@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pinboard_clone/models/pinboard_pin/pinboard_pin.dart';
 import 'package:stacked/stacked.dart';
 
 import 'new_pin_viewmodel.dart';
@@ -35,6 +36,10 @@ class _NewPinViewState extends State<NewPinView> {
                           ElevatedButton(
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {
+                                  // Get the form data and consolidate it into an object
+                                  // PinboardPin buildPin = Pin
+
+                                  // Finish and pass off to VMod
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
                                         content: Text(
