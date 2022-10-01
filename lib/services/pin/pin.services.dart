@@ -14,6 +14,16 @@ class PinService extends PinboardAPIService {
     listenToReactiveValues([_pins]);
   }
 
+  startCreatePin(PinboardPin newPin) async {
+    try {
+      String requestString = prepareCreate(newPin);
+    } on DioError catch (e) {
+      logErrors(e);
+    }
+
+    return false;
+  }
+
   final _pins = ReactiveValue<List<PinboardPin>>(
     Hive.box('pinboard_pins')
         .get('pinboard_pins', defaultValue: []).cast<PinboardPin>(),
@@ -35,16 +45,6 @@ class PinService extends PinboardAPIService {
   Future<bool> removePin(String url) async {
     throw Exception(
         "Sorry, Pinboard doesn't support deleting pins by conventional means.");
-  }
-
-  bool createPinOnPinboard(PinboardPin pinboardPin) {
-    try {
-      // TODO
-    } on DioError catch (e) {
-      logErrors(e);
-    }
-
-    return false;
   }
 
   // Dio API Calls
@@ -162,5 +162,7 @@ class PinService extends PinboardAPIService {
     notifyListeners();
   }
 
-  startCreatePin() {}
+  String prepareCreate(PinboardPin newPin) {
+    return "to be implemented";
+  }
 }
