@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:filter_list/filter_list.dart';
 
+import '../new_pin/new_pin_view.dart';
 import 'pin_card.dart';
 import 'pins_list_viewmodel.dart';
 import 'package:stacked/stacked.dart';
@@ -34,12 +35,16 @@ class _PinsListViewState extends State<PinsListView> {
             drawer: mainDrawer(model, context),
             appBar: AppBar(
               title: Text(appBarTitle),
-              actions: <Widget>[],
+              actions: const <Widget>[],
             ),
             body: pinsListFutureBuilder(model),
             floatingActionButton: FloatingActionButton(
-              onPressed: () => {},
-              child: Icon(Icons.add),
+              onPressed: () => {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (constext) => const NewPinView()),
+                )
+              },
+              child: const Icon(Icons.add),
             ),
           );
         });
@@ -149,17 +154,17 @@ class _PinsListViewState extends State<PinsListView> {
           decoration:
               BoxDecoration(color: ThemeData.dark().colorScheme.background),
           child: const Text('Pinboard Pages')),
-      ListTile(
-        title: const Text('Logout'),
-        onTap: () {
-          MyApp.restartApp(context);
-          model.logout();
-          // Exit drawer
-          Navigator.pop(context);
-          // Pop back to login page
-          Navigator.pop(context);
-        },
-      ),
+      // ListTile(
+      //   title: const Text('Logout'),
+      //   onTap: () {
+      //     // MyApp.restartApp(context);
+      //     model.logout();
+      //     // Exit drawer
+      //     Navigator.pop(context);
+      //     // Pop back to login page
+      //     Navigator.pop(context);
+      //   },
+      // ),
       ListTile(
         title: const Text("Choose a Tag"),
         onTap: () {
