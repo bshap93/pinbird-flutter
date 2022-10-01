@@ -17,11 +17,20 @@ class _NewPinViewState extends State<NewPinView> {
   bool markedPrivate = false;
   bool markedReadLater = false;
 
+  // Our form validation prevents accidental submission
+  // of this empty string
+  String pinUrl = "";
+  String pinTitle = "";
+
+  // These can be empty.
+  String pinDescription = "";
+  String pinTags = "";
+
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder.reactive(
       viewModelBuilder: () => NewPinViewModel(),
-      builder: (context, model, _) => Scaffold(
+      builder: (context, NewPinViewModel model, _) => Scaffold(
           appBar:
               AppBar(title: const Text('Create New Pin'), actions: const []),
           body: Container(
@@ -38,6 +47,17 @@ class _NewPinViewState extends State<NewPinView> {
                                 if (_formKey.currentState!.validate()) {
                                   // Get the form data and consolidate it into an object
                                   // PinboardPin buildPin = Pin
+                                  _formKey.currentState?.save();
+                                  Map<String, dynamic> pinCreateData =
+                                      <String, dynamic>{};
+                                  pinCreateData["url"] = pinUrl;
+                                  pinCreateData["title"] = pinTitle;
+                                  pinCreateData["description"] = pinDescription;
+                                  pinCreateData["tags"] = pinTags;
+                                  pinCreateData["private"] = markedPrivate;
+                                  pinCreateData["read_later"] = markedReadLater;
+
+                                  model.processPinCreateData(pinCreateData);
 
                                   // Finish and pass off to VMod
                                   ScaffoldMessenger.of(context).showSnackBar(
@@ -60,6 +80,10 @@ class _NewPinViewState extends State<NewPinView> {
       Padding(
         padding: const EdgeInsets.all(4.0),
         child: TextFormField(
+          // It must exist due to the validation
+          onSaved: (String? url) {
+            pinUrl = url!;
+          },
           decoration: const InputDecoration(
             border: OutlineInputBorder(),
             hintText: 'Enter your Pin\'s URL',
@@ -77,6 +101,9 @@ class _NewPinViewState extends State<NewPinView> {
       Padding(
         padding: const EdgeInsets.all(4.0),
         child: TextFormField(
+          onSaved: (String? title) {
+            pinTitle = title!;
+          },
           decoration: const InputDecoration(
             border: OutlineInputBorder(),
             hintText: 'Enter your Pin\'s Name',
@@ -92,6 +119,13 @@ class _NewPinViewState extends State<NewPinView> {
       Padding(
         padding: const EdgeInsets.all(4.0),
         child: TextFormField(
+          onSaved: (description) {
+            if (description == null) {
+              pinDescription = "";
+            } else {
+              pinDescription = description;
+            }
+          },
           decoration: const InputDecoration(
             border: OutlineInputBorder(),
             hintText: 'Enter a Description of your pin',
@@ -104,6 +138,13 @@ class _NewPinViewState extends State<NewPinView> {
       Padding(
         padding: const EdgeInsets.all(4.0),
         child: TextFormField(
+          onSaved: (tags) {
+            if (tags == null) {
+              pinTags = "";
+            } else {
+              pinTags = tags;
+            }
+          },
           decoration: const InputDecoration(
             border: OutlineInputBorder(),
             hintText: 'Enter tags for your pin (separate their names by space)',
