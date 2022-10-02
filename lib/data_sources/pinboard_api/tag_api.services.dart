@@ -1,5 +1,5 @@
 import '../../models/tag/tag.dart';
-import '../api/api.services.dart';
+import 'api.services.dart';
 import 'package:dio/dio.dart';
 
 class TagAPIService extends PinboardAPIService {

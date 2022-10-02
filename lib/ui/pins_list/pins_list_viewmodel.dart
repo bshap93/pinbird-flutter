@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../models/pinboard_pin/pinboard_pin.dart';
-import '../../services/tag/tag.sercives.dart';
+import '../../services/tag.sercives.dart';
 import '../pin_single/pin_single.dart';
 import '../../app/locator.dart';
 import '../../models/tag/tag.dart';
-import '../../services/pin/pin.services.dart';
+import '../../services/pin.services.dart';
 
 class PinsListViewModel extends ReactiveViewModel {
   final _firstPinFocusNode = FocusNode();

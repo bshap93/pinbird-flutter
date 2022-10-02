@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:pinboard_clone/services/tag/tag_api.services.dart';
+import 'package:pinboard_clone/data_sources/pinboard_api/tag_api.services.dart';
 import 'package:stacked/stacked.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-import '../../models/tag/tag.dart';
+import '../models/tag/tag.dart';
 
 class TagService extends TagAPIService {
   final _tags = ReactiveValue<List<Tag>>(

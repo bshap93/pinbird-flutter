@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../app/locator.dart';
-import '../../services/api/api.services.dart';
+import '../../data_sources/pinboard_api/api.services.dart';
 
 class LoginViewModel extends ReactiveViewModel {
   // final _firstPinFocusNode = FocusNode();
