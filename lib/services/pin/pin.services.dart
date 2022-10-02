@@ -43,8 +43,7 @@ class PinService extends PinboardAPIService {
   List<PinboardPin> get pinboardPins => _pins.value;
 
   Future<bool> removePin(String url) async {
-    throw Exception(
-        "Sorry, Pinboard doesn't support deleting pins by conventional means.");
+    throw Exception("to be implemented.");
   }
 
   // Dio API Calls
