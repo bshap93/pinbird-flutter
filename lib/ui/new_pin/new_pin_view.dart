@@ -80,6 +80,7 @@ class _NewPinViewState extends State<NewPinView> {
       Padding(
         padding: const EdgeInsets.all(4.0),
         child: TextFormField(
+          initialValue: "https://",
           // It must exist due to the validation
           onSaved: (String? url) {
             pinUrl = url!;

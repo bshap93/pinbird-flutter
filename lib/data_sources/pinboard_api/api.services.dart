@@ -1,7 +1,10 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:pinboard_clone/models/pinboard_pin/pinboard_pin.dart';
 import 'package:stacked/stacked.dart';
+
+import '../../models/tag/tag.dart';
 
 class PinboardAPIService with ReactiveServiceMixin {
   final _apiToken = ReactiveValue<String>(
@@ -99,5 +102,77 @@ class PinboardAPIService with ReactiveServiceMixin {
     notifyListeners();
 
     return results;
+  }
+
+  // TODO merge with getRecentPIns
+  Future<List<PinboardPin>> getRecentPins({int count = 15, Tag? myTag}) async {
+    List<PinboardPin> pinboardPinList = <PinboardPin>[];
+    // Perform GET request to the endpoint "/users/<id>"
+    try {
+      Response pinboardPinData;
+      if (myTag == null) {
+        pinboardPinData = await dioClient.get(
+            '$baseUrl/posts/recent${getAuthAppendage(apiToken)}&count=$count');
+      } else {
+        pinboardPinData = await dioClient.get(
+            '$baseUrl/posts/recent${getAuthAppendage(apiToken)}&count=$count&tag=${myTag.tag}');
+      }
+
+      // print('Pinboard pins: ${pinboardPinData.data["posts"]}');
+      for (var pinboardPin in pinboardPinData.data["posts"]) {
+        PinboardPin myPin = PinboardPin.fromJson(pinboardPin);
+        pinboardPinList.add(myPin);
+      }
+
+      notifyListeners();
+    } on DioError catch (e) {
+      logErrors(e);
+    }
+
+    return pinboardPinList;
+  }
+
+  Future<PinboardPin> dioGetPin(String url) async {
+    // Perform GET request to the endpoint "/users/<id>"
+    Map<String, dynamic> params = {};
+    late final PinboardPin result;
+
+    params["url"] = Uri.encodeComponent(url);
+    Response pinboardPinData =
+        await dioClient.get('$baseUrl/posts/get${getFullAppendage(params)}');
+
+    // Prints the raw data returned by the server
+    if (kDebugMode) {
+      print('Pinboard pins: ${pinboardPinData.data}');
+    }
+
+    // Parsing the raw JSON data to the User class
+    // If there are multiple pins with the same URL, only the first
+    // will be returned.
+    List posts = pinboardPinData.data["posts"];
+
+    try {
+      result = PinboardPin.fromJson(posts.first);
+    } catch (e) {
+      throw Exception("Response could not be parsed");
+    }
+
+    notifyListeners();
+
+    return result;
+  }
+
+  // Deleting not allowed at the current time
+  Future<void> dioDeletePin({required String url}) async {
+    try {
+      Response resp = await dioClient.delete(
+          '$baseUrl/posts/delete?url=$url${getAuthAppendage(apiToken)}');
+
+      if (kDebugMode) {
+        print(resp.data);
+      }
+    } on DioError catch (e) {
+      logErrors(e);
+    }
   }
 }

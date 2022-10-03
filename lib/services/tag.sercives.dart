@@ -6,6 +6,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import '../models/tag/tag.dart';
 
 class TagService extends TagAPIService {
+  // Non-API oriented functions
   final _tags = ReactiveValue<List<Tag>>(
     Hive.box('tags').get('tags', defaultValue: []).cast<Tag>(),
   );
