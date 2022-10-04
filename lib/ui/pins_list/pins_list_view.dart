@@ -108,7 +108,8 @@ class _PinsListViewState extends State<PinsListView> {
         });
   }
 
-  void openFilterDialog(tagList, List<Tag> selectedTagList, model) async {
+  void openFilterDialog(
+      tagList, List<Tag> selectedTagList, PinsListViewModel model) async {
     await FilterListDialog.display<Tag>(
       context,
       listData: tagList,
@@ -136,11 +137,24 @@ class _PinsListViewState extends State<PinsListView> {
       onApplyButtonClick: (tagList) {
         setState(() {
           selectedTagList = List.from(tagList!);
-          appBarTitle = selectedTagList.first.tag;
+          if (selectedTagList.isNotEmpty) {
+            appBarTitle = selectedTagList.first.tag;
+          } else {
+            appBarTitle = "Recent Pins";
+            currentTag = null;
+          }
         });
-        model.setCurrentTag(selectedTagList.first.tag);
-        currentTag = selectedTagList.first;
-        model.emptyPinsHive();
+
+        if (selectedTagList.isNotEmpty) {
+          model.setCurrentTag(selectedTagList.first.tag);
+          currentTag = selectedTagList.first;
+          model.emptyPinsHive();
+        } else {
+          model.setCurrentTag(null);
+          currentTag = null;
+          model.emptyPinsHive();
+        }
+
         Navigator.of(context).pop();
       },
     );

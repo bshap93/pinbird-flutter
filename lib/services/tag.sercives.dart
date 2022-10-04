@@ -55,7 +55,7 @@ class TagService extends TagAPIService {
     }
   }
 
-  bool setCurrentTag(String tagName) {
+  bool setCurrentTag(String? tagName) {
     Tag? myTag = getTagByName(tagName);
     if (myTag == null) {
       print("No tag called $tagName");
@@ -77,7 +77,7 @@ class TagService extends TagAPIService {
   Tag getNewestTag() => _tags.value.elementAt(0);
 
   // Tags with equal tag string to be treated as equivalent and interchangeable
-  Tag? getTagByName(String tagStr) {
+  Tag? getTagByName(String? tagStr) {
     try {
       if (_tags.value.isNotEmpty) {
         return _tags.value.where((tag) => tag.tag == tagStr).first;
