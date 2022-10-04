@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pinboard_clone/models/pinboard_pin/pinboard_pin.dart';
 import 'package:stacked/stacked.dart';
 
 import 'new_pin_viewmodel.dart';

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../models/pinboard_pin/pinboard_pin.dart';
@@ -20,10 +19,18 @@ class _PinSingleViewState extends State<PinSingleView> {
   Widget build(BuildContext context) {
     return ViewModelBuilder<PinViewModel>.reactive(
         viewModelBuilder: () => PinViewModel(widget.pin.href),
-        builder: (context, model, _) => Scaffold(
+        builder: (context, PinViewModel model, _) => Scaffold(
             appBar: AppBar(
               title: Text(widget.pin.time),
-              actions: <Widget>[],
+              actions: <Widget>[
+                IconButton(
+                  onPressed: () {
+                    model.startDeletePin(widget.pin.href);
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(Icons.delete),
+                )
+              ],
             ),
             body: ListView(
               padding: const EdgeInsets.symmetric(vertical: 16),

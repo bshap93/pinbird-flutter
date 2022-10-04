@@ -76,6 +76,24 @@ class PinService extends PinboardAPIService {
 
   // Dio API Calls
 
+  Future<bool> startDeletePin(String myUrl) async {
+    try {
+      Map<String, dynamic> params = {};
+
+      params["url"] = myUrl;
+
+      Response resp = await dioClient
+          .post('$baseUrl/posts/delete${getFullAppendage(params)}');
+
+      print(resp.statusCode);
+      return true;
+    } on DioError catch (e) {
+      logErrors(e);
+    }
+
+    return false;
+  }
+
   Future<bool> startCreatePin(PinboardPin newPin) async {
     try {
       Map<String, dynamic> params = {};

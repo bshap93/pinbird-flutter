@@ -9,6 +9,7 @@ class PinViewModel extends ReactiveViewModel {
 
   final _firstPinFocusNode = FocusNode();
   final _pinService = locator<PinService>();
+  late final startDeletePin = _pinService.startDeletePin;
 
   PinViewModel(this.url);
 

@@ -154,16 +154,7 @@ class _PinsListViewState extends State<PinsListView> {
               BoxDecoration(color: ThemeData.dark().colorScheme.background),
           child: const Text('Pinboard Pages')),
       // ListTile(
-      //   title: const Text('Logout'),
-      //   onTap: () {
-      //     // MyApp.restartApp(context);
-      //     model.logout();
-      //     // Exit drawer
-      //     Navigator.pop(context);
-      //     // Pop back to login page
-      //     Navigator.pop(context);
-      //   },
-      // ),
+
       ListTile(
         title: const Text("Choose a Tag"),
         onTap: () {
