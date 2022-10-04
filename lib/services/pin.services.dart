@@ -76,9 +76,26 @@ class PinService extends PinboardAPIService {
 
   // Dio API Calls
 
-  startCreatePin(PinboardPin newPin) async {
+  Future<bool> startCreatePin(PinboardPin newPin) async {
     try {
-      String requestString = prepareCreate(newPin);
+      Map<String, dynamic> params = {};
+
+      params["url"] = newPin.href;
+      params["description"] = newPin.description;
+
+      if (newPin.tags.isNotEmpty) params["tags"] = newPin.tags;
+
+      if (newPin.extended.isNotEmpty) params["extended"] = newPin.extended;
+
+      if (newPin.shared.isNotEmpty) params["shared"] = newPin.shared;
+
+      if (newPin.toread.isNotEmpty) params["toread"] = newPin.toread;
+
+      Response resp =
+          await dioClient.post('$baseUrl/posts/add${getFullAppendage(params)}');
+
+      print(resp.statusCode);
+      return true;
     } on DioError catch (e) {
       logErrors(e);
     }
@@ -88,9 +105,5 @@ class PinService extends PinboardAPIService {
 
   Future<bool> removePin(String url) async {
     throw Exception("to be implemented.");
-  }
-
-  String prepareCreate(PinboardPin newPin) {
-    return "to be implemented";
   }
 }

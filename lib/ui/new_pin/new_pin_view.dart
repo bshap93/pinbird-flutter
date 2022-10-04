@@ -57,11 +57,33 @@ class _NewPinViewState extends State<NewPinView> {
                                   pinCreateData["private"] = markedPrivate;
                                   pinCreateData["read_later"] = markedReadLater;
 
-                                  model.processPinCreateData(pinCreateData);
+                                  final pin =
+                                      model.processPinCreateData(pinCreateData);
+
+                                  model.startCreatePin(pin).then((created) {
+                                    if (created) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                            backgroundColor: Colors.amber,
+                                            content: Text('Success!')),
+                                      );
+
+                                      // TODO refresh so that new pin shows
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                            backgroundColor: Colors.redAccent,
+                                            content: Text('Failure!')),
+                                      );
+                                    }
+                                  });
 
                                   // Finish and pass off to VMod
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
+                                        backgroundColor: Colors.green,
                                         content: Text(
                                             'Now hook this up to the API')),
                                   );
