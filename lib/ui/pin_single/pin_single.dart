@@ -27,6 +27,9 @@ class _PinSingleViewState extends State<PinSingleView> {
                   onPressed: () {
                     model.startDeletePin(widget.pin.href);
                     Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        backgroundColor: Colors.amber,
+                        content: Text('Deleted your pin.')));
                   },
                   icon: const Icon(Icons.delete),
                 )

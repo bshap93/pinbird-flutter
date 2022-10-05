@@ -36,6 +36,15 @@ class PinsListViewModel extends ReactiveViewModel {
 
   List<Tag> get tags => _tagsService.tags;
 
+  Tag? getTag(String tagId) {
+    final myTags = this.tags.where((tag) => tag.tag == tagId);
+    if (myTags.isNotEmpty) {
+      return myTags.first;
+    } else {
+      return null;
+    }
+  }
+
   void changeToNewTag(Tag myTag) {
     setCurrentTag(myTag.tag);
     loadInRecentPins(15, myTag);

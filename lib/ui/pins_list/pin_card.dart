@@ -5,16 +5,22 @@ import 'package:pinboard_clone/ui/pins_list/pins_list_viewmodel.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../models/pinboard_pin/pinboard_pin.dart';
+import '../../models/tag/tag.dart';
 import '../shared/formatter.dart';
+
+// Callback for choosing a tag in the card
+typedef TagCallback = void Function(Tag tag);
 
 class PinCard extends StatelessWidget {
   const PinCard({
     Key? key,
+    required this.onCurrentTagChanged,
     required this.pin,
     required this.model,
     required this.descriptionController,
   }) : super(key: key);
 
+  final TagCallback onCurrentTagChanged;
   final TextEditingController descriptionController;
   final PinboardPin pin;
   final PinsListViewModel model;
@@ -56,7 +62,8 @@ class PinCard extends StatelessWidget {
             ],
           ),
           // don't waste space if there aren't tags
-          Formatter.ifShowTags(pin.tags),
+
+          ifShowTags(pin.tags),
           const Padding(padding: EdgeInsets.all(2.0)),
         ],
       ),
@@ -69,6 +76,37 @@ class PinCard extends StatelessWidget {
         onPressed: () => model.startGet(pin.href, context),
       ),
     ));
+  }
+
+  Widget ifShowTags(String tags) {
+    if (tags.isNotEmpty) {
+      List<String> listOfTagStrings = tags.split(' ');
+      return Row(
+        children: [
+          ...listOfTagStrings.map((tag) {
+            return ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                        ThemeData.dark().colorScheme.background),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18.0),
+                    ))),
+                onPressed: () {
+                  Tag? myTag = model.getTag(tag);
+                  if (myTag != null) {
+                    onCurrentTagChanged(myTag);
+                  } else {
+                    print("Tag not found");
+                  }
+                },
+                child: Text(tag));
+          })
+        ],
+      );
+    } else {
+      return const Padding(padding: EdgeInsets.zero);
+    }
   }
 }
 

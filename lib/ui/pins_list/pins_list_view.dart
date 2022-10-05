@@ -20,6 +20,7 @@ class PinsListView extends StatefulWidget {
 class _PinsListViewState extends State<PinsListView> {
   // persist URL state across views
   List<PinboardPin> myRecentPosts = [];
+  late PinsListViewModel mainViewModel;
   int numPagesLoaded = 1;
   Tag? currentTag;
   String appBarTitle = "Recent Pins";
@@ -29,6 +30,7 @@ class _PinsListViewState extends State<PinsListView> {
     return ViewModelBuilder<PinsListViewModel>.reactive(
         viewModelBuilder: () => PinsListViewModel(),
         builder: (context, model, _) {
+          mainViewModel = model;
           // Tag noneTag = model.getTagByName("None");
           return Scaffold(
             drawer: mainDrawer(model, context),
@@ -84,7 +86,8 @@ class _PinsListViewState extends State<PinsListView> {
                   return PinCard(
                       pin: pin,
                       model: model,
-                      descriptionController: descriptionController);
+                      descriptionController: descriptionController,
+                      onCurrentTagChanged: executeCurrentTagChange);
                 })
               ],
             ),
@@ -135,29 +138,35 @@ class _PinsListViewState extends State<PinsListView> {
         return tag.tag!.toLowerCase().contains(query.toLowerCase());
       },
       onApplyButtonClick: (tagList) {
-        setState(() {
-          selectedTagList = List.from(tagList!);
-          if (selectedTagList.isNotEmpty) {
-            appBarTitle = selectedTagList.first.tag;
-          } else {
-            appBarTitle = "Recent Pins";
-            currentTag = null;
-          }
-        });
-
+        selectedTagList = List.from(tagList!);
         if (selectedTagList.isNotEmpty) {
-          model.setCurrentTag(selectedTagList.first.tag);
-          currentTag = selectedTagList.first;
-          model.emptyPinsHive();
+          executeCurrentTagChange(selectedTagList.first);
         } else {
-          model.setCurrentTag(null);
-          currentTag = null;
-          model.emptyPinsHive();
+          executeCurrentTagRemove();
         }
 
         Navigator.of(context).pop();
       },
     );
+  }
+
+  void executeCurrentTagChange(Tag tagObject) {
+    setState(() {
+      appBarTitle = tagObject.tag;
+    });
+    mainViewModel.setCurrentTag(tagObject.tag);
+    currentTag = tagObject;
+    mainViewModel.emptyPinsHive();
+  }
+
+  void executeCurrentTagRemove() {
+    setState(() {
+      appBarTitle = "Recent Pins";
+      currentTag = null;
+    });
+    mainViewModel.setCurrentTag(null);
+    currentTag = null;
+    mainViewModel.emptyPinsHive();
   }
 
   Drawer mainDrawer(PinsListViewModel model, BuildContext context) {
