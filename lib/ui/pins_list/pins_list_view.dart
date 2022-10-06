@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:filter_list/filter_list.dart';
 
@@ -21,9 +23,11 @@ class _PinsListViewState extends State<PinsListView> {
   // persist URL state across views
   List<PinboardPin> myRecentPosts = [];
   late PinsListViewModel mainViewModel;
+  int bottomBarSelectedId = 0;
   int numPagesLoaded = 1;
   Tag? currentTag;
   String appBarTitle = "Recent Pins";
+
   // Create a Picker object to filter by tags
   @override
   Widget build(BuildContext context) {
@@ -31,21 +35,45 @@ class _PinsListViewState extends State<PinsListView> {
         viewModelBuilder: () => PinsListViewModel(),
         builder: (context, model, _) {
           mainViewModel = model;
-          // Tag noneTag = model.getTagByName("None");
           return Scaffold(
             drawer: mainDrawer(model, context),
             appBar: AppBar(
               title: Text(appBarTitle),
-              actions: const <Widget>[],
+              actions: <Widget>[
+                IconButton(
+                    onPressed: () => executeCurrentTagRemove(),
+                    icon: const Icon(Icons.home)),
+              ],
             ),
             body: pinsListFutureBuilder(model),
+            bottomNavigationBar: BottomAppBar(
+              shape: const CircularNotchedRectangle(),
+              color: ThemeData.dark().colorScheme.surface,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  IconButton(
+                    onPressed: () =>
+                        {openFilterDialog(model.tags, <Tag>[], model)},
+                    icon: const Icon(Icons.tag),
+                  ),
+                  IconButton(
+                      onPressed: () => {}, icon: const Icon(Icons.search))
+                ],
+              ),
+            ),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerDocked,
             floatingActionButton: FloatingActionButton(
               onPressed: () => {
                 Navigator.of(context).push(
                   MaterialPageRoute(builder: (constext) => const NewPinView()),
                 )
               },
-              child: const Icon(Icons.add),
+              child: Icon(
+                Icons.add_location,
+                color: ThemeData.dark().colorScheme.background,
+              ),
             ),
           );
         });

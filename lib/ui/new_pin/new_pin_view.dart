@@ -64,11 +64,9 @@ class _NewPinViewState extends State<NewPinView> {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         const SnackBar(
-                                            backgroundColor: Colors.amber,
+                                            backgroundColor: Colors.green,
                                             content: Text('Success!')),
                                       );
-
-                                      // TODO refresh so that new pin shows
                                     } else {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
@@ -77,14 +75,15 @@ class _NewPinViewState extends State<NewPinView> {
                                             content: Text('Failure!')),
                                       );
                                     }
+                                    Navigator.pop(context);
                                   });
 
                                   // Finish and pass off to VMod
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
-                                        backgroundColor: Colors.green,
+                                        backgroundColor: Colors.amber,
                                         content: Text(
-                                            'Now hook this up to the API')),
+                                            'Processing your new pin now...')),
                                   );
                                 }
                               },

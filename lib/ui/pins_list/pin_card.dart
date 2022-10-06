@@ -62,8 +62,12 @@ class PinCard extends StatelessWidget {
             ],
           ),
           // don't waste space if there aren't tags
-
-          ifShowTags(pin.tags),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              ifShowTags(pin.tags),
+            ],
+          ),
           const Padding(padding: EdgeInsets.all(2.0)),
         ],
       ),
@@ -81,8 +85,13 @@ class PinCard extends StatelessWidget {
   Widget ifShowTags(String tags) {
     if (tags.isNotEmpty) {
       List<String> listOfTagStrings = tags.split(' ');
-      return Row(
+      return Wrap(
+        // crossAxisAlignment: WrapCrossAlignment.center,
+
+        direction: Axis.horizontal,
+        spacing: 5.0,
         children: [
+          Text("Tags:"),
           ...listOfTagStrings.map((tag) {
             return ElevatedButton(
                 style: ButtonStyle(
@@ -101,7 +110,7 @@ class PinCard extends StatelessWidget {
                   }
                 },
                 child: Text(tag));
-          })
+          }),
         ],
       );
     } else {
