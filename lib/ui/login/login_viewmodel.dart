@@ -1,11 +1,11 @@
 import 'package:stacked/stacked.dart';
 
 import '../../app/locator.dart';
-import '../../data_sources/pinboard_api/api.services.dart';
+import '../../data_sources/pinboard_api/api_v1.services.dart';
 
 class LoginViewModel extends ReactiveViewModel {
   // final _firstPinFocusNode = FocusNode();
-  final _pinboardPinService = locator<PinboardAPIService>();
+  final _pinboardPinService = locator<PinboardAPIV1Service>();
   late final startLogin = _pinboardPinService.setApiToken;
   late final setApiToken = _pinboardPinService.setApiToken;
   late final validateAPIToken = _pinboardPinService.validateApiToken;

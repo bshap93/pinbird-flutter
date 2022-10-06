@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:pinboard_clone/data_sources/pinboard_api/tag_api.services.dart';
+import 'package:pinboard_clone/data_sources/pinboard_api_v1/tag_api.services.dart';
 import 'package:stacked/stacked.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -107,7 +107,7 @@ class TagService extends TagAPIService {
     List<Tag> results = <Tag>[];
     try {
       Response tagData = await dioClient
-          .get(baseUrl + '/tags/get' + getAuthAppendage(apiToken));
+          .get(baseUrlV1 + '/tags/get' + getAuthAppendage(apiToken));
 
       print(tagData.data.toString());
 

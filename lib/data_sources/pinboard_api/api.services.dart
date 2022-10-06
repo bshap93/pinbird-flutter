@@ -6,14 +6,15 @@ import 'package:stacked/stacked.dart';
 
 import '../../models/tag/tag.dart';
 
-class PinboardAPIService with ReactiveServiceMixin {
+class PinboardAPIV1Service with ReactiveServiceMixin {
   final _apiToken = ReactiveValue<String>(
     Hive.box('api_token').get('api_token', defaultValue: ""),
   );
 
   final Dio dioClient = Dio();
 
-  final baseUrl = 'https://api.pinboard.in/v1';
+  final baseUrlV1 = 'https://api.pinboard.in/v1';
+  final baseUrlV2 = 'https://api.pinboard.in/v2';
 
   String get apiToken => _apiToken.value;
 
@@ -87,7 +88,7 @@ class PinboardAPIService with ReactiveServiceMixin {
   Future<List<PinboardPin>> testRequest() async {
     // Perform GET request to the endpoint "/users/<id>"
     Response pinboardPinData = await dioClient
-        .get(baseUrl + '/posts/recent' + getAuthAppendage(apiToken));
+        .get(baseUrlV1 + '/posts/recent' + getAuthAppendage(apiToken));
 
     List<PinboardPin> results = <PinboardPin>[];
     // Prints the raw data returned by the server
@@ -112,10 +113,10 @@ class PinboardAPIService with ReactiveServiceMixin {
       Response pinboardPinData;
       if (myTag == null) {
         pinboardPinData = await dioClient.get(
-            '$baseUrl/posts/recent${getAuthAppendage(apiToken)}&count=$count');
+            '$baseUrlV1/posts/recent${getAuthAppendage(apiToken)}&count=$count');
       } else {
         pinboardPinData = await dioClient.get(
-            '$baseUrl/posts/recent${getAuthAppendage(apiToken)}&count=$count&tag=${myTag.tag}');
+            '$baseUrlV1/posts/recent${getAuthAppendage(apiToken)}&count=$count&tag=${myTag.tag}');
       }
 
       // print('Pinboard pins: ${pinboardPinData.data["posts"]}');
@@ -139,7 +140,7 @@ class PinboardAPIService with ReactiveServiceMixin {
 
     params["url"] = Uri.encodeComponent(url);
     Response pinboardPinData =
-        await dioClient.get('$baseUrl/posts/get${getFullAppendage(params)}');
+        await dioClient.get('$baseUrlV1/posts/get${getFullAppendage(params)}');
 
     // Prints the raw data returned by the server
     if (kDebugMode) {
@@ -166,7 +167,7 @@ class PinboardAPIService with ReactiveServiceMixin {
   Future<void> dioDeletePin({required String url}) async {
     try {
       Response resp = await dioClient.delete(
-          '$baseUrl/posts/delete?url=$url${getAuthAppendage(apiToken)}');
+          '$baseUrlV1/posts/delete?url=$url${getAuthAppendage(apiToken)}');
 
       if (kDebugMode) {
         print(resp.data);
@@ -174,5 +175,37 @@ class PinboardAPIService with ReactiveServiceMixin {
     } on DioError catch (e) {
       logErrors(e);
     }
+  }
+
+  // API V2 FUNCTIONS
+
+  // Perform GET request to the endpoint "/users/<id>"
+  Future<List<PinboardPin>> getSearchedPins(
+      {int count = 15, String? searchString}) async {
+    List<PinboardPin> pinboardPinList = <PinboardPin>[];
+    try {
+      //Token contains Username
+      String username = apiToken.split(':').first;
+      Response pinboardPinData;
+      if (searchString == null) {
+        pinboardPinData = await dioClient.get(
+            '$baseUrlV2/search/$username/${getAuthAppendage(apiToken)}&count=$count');
+      } else {
+        pinboardPinData = await dioClient.get(
+            '$baseUrlV2/posts/recent${getAuthAppendage(apiToken)}&count=$count&tag=$searchString');
+      }
+
+      // print('Pinboard pins: ${pinboardPinData.data["posts"]}');
+      for (var pinboardPin in pinboardPinData.data["posts"]) {
+        PinboardPin myPin = PinboardPin.fromJson(pinboardPin);
+        pinboardPinList.add(myPin);
+      }
+
+      notifyListeners();
+    } on DioError catch (e) {
+      logErrors(e);
+    }
+
+    return pinboardPinList;
   }
 }

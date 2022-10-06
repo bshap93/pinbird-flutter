@@ -5,9 +5,9 @@ import 'package:pinboard_clone/models/pinboard_pin/pinboard_pin.dart';
 import 'package:stacked/stacked.dart';
 
 import '../models/tag/tag.dart';
-import '../data_sources/pinboard_api/api.services.dart';
+import '../data_sources/pinboard_api_v1/api_v1.services.dart';
 
-class PinService extends PinboardAPIService {
+class PinService extends PinboardAPIV1Service {
   // Local storage from Hive to match with remote data from Pinboard
   PinService() {
     loadInRecentPins(15, null);
@@ -83,7 +83,7 @@ class PinService extends PinboardAPIService {
       params["url"] = myUrl;
 
       Response resp = await dioClient
-          .post('$baseUrl/posts/delete${getFullAppendage(params)}');
+          .post('$baseUrlV1/posts/delete${getFullAppendage(params)}');
 
       print(resp.statusCode);
       return true;
@@ -109,8 +109,8 @@ class PinService extends PinboardAPIService {
 
       if (newPin.toread.isNotEmpty) params["toread"] = newPin.toread;
 
-      Response resp =
-          await dioClient.post('$baseUrl/posts/add${getFullAppendage(params)}');
+      Response resp = await dioClient
+          .post('$baseUrlV1/posts/add${getFullAppendage(params)}');
 
       print(resp.statusCode);
       return true;

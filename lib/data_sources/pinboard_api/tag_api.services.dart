@@ -1,13 +1,13 @@
 import '../../models/tag/tag.dart';
-import 'api.services.dart';
+import 'api_v1.services.dart';
 import 'package:dio/dio.dart';
 
-class TagAPIService extends PinboardAPIService {
+class TagAPIService extends PinboardAPIV1Service {
   Future<List<Tag>> dioGetTags() async {
     List<Tag> results = <Tag>[];
     try {
       Response tagData = await dioClient
-          .get(baseUrl + '/tags/get' + getAuthAppendage(apiToken));
+          .get(baseUrlV1 + '/tags/get' + getAuthAppendage(apiToken));
 
       print(tagData.data.toString());
 
