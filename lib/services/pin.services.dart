@@ -19,6 +19,8 @@ class PinService extends PinboardAPIV1Service {
         .get('pinboard_pins', defaultValue: []).cast<PinboardPin>(),
   );
 
+  // Future<http.Response> fetchAllPins(http)
+
   signalChange() {
     notifyListeners();
   }
@@ -151,5 +153,53 @@ class PinService extends PinboardAPIV1Service {
     notifyListeners();
 
     return result;
+  }
+
+  startGetAllPins() {
+    getAllPins().then((allPins) {});
+  }
+
+  Future<List<PinboardPin>> getAllPins() async {
+    // Perform GET request to the endpoint "/users/<id>"
+    try {
+      Response pinboardPinData;
+
+      pinboardPinData = await dioClient
+          .get('$baseUrlV1/posts/recent${getAuthAppendage(apiToken)}');
+
+      // // print('Pinboard pins: ${pinboardPinData.data["posts"]}');
+      // for (var pinboardPin in pinboardPinData.data["posts"]) {
+      //   PinboardPin myPin = PinboardPin.fromJson(pinboardPin);
+      //   pinboardPinList.add(myPin);
+      // }
+      return compute(parsePinboardPins, pinboardPinData);
+    } on DioError catch (e) {
+      logErrors(e);
+      return [];
+    }
+  }
+
+  List<PinboardPin> parsePinboardPins(Response<dynamic> pinboardPinData) {
+    List<PinboardPin> pinboardPinList = <PinboardPin>[];
+    for (var pinboardPin in pinboardPinData.data["posts"]) {
+      PinboardPin myPin = PinboardPin.fromJson(pinboardPin);
+      pinboardPinList.add(myPin);
+    }
+    return pinboardPinList;
+  }
+
+  bool saveAllPinWorker(PinboardPin myPin) {
+    if (_pins.value.map((pin) => pin.hash).contains(myPin.hash)) {
+      // print("${myPin.description} already exists.");
+      return false;
+    } else {
+      _pins.value.insert(0, myPin);
+      if (kDebugMode) {
+        print("${myPin.description} pin created.");
+      }
+      _saveToHive();
+      notifyListeners();
+      return true;
+    }
   }
 }

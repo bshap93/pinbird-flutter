@@ -21,6 +21,7 @@ class PinsListViewModel extends ReactiveViewModel {
   late final emptyPinsHive = _pinboardPinsService.emptyHive;
   late final signalChange = _pinboardPinsService.signalChange;
   late final startCreatePin = _pinboardPinsService.startCreatePin;
+  late final startGetAllPins = _pinboardPinsService.startGetAllPins;
 
   var count = 15;
 

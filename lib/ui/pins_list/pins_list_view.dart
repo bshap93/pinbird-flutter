@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:filter_list/filter_list.dart';
 
@@ -20,14 +18,14 @@ class PinsListView extends StatefulWidget {
 }
 
 class _PinsListViewState extends State<PinsListView> {
-  // persist URL state across views
+// persist URL state across views
   List<PinboardPin> myRecentPosts = [];
   late PinsListViewModel mainViewModel;
   int numPagesLoaded = 1;
   Tag? currentTag;
   String appBarTitle = "Recent Pins";
 
-  // Create a Picker object to filter by tags
+// Create a Picker object to filter by tags
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<PinsListViewModel>.reactive(
@@ -58,7 +56,9 @@ class _PinsListViewState extends State<PinsListView> {
                     icon: const Icon(Icons.tag),
                   ),
                   IconButton(
-                      onPressed: () => {showDataWarning(context)},
+                      onPressed: () => {
+                            // search the pins
+                          },
                       icon: const Icon(Icons.search))
                 ],
               ),
@@ -121,6 +121,7 @@ class _PinsListViewState extends State<PinsListView> {
               ],
             ),
             onNotification: (notification) {
+              // showDataWarning(context, "");
               // 15 elements are about 920 pixels long
               // This varies slightly whether those pin elements have tags
               // so we err on the side of more page loads, which also improves ui.
@@ -140,7 +141,7 @@ class _PinsListViewState extends State<PinsListView> {
         });
   }
 
-  showDataWarning(BuildContext context) {
+  showDataWarning(BuildContext context, String msg) {
     // set up the buttons
     Widget cancelButton = TextButton(
       child: Text("Cancel"),
@@ -150,13 +151,16 @@ class _PinsListViewState extends State<PinsListView> {
     );
     Widget continueButton = TextButton(
       child: Text("Continue"),
-      onPressed: () {},
+      onPressed: () {
+        mainViewModel.startGetAllPins();
+        // TODO figure out how to start this as a long running process
+      },
     );
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text("Data Warning"),
-      content: Text(
+      title: const Text("Data Warning"),
+      content: const Text(
           "The following operation will pull all your bookmarks. It may take several minutes."),
       actions: [
         cancelButton,
@@ -250,7 +254,7 @@ class _PinsListViewState extends State<PinsListView> {
     ]));
   }
 
-  // End of build method. Below are the other methods
+// End of build method. Below are the other methods
 
   Widget _getPinsListMessage(String message) {
     return Column(

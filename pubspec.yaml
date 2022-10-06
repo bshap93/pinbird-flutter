@@ -46,7 +46,9 @@ dependencies:
   dio: ^4.0.6
   json_annotation: ^4.6.0
   filter_list: ^1.0.2
-  # pinboard: ^1.1.1
+  material_floating_search_bar: ^0.3.7
+
+
 
 
 dev_dependencies:
