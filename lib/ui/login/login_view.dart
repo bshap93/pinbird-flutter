@@ -28,6 +28,7 @@ class _LoginViewState extends State<LoginView> {
                         Icons.question_mark,
                         color: Colors.white,
                       ))),
+              // ignore: avoid_unnecessary_containers
               body: Container(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),

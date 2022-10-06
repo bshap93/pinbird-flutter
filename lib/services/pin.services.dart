@@ -5,7 +5,7 @@ import 'package:pinboard_clone/models/pinboard_pin/pinboard_pin.dart';
 import 'package:stacked/stacked.dart';
 
 import '../models/tag/tag.dart';
-import '../data_sources/pinboard_api_v1/api_v1.services.dart';
+import '../data_sources/pinboard_api/api.services.dart';
 
 class PinService extends PinboardAPIV1Service {
   // Local storage from Hive to match with remote data from Pinboard
@@ -121,7 +121,35 @@ class PinService extends PinboardAPIV1Service {
     return false;
   }
 
-  Future<bool> removePin(String url) async {
-    throw Exception("to be implemented.");
+  Future<PinboardPin> dioGetPin(
+    String url,
+  ) async {
+    // Perform GET request to the endpoint "/users/<id>"
+    Map<String, dynamic> params = {};
+    late final PinboardPin result;
+
+    params["url"] = Uri.encodeComponent(url);
+    Response pinboardPinData =
+        await dioClient.get('$baseUrlV1/posts/get${getFullAppendage(params)}');
+
+    // Prints the raw data returned by the server
+    if (kDebugMode) {
+      print('Pinboard pins: ${pinboardPinData.data}');
+    }
+
+    // Parsing the raw JSON data to the User class
+    // If there are multiple pins with the same URL, only the first
+    // will be returned.
+    List posts = pinboardPinData.data["posts"];
+
+    try {
+      result = PinboardPin.fromJson(posts.first);
+    } catch (e) {
+      throw Exception("Response could not be parsed");
+    }
+
+    notifyListeners();
+
+    return result;
   }
 }

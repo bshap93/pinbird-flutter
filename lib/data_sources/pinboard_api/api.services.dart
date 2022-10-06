@@ -133,36 +133,6 @@ class PinboardAPIV1Service with ReactiveServiceMixin {
     return pinboardPinList;
   }
 
-  Future<PinboardPin> dioGetPin(String url) async {
-    // Perform GET request to the endpoint "/users/<id>"
-    Map<String, dynamic> params = {};
-    late final PinboardPin result;
-
-    params["url"] = Uri.encodeComponent(url);
-    Response pinboardPinData =
-        await dioClient.get('$baseUrlV1/posts/get${getFullAppendage(params)}');
-
-    // Prints the raw data returned by the server
-    if (kDebugMode) {
-      print('Pinboard pins: ${pinboardPinData.data}');
-    }
-
-    // Parsing the raw JSON data to the User class
-    // If there are multiple pins with the same URL, only the first
-    // will be returned.
-    List posts = pinboardPinData.data["posts"];
-
-    try {
-      result = PinboardPin.fromJson(posts.first);
-    } catch (e) {
-      throw Exception("Response could not be parsed");
-    }
-
-    notifyListeners();
-
-    return result;
-  }
-
   // Deleting not allowed at the current time
   Future<void> dioDeletePin({required String url}) async {
     try {
@@ -178,34 +148,4 @@ class PinboardAPIV1Service with ReactiveServiceMixin {
   }
 
   // API V2 FUNCTIONS
-
-  // Perform GET request to the endpoint "/users/<id>"
-  Future<List<PinboardPin>> getSearchedPins(
-      {int count = 15, String? searchString}) async {
-    List<PinboardPin> pinboardPinList = <PinboardPin>[];
-    try {
-      //Token contains Username
-      String username = apiToken.split(':').first;
-      Response pinboardPinData;
-      if (searchString == null) {
-        pinboardPinData = await dioClient.get(
-            '$baseUrlV2/search/$username/${getAuthAppendage(apiToken)}&count=$count');
-      } else {
-        pinboardPinData = await dioClient.get(
-            '$baseUrlV2/posts/recent${getAuthAppendage(apiToken)}&count=$count&tag=$searchString');
-      }
-
-      // print('Pinboard pins: ${pinboardPinData.data["posts"]}');
-      for (var pinboardPin in pinboardPinData.data["posts"]) {
-        PinboardPin myPin = PinboardPin.fromJson(pinboardPin);
-        pinboardPinList.add(myPin);
-      }
-
-      notifyListeners();
-    } on DioError catch (e) {
-      logErrors(e);
-    }
-
-    return pinboardPinList;
-  }
 }

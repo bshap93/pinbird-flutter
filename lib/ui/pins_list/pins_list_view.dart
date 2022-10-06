@@ -23,7 +23,6 @@ class _PinsListViewState extends State<PinsListView> {
   // persist URL state across views
   List<PinboardPin> myRecentPosts = [];
   late PinsListViewModel mainViewModel;
-  int bottomBarSelectedId = 0;
   int numPagesLoaded = 1;
   Tag? currentTag;
   String appBarTitle = "Recent Pins";
@@ -35,6 +34,7 @@ class _PinsListViewState extends State<PinsListView> {
         viewModelBuilder: () => PinsListViewModel(),
         builder: (context, model, _) {
           mainViewModel = model;
+
           return Scaffold(
             drawer: mainDrawer(model, context),
             appBar: AppBar(
@@ -58,7 +58,8 @@ class _PinsListViewState extends State<PinsListView> {
                     icon: const Icon(Icons.tag),
                   ),
                   IconButton(
-                      onPressed: () => {}, icon: const Icon(Icons.search))
+                      onPressed: () => {showDataWarning(context)},
+                      icon: const Icon(Icons.search))
                 ],
               ),
             ),
@@ -137,6 +138,39 @@ class _PinsListViewState extends State<PinsListView> {
             },
           );
         });
+  }
+
+  showDataWarning(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text("Cancel"),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text("Continue"),
+      onPressed: () {},
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Data Warning"),
+      content: Text(
+          "The following operation will pull all your bookmarks. It may take several minutes."),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 
   void openFilterDialog(
