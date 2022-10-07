@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:filter_list/filter_list.dart';
+import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 
 import '../new_pin/new_pin_view.dart';
 import 'pin_card.dart';
@@ -21,6 +22,7 @@ class _PinsListViewState extends State<PinsListView> {
 // persist URL state across views
   List<PinboardPin> myRecentPosts = [];
   late PinsListViewModel mainViewModel;
+  late BuildContext mainListContext;
   int numPagesLoaded = 1;
   Tag? currentTag;
   String appBarTitle = "Recent Pins";
@@ -32,7 +34,7 @@ class _PinsListViewState extends State<PinsListView> {
         viewModelBuilder: () => PinsListViewModel(),
         builder: (context, model, _) {
           mainViewModel = model;
-
+          mainListContext = context;
           return Scaffold(
             drawer: mainDrawer(model, context),
             appBar: AppBar(
@@ -58,6 +60,7 @@ class _PinsListViewState extends State<PinsListView> {
                   IconButton(
                       onPressed: () => {
                             // search the pins
+                            // openPinboardPinFliterList()
                           },
                       icon: const Icon(Icons.search))
                 ],
@@ -141,42 +144,6 @@ class _PinsListViewState extends State<PinsListView> {
         });
   }
 
-  showDataWarning(BuildContext context, String msg) {
-    // set up the buttons
-    Widget cancelButton = TextButton(
-      child: Text("Cancel"),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    );
-    Widget continueButton = TextButton(
-      child: Text("Continue"),
-      onPressed: () {
-        mainViewModel.startGetAllPins();
-        // TODO figure out how to start this as a long running process
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: const Text("Data Warning"),
-      content: const Text(
-          "The following operation will pull all your bookmarks. It may take several minutes."),
-      actions: [
-        cancelButton,
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
   void openFilterDialog(
       tagList, List<Tag> selectedTagList, PinsListViewModel model) async {
     await FilterListDialog.display<Tag>(
@@ -235,25 +202,6 @@ class _PinsListViewState extends State<PinsListView> {
     mainViewModel.emptyPinsHive();
   }
 
-  Drawer mainDrawer(PinsListViewModel model, BuildContext context) {
-    return Drawer(
-        child: ListView(padding: EdgeInsets.zero, children: [
-      DrawerHeader(
-          decoration:
-              BoxDecoration(color: ThemeData.dark().colorScheme.background),
-          child: const Text('Pinboard Pages')),
-      // ListTile(
-
-      ListTile(
-        title: const Text("Choose a Tag"),
-        onTap: () {
-          Navigator.pop(context);
-          openFilterDialog(model.tags, <Tag>[], model);
-        },
-      )
-    ]));
-  }
-
 // End of build method. Below are the other methods
 
   Widget _getPinsListMessage(String message) {
@@ -273,6 +221,111 @@ class _PinsListViewState extends State<PinsListView> {
             },
             child: const Text("Return to Login")),
       ],
+    );
+  }
+
+  Widget buildFloatingSearchBar() {
+    final isPortrait =
+        MediaQuery.of(context).orientation == Orientation.portrait;
+
+    return FloatingSearchBar(
+      hint: 'Search...',
+      scrollPadding: const EdgeInsets.only(top: 16, bottom: 56),
+      transitionDuration: const Duration(milliseconds: 800),
+      transitionCurve: Curves.easeInOut,
+      physics: const BouncingScrollPhysics(),
+      axisAlignment: isPortrait ? 0.0 : -1.0,
+      openAxisAlignment: 0.0,
+      width: isPortrait ? 600 : 500,
+      debounceDelay: const Duration(milliseconds: 500),
+      onQueryChanged: (query) {
+        // Call your model, bloc, controller here.
+      },
+      // Specify a custom transition to be used for
+      // animating between opened and closed stated.
+      transition: CircularFloatingSearchBarTransition(),
+      actions: [
+        FloatingSearchBarAction(
+          showIfOpened: false,
+          child: CircularButton(
+            icon: const Icon(Icons.place),
+            onPressed: () {},
+          ),
+        ),
+        FloatingSearchBarAction.searchToClear(
+          showIfClosed: false,
+        ),
+      ],
+      builder: (context, transition) {
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: Material(
+            color: Colors.white,
+            elevation: 4.0,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: Colors.accents.map((color) {
+                return Container(height: 112, color: color);
+              }).toList(),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Drawer mainDrawer(PinsListViewModel model, BuildContext context) {
+    return Drawer(
+        child: ListView(padding: EdgeInsets.zero, children: [
+      DrawerHeader(
+          decoration:
+              BoxDecoration(color: ThemeData.dark().colorScheme.background),
+          child: const Text('Pinboard Pages')),
+      // ListTile(
+
+      ListTile(
+        title: const Text("Choose a Tag"),
+        onTap: () {
+          Navigator.pop(context);
+          openFilterDialog(model.tags, <Tag>[], model);
+        },
+      )
+    ]));
+  }
+
+  showDataWarning(BuildContext context, String msg) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text("Cancel"),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text("Continue"),
+      onPressed: () {
+        mainViewModel.startGetAllPins();
+        // TODO figure out how to start this as a long running process
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text("Data Warning"),
+      content: const Text(
+          "The following operation will pull all your bookmarks. It may take several minutes."),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }

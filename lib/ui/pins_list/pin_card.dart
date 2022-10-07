@@ -87,11 +87,10 @@ class PinCard extends StatelessWidget {
       List<String> listOfTagStrings = tags.split(' ');
       return Wrap(
         // crossAxisAlignment: WrapCrossAlignment.center,
-
+        runAlignment: WrapAlignment.start,
         direction: Axis.horizontal,
         spacing: 5.0,
         children: [
-          Text("Tags:"),
           ...listOfTagStrings.map((tag) {
             return ElevatedButton(
                 style: ButtonStyle(
