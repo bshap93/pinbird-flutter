@@ -304,7 +304,6 @@ class _PinsListViewState extends State<PinsListView> {
     Widget continueButton = TextButton(
       child: Text("Continue"),
       onPressed: () {
-        mainViewModel.startGetAllPins();
         // TODO figure out how to start this as a long running process
       },
     );

@@ -3,22 +3,16 @@ import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:pinboard_clone/models/pinboard_pin/pinboard_pin.dart';
 import 'package:stacked/stacked.dart';
+import './login.services.dart';
 
 import '../../models/tag/tag.dart';
 
 class PinboardAPIV1Service with ReactiveServiceMixin {
-  final _apiToken = ReactiveValue<String>(
-    Hive.box('api_token').get('api_token', defaultValue: ""),
-  );
-
+  final loginService = LoginServices();
   final Dio dioClient = Dio();
 
   final baseUrlV1 = 'https://api.pinboard.in/v1';
   final baseUrlV2 = 'https://api.pinboard.in/v2';
-
-  String get apiToken => _apiToken.value;
-
-  void _saveToHive() => Hive.box('api_token').put('api_token', _apiToken.value);
 
   Future<bool> validateApiToken(String apiTok) async {
     try {
@@ -31,18 +25,6 @@ class PinboardAPIV1Service with ReactiveServiceMixin {
     }
 
     return false;
-  }
-
-  void setApiToken(String apiTok) {
-    _apiToken.value = apiTok;
-    _saveToHive();
-    notifyListeners();
-  }
-
-  logout() {
-    _apiToken.value = "";
-    _saveToHive();
-    notifyListeners();
   }
 
   void logErrors(e) {
@@ -60,35 +42,11 @@ class PinboardAPIV1Service with ReactiveServiceMixin {
     }
   }
 
-  String getAuthAppendage(String apiTok) {
-    return '?auth_token=' + _apiToken.value + "&format=json";
-  }
-
-  String getFullAppendage(Map<String, dynamic> params) {
-    final fullAppendage = StringBuffer('?');
-
-    fullAppendage.write('auth_token=' + _apiToken.value);
-
-    if (params.isNotEmpty) {
-      fullAppendage.write('&');
-    }
-
-    for (var key in params.keys) {
-      if (key == params.keys.last) {
-        fullAppendage.write("$key=${params[key]}");
-      } else {
-        fullAppendage.write("$key=${params[key]}&");
-      }
-    }
-    // always prefer JSON to XML
-    fullAppendage.write('&format=json');
-    return fullAppendage.toString();
-  }
-
   Future<List<PinboardPin>> testRequest() async {
     // Perform GET request to the endpoint "/users/<id>"
-    Response pinboardPinData = await dioClient
-        .get(baseUrlV1 + '/posts/recent' + getAuthAppendage(apiToken));
+    Response pinboardPinData = await dioClient.get(baseUrlV1 +
+        '/posts/recent' +
+        loginService.getAuthAppendage(loginService.apiToken));
 
     List<PinboardPin> results = <PinboardPin>[];
     // Prints the raw data returned by the server
@@ -113,10 +71,10 @@ class PinboardAPIV1Service with ReactiveServiceMixin {
       Response pinboardPinData;
       if (myTag == null) {
         pinboardPinData = await dioClient.get(
-            '$baseUrlV1/posts/recent${getAuthAppendage(apiToken)}&count=$count');
+            '$baseUrlV1/posts/recent${loginService.getAuthAppendage(loginService.apiToken)}&count=$count');
       } else {
         pinboardPinData = await dioClient.get(
-            '$baseUrlV1/posts/recent${getAuthAppendage(apiToken)}&count=$count&tag=${myTag.tag}');
+            '$baseUrlV1/posts/recent${loginService.getAuthAppendage(loginService.apiToken)}&count=$count&tag=${myTag.tag}');
       }
 
       // print('Pinboard pins: ${pinboardPinData.data["posts"]}');
@@ -133,11 +91,38 @@ class PinboardAPIV1Service with ReactiveServiceMixin {
     return pinboardPinList;
   }
 
+  Future<bool> startCreatePin(PinboardPin newPin) async {
+    try {
+      Map<String, dynamic> params = {};
+
+      params["url"] = newPin.href;
+      params["description"] = newPin.description;
+
+      if (newPin.tags.isNotEmpty) params["tags"] = newPin.tags;
+
+      if (newPin.extended.isNotEmpty) params["extended"] = newPin.extended;
+
+      if (newPin.shared.isNotEmpty) params["shared"] = newPin.shared;
+
+      if (newPin.toread.isNotEmpty) params["toread"] = newPin.toread;
+
+      Response resp = await dioClient
+          .post('$baseUrlV1/posts/add${loginService.getFullAppendage(params)}');
+
+      print(resp.statusCode);
+      return true;
+    } on DioError catch (e) {
+      logErrors(e);
+    }
+
+    return false;
+  }
+
   // Deleting not allowed at the current time
   Future<void> dioDeletePin({required String url}) async {
     try {
       Response resp = await dioClient.delete(
-          '$baseUrlV1/posts/delete?url=$url${getAuthAppendage(apiToken)}');
+          '$baseUrlV1/posts/delete?url=$url${loginService.getAuthAppendage(loginService.apiToken)}');
 
       if (kDebugMode) {
         print(resp.data);
@@ -147,5 +132,54 @@ class PinboardAPIV1Service with ReactiveServiceMixin {
     }
   }
 
+  Future<bool> startDeletePin(String myUrl) async {
+    try {
+      Map<String, dynamic> params = {};
+
+      params["url"] = myUrl;
+
+      Response resp = await dioClient.post(
+          '$baseUrlV1/posts/delete${loginService.getFullAppendage(params)}');
+
+      print(resp.statusCode);
+      return true;
+    } on DioError catch (e) {
+      logErrors(e);
+    }
+
+    return false;
+  }
+
+  Future<PinboardPin> dioGetPin(
+    String url,
+  ) async {
+    // Perform GET request to the endpoint "/users/<id>"
+    Map<String, dynamic> params = {};
+    late final PinboardPin result;
+
+    params["url"] = Uri.encodeComponent(url);
+    Response pinboardPinData = await dioClient
+        .get('$baseUrlV1/posts/get${loginService.getFullAppendage(params)}');
+
+    // Prints the raw data returned by the server
+    if (kDebugMode) {
+      print('Pinboard pins: ${pinboardPinData.data}');
+    }
+
+    // Parsing the raw JSON data to the User class
+    // If there are multiple pins with the same URL, only the first
+    // will be returned.
+    List posts = pinboardPinData.data["posts"];
+
+    try {
+      result = PinboardPin.fromJson(posts.first);
+    } catch (e) {
+      throw Exception("Response could not be parsed");
+    }
+
+    notifyListeners();
+
+    return result;
+  }
   // API V2 FUNCTIONS
 }

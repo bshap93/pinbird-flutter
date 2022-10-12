@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
+import '../../data_sources/pinboard_api/login.services.dart';
 import '../../models/pinboard_pin/pinboard_pin.dart';
 import '../../services/tag.sercives.dart';
 import '../pin_single/pin_single.dart';
@@ -13,7 +14,8 @@ class PinsListViewModel extends ReactiveViewModel {
   // pull in services via locator
   final _pinboardPinsService = locator<PinService>();
   final _tagsService = locator<TagService>();
-  late final logout = _pinboardPinsService.logout;
+  final _loginService = locator<LoginServices>();
+  late final logout = _loginService.logout;
   late final dioGetPin = _pinboardPinsService.dioGetPin;
   late final getRecentPins = _pinboardPinsService.getRecentPins;
   late final setCurrentTag = _tagsService.setCurrentTag;
@@ -21,7 +23,6 @@ class PinsListViewModel extends ReactiveViewModel {
   late final emptyPinsHive = _pinboardPinsService.emptyHive;
   late final signalChange = _pinboardPinsService.signalChange;
   late final startCreatePin = _pinboardPinsService.startCreatePin;
-  late final startGetAllPins = _pinboardPinsService.startGetAllPins;
 
   var count = 15;
 
