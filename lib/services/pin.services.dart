@@ -52,6 +52,43 @@ class PinService with ReactiveServiceMixin {
     }
   }
 
+  Future<bool> startCreatePin(PinboardPin newPin) async {
+    Map<String, dynamic> params = {};
+
+    params["url"] = newPin.href;
+    params["description"] = newPin.description;
+
+    if (newPin.tags.isNotEmpty) params["tags"] = newPin.tags;
+
+    if (newPin.extended.isNotEmpty) params["extended"] = newPin.extended;
+
+    if (newPin.shared.isNotEmpty) params["shared"] = newPin.shared;
+
+    if (newPin.toread.isNotEmpty) params["toread"] = newPin.toread;
+
+    try {
+      await apiConnection.createPinRemote(params);
+      return true;
+    } catch (_) {
+      if (kDebugMode) {
+        print("Could not create pin.");
+      }
+      return false;
+    }
+  }
+
+  Future<PinboardPin> startGetPin(String url) {
+    Map<String, dynamic> params = {};
+
+    params["url"] = Uri.encodeComponent(url);
+
+    return apiConnection.getPinRemote(params);
+  }
+
+  Future<List<PinboardPin>> startGetRecentPins({int count = 15, Tag? myTag}) {
+    return apiConnection.getRecentPins(count: count, myTag: myTag);
+  }
+
   Future<bool> loadInRecentPins(int count, Tag? myTag) async =>
       apiConnection.getRecentPins(myTag: myTag).then((pinData) {
         if (pinData.isNotEmpty) {
@@ -75,9 +112,22 @@ class PinService with ReactiveServiceMixin {
         }
       });
 
-  // Composite Action Calls, invoking Dio API call methods
+  Future<bool> startDeletePin(String myUrl) async {
+    Map<String, dynamic> params = {};
 
-  // Dio API Calls
+    params["url"] = myUrl;
+    try {
+      await apiConnection.deletePinRemote(params).then((resp) {
+        //
+      });
+      return true;
+    } catch (_) {
+      if (kDebugMode) {
+        print("Could not delete pin.");
+      }
+      return false;
+    }
+  }
 
   List<PinboardPin> parsePinboardPins(Response<dynamic> pinboardPinData) {
     List<PinboardPin> pinboardPinList = <PinboardPin>[];
@@ -102,4 +152,7 @@ class PinService with ReactiveServiceMixin {
       return true;
     }
   }
+  // Future<PinboardPin> getPin(String url) async {
+  //   return await apiConnection.dioGetPinRemote(url);
+  // }
 }

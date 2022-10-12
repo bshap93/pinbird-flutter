@@ -14,19 +14,6 @@ class PinboardAPIV1Service with ReactiveServiceMixin {
   final baseUrlV1 = 'https://api.pinboard.in/v1';
   final baseUrlV2 = 'https://api.pinboard.in/v2';
 
-  Future<bool> validateApiToken(String apiTok) async {
-    try {
-      testRequest().then((pins) {
-        return true;
-      });
-    } catch (e) {
-      print(e);
-      return false;
-    }
-
-    return false;
-  }
-
   void logErrors(e) {
     // The request was made and the server responded with a status code
     // that falls out of the range of 2xx and is also not 304.
@@ -64,7 +51,7 @@ class PinboardAPIV1Service with ReactiveServiceMixin {
   }
 
   // TODO merge with getRecentPIns
-  Future<List<PinboardPin>> getRecentPins({int count = 15, Tag? myTag}) async {
+  Future<List<PinboardPin>> getRecentPins({int? count, Tag? myTag}) async {
     List<PinboardPin> pinboardPinList = <PinboardPin>[];
     // Perform GET request to the endpoint "/users/<id>"
     try {
@@ -91,21 +78,8 @@ class PinboardAPIV1Service with ReactiveServiceMixin {
     return pinboardPinList;
   }
 
-  Future<bool> startCreatePin(PinboardPin newPin) async {
+  Future<bool> createPinRemote(Map<String, dynamic> params) async {
     try {
-      Map<String, dynamic> params = {};
-
-      params["url"] = newPin.href;
-      params["description"] = newPin.description;
-
-      if (newPin.tags.isNotEmpty) params["tags"] = newPin.tags;
-
-      if (newPin.extended.isNotEmpty) params["extended"] = newPin.extended;
-
-      if (newPin.shared.isNotEmpty) params["shared"] = newPin.shared;
-
-      if (newPin.toread.isNotEmpty) params["toread"] = newPin.toread;
-
       Response resp = await dioClient
           .post('$baseUrlV1/posts/add${loginService.getFullAppendage(params)}');
 
@@ -132,12 +106,8 @@ class PinboardAPIV1Service with ReactiveServiceMixin {
     }
   }
 
-  Future<bool> startDeletePin(String myUrl) async {
+  Future<bool> deletePinRemote(Map<String, dynamic> params) async {
     try {
-      Map<String, dynamic> params = {};
-
-      params["url"] = myUrl;
-
       Response resp = await dioClient.post(
           '$baseUrlV1/posts/delete${loginService.getFullAppendage(params)}');
 
@@ -150,14 +120,11 @@ class PinboardAPIV1Service with ReactiveServiceMixin {
     return false;
   }
 
-  Future<PinboardPin> dioGetPin(
-    String url,
+  Future<PinboardPin> getPinRemote(
+    Map<String, dynamic> params,
   ) async {
-    // Perform GET request to the endpoint "/users/<id>"
-    Map<String, dynamic> params = {};
     late final PinboardPin result;
 
-    params["url"] = Uri.encodeComponent(url);
     Response pinboardPinData = await dioClient
         .get('$baseUrlV1/posts/get${loginService.getFullAppendage(params)}');
 
@@ -181,5 +148,16 @@ class PinboardAPIV1Service with ReactiveServiceMixin {
 
     return result;
   }
-  // API V2 FUNCTIONS
+  // Future<bool> validateApiToken(String apiTok) async {
+  //   try {
+  //     testRequest().then((pins) {
+  //       return true;
+  //     });
+  //   } catch (e) {
+  //     print(e);
+  //     return false;
+  //   }
+
+  //   return false;
+  // }
 }

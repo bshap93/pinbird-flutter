@@ -16,8 +16,7 @@ class PinsListViewModel extends ReactiveViewModel {
   final _tagsService = locator<TagService>();
   final _loginService = locator<LoginServices>();
   late final logout = _loginService.logout;
-  late final dioGetPin = _pinboardPinsService.dioGetPin;
-  late final getRecentPins = _pinboardPinsService.getRecentPins;
+  late final dioGetPin = _pinboardPinsService.startGetPin;
   late final setCurrentTag = _tagsService.setCurrentTag;
   late final loadInRecentPins = _pinboardPinsService.loadInRecentPins;
   late final emptyPinsHive = _pinboardPinsService.emptyHive;
@@ -32,8 +31,9 @@ class PinsListViewModel extends ReactiveViewModel {
 
   // pull in service methods view ViewModel
   // getters for pin and tag
+  // TODO clean this up
   Future<List<PinboardPin>> recent_pins(Tag? tag) {
-    return _pinboardPinsService.getRecentPins(count: count, myTag: tag);
+    return _pinboardPinsService.startGetRecentPins(count: count, myTag: tag);
   }
 
   List<Tag> get tags => _tagsService.tags;
@@ -51,8 +51,6 @@ class PinsListViewModel extends ReactiveViewModel {
     setCurrentTag(myTag.tag);
     loadInRecentPins(15, myTag);
   }
-
-  tryDelete(PinboardPin post) {}
 
   Future<void> startGet(String href, BuildContext context) async {
     PinboardPin pinboardPin = await dioGetPin(href);

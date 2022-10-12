@@ -101,23 +101,4 @@ class TagService extends TagAPIService {
       return false;
     }
   }
-
-  @override
-  Future<List<Tag>> dioGetTags() async {
-    List<Tag> results = <Tag>[];
-    try {
-      Response tagData = await dioClient
-          .get(baseUrlV1 + '/tags/get' + getAuthAppendage(apiToken));
-
-      print(tagData.data.toString());
-
-      tagData.data.forEach((k, v) => results.add(Tag(tag: k, count: v)));
-
-      notifyListeners();
-    } on DioError catch (e) {
-      logErrors(e);
-    }
-    // TODO empty placeholder return
-    return results;
-  }
 }
