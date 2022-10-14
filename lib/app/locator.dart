@@ -1,9 +1,9 @@
 import 'package:get_it/get_it.dart';
-import 'package:pinboard_clone/data_sources/pinboard_api/login.services.dart';
+import 'package:pinboard_clone/data_sources/pinboard_api_services/login.services.dart';
 
-import '../services/pin.services.dart';
-import '../data_sources/pinboard_api/api.services.dart';
-import '../services/tag.sercives.dart';
+import '../domain_services/pin.services.dart';
+import '../data_sources/pinboard_api_services/api.services.dart';
+import '../domain_services/tag.sercives.dart';
 // internal files
 
 final locator = GetIt.instance;

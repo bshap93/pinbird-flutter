@@ -1,8 +1,8 @@
-import 'package:pinboard_clone/data_sources/pinboard_api/login.services.dart';
+import 'package:pinboard_clone/data_sources/pinboard_api_services/login.services.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../app/locator.dart';
-import '../../data_sources/pinboard_api/api.services.dart';
+import '../../data_sources/pinboard_api_services/api.services.dart';
 
 class LoginViewModel extends ReactiveViewModel {
   // final _firstPinFocusNode = FocusNode();

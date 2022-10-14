@@ -15,13 +15,34 @@ class PinSingleView extends StatefulWidget {
 }
 
 class _PinSingleViewState extends State<PinSingleView> {
+  final _formKey = GlobalKey<FormState>();
+
+  late String pinUrl;
+
+  late String pinTitle;
+
+  late String pinDescription;
+
+  late String pinTags;
+
+  var markedPrivate;
+
+  var markedReadLater;
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<PinViewModel>.reactive(
-        viewModelBuilder: () => PinViewModel(widget.pin.href),
+        viewModelBuilder: () {
+          pinUrl = widget.pin.href;
+          pinTitle = widget.pin.description;
+          pinDescription = widget.pin.extended;
+          pinTags = widget.pin.tags;
+          markedPrivate = (widget.pin.shared == "yes") ? false : true;
+          markedReadLater = (widget.pin.toread == "no") ? false : true;
+          return PinViewModel(widget.pin.href);
+        },
         builder: (context, PinViewModel model, _) => Scaffold(
             appBar: AppBar(
-              title: Text(widget.pin.time),
+              title: Text(widget.pin.description),
               actions: <Widget>[
                 IconButton(
                   onPressed: () {
@@ -35,49 +56,180 @@ class _PinSingleViewState extends State<PinSingleView> {
                 )
               ],
             ),
-            body: ListView(
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              children: [
-                ListTile(
-                  title: Text(widget.pin.description),
-                ),
-                ListTile(
-                  title: TextField(
-                    // See above
-                    controller: TextEditingController(
-                        // Concatenated string ->
-                        text: Formatter.formatDateTime(widget.pin.time)),
-                    focusNode: AlwaysDisabledFocusNode(),
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                    ),
-                  ),
-                  trailing: IconButton(
-                    focusNode: AlwaysDisabledFocusNode(),
-                    icon: const Icon(Icons.date_range),
-                    onPressed: () {},
-                  ),
-                ),
-                ListTile(
-                  leading: const Text("Tags: ",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
+            body: Container(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
+              child: Builder(
+                  builder: (context) => Form(
+                        key: _formKey,
+                        child: ListView(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          children: [
+                            ListTile(
+                              title: Text(
+                                  "Created at: ${Formatter.formatDateTime(widget.pin.time)}"),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: TextFormField(
+                                initialValue: pinUrl,
+                                // It must exist due to the validation
+                                onSaved: (String? url) {
+                                  pinUrl = url!;
+                                },
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  hintText: 'Enter your Pin\'s URL',
+                                ),
+                                validator: (value) {
+                                  if (value == null ||
+                                      value.isEmpty ||
+                                      !Uri.parse(value).isAbsolute) {
+                                    return 'Please enter a valid URL.';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: TextFormField(
+                                initialValue: pinTitle,
+                                onSaved: (String? title) {
+                                  pinTitle = title!;
+                                },
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  hintText: 'Enter your Pin\'s Name',
+                                ),
+                                validator: (value) {
+                                  if (value == null) {
+                                    return 'Please enter a name for your pin.';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: TextFormField(
+                                initialValue: pinDescription,
+                                onSaved: (description) {
+                                  if (description == null) {
+                                    pinDescription = "";
+                                  } else {
+                                    pinDescription = description;
+                                  }
+                                },
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  hintText: 'Enter a Description of your pin',
+                                ),
+                                keyboardType: TextInputType.multiline,
+                                minLines: 5,
+                                maxLines: 20,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: TextFormField(
+                                initialValue: pinTags,
+                                onSaved: (tags) {
+                                  if (tags == null) {
+                                    pinTags = "";
+                                  } else {
+                                    pinTags = tags;
+                                  }
+                                },
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  hintText:
+                                      'Enter tags for your pin (separate their names by space)',
+                                ),
+                                minLines: 1,
+                                maxLines: 10,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: [
+                                  const Text('Private?'),
+                                  Checkbox(
+                                      value: markedPrivate,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          markedPrivate = !markedPrivate;
+                                        });
+                                      }),
+                                  const Text('Read Later?'),
+                                  Checkbox(
+                                      value: markedReadLater,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          markedReadLater = !markedReadLater;
+                                        });
+                                      }),
+                                ],
+                              ),
+                            ),
+                            ElevatedButton(
+                                onPressed: () {
+                                  if (_formKey.currentState!.validate()) {
+                                    // Get the form data and consolidate it into an object
+                                    // PinboardPin buildPin = Pin
+                                    _formKey.currentState?.save();
+
+                                    Map<String, dynamic> pinCreateData =
+                                        <String, dynamic>{};
+                                    pinCreateData["url"] = pinUrl;
+                                    pinCreateData["title"] = pinTitle;
+                                    pinCreateData["description"] =
+                                        pinDescription;
+                                    pinCreateData["tags"] = pinTags;
+                                    pinCreateData["private"] = markedPrivate;
+                                    pinCreateData["read_later"] =
+                                        markedReadLater;
+
+                                    final pin = model
+                                        .processPinCreateData(pinCreateData);
+
+                                    model.startDeletePin(pinUrl).then((value) {
+                                      model.startCreatePin(pin).then((created) {
+                                        if (created) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            const SnackBar(
+                                                backgroundColor: Colors.green,
+                                                content: Text('Success!')),
+                                          );
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            const SnackBar(
+                                                backgroundColor:
+                                                    Colors.redAccent,
+                                                content: Text('Failure!')),
+                                          );
+                                        }
+                                        Navigator.pop(context);
+                                      });
+
+                                      // Finish and pass off to VMod
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                            backgroundColor: Colors.amber,
+                                            content: Text(
+                                                'Processing your new pin now...')),
+                                      );
+                                    });
+                                  }
+                                },
+                                child: const Text('Submit')),
+                          ],
+                        ),
                       )),
-                  title: Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          const Icon(Icons.tag),
-                          Text(widget.pin.tags),
-                        ],
-                      ),
-                    ),
-                  ),
-                )
-              ],
             )));
   }
 
@@ -90,9 +242,4 @@ class _PinSingleViewState extends State<PinSingleView> {
     }
     return listTileList;
   }
-}
-
-class AlwaysDisabledFocusNode extends FocusNode {
-  @override
-  bool get hasFocus => false;
 }

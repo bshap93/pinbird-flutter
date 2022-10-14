@@ -2,7 +2,7 @@ import 'package:pinboard_clone/models/pinboard_pin/pinboard_pin.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../app/locator.dart';
-import '../../services/pin.services.dart';
+import '../../domain_services/pin.services.dart';
 
 class NewPinViewModel extends ReactiveViewModel {
   final _pinService = locator<PinService>();

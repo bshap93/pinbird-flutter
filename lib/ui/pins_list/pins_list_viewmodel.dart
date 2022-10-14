@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
-import '../../data_sources/pinboard_api/login.services.dart';
+import '../../data_sources/pinboard_api_services/login.services.dart';
 import '../../models/pinboard_pin/pinboard_pin.dart';
-import '../../services/tag.sercives.dart';
+import '../../domain_services/tag.sercives.dart';
 import '../pin_single/pin_single.dart';
 import '../../app/locator.dart';
 import '../../models/tag/tag.dart';
-import '../../services/pin.services.dart';
+import '../../domain_services/pin.services.dart';
 
 class PinsListViewModel extends ReactiveViewModel {
   final _firstPinFocusNode = FocusNode();
