@@ -50,19 +50,23 @@ class _PinsListViewState extends State<PinsListView> {
               shape: const CircularNotchedRectangle(),
               color: ThemeData.dark().colorScheme.surface,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text("Tags: "),
+                  ),
                   IconButton(
                     onPressed: () =>
                         {openFilterDialog(model.tags, <Tag>[], model)},
                     icon: const Icon(Icons.tag),
                   ),
-                  IconButton(
-                      onPressed: () => {
-                            // search the pins
-                            // openPinboardPinFliterList()
-                          },
-                      icon: const Icon(Icons.search))
+                  // IconButton(
+                  //     onPressed: () => {
+                  //           // search the pins
+                  //           // openPinboardPinFliterList()
+                  //         },
+                  //     icon: const Icon(Icons.search))
                 ],
               ),
             ),

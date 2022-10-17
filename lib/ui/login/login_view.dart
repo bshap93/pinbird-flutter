@@ -21,13 +21,14 @@ class _LoginViewState extends State<LoginView> {
         viewModelBuilder: () => LoginViewModel(),
         builder: (context, model, _) => Scaffold(
               appBar: AppBar(
-                  title: const Text("Login via Pinboard"),
-                  leading: IconButton(
-                      onPressed: () => {},
-                      icon: const Icon(
-                        Icons.question_mark,
-                        color: Colors.white,
-                      ))),
+                title: const Text("Login via Pinboard"),
+                // leading: IconButton(
+                //     onPressed: () => {},
+                //     icon: const Icon(
+                //       Icons.question_mark,
+                //       color: Colors.white,
+                //     ))
+              ),
               // ignore: avoid_unnecessary_containers
               body: Container(
                 child: Padding(
