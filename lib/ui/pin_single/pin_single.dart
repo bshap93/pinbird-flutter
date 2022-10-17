@@ -102,6 +102,7 @@ class _PinSingleViewState extends State<PinSingleView> {
                                   border: OutlineInputBorder(),
                                   hintText: 'Enter your Pin\'s Name',
                                 ),
+                                maxLines: 3,
                                 validator: (value) {
                                   if (value == null) {
                                     return 'Please enter a name for your pin.';
