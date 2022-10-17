@@ -92,20 +92,6 @@ class PinboardAPIV1Service with ReactiveServiceMixin {
     return false;
   }
 
-  // Deleting not allowed at the current time
-  Future<void> dioDeletePin({required String url}) async {
-    try {
-      Response resp = await dioClient.delete(
-          '$baseUrlV1/posts/delete?url=$url${loginService.getAuthAppendage(loginService.apiToken)}');
-
-      if (kDebugMode) {
-        print(resp.data);
-      }
-    } on DioError catch (e) {
-      logErrors(e);
-    }
-  }
-
   Future<bool> deletePinRemote(Map<String, dynamic> params) async {
     try {
       Response resp = await dioClient.post(

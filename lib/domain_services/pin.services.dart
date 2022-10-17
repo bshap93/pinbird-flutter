@@ -77,6 +77,41 @@ class PinService with ReactiveServiceMixin {
     }
   }
 
+  Future<bool> startUpdateP0in(PinboardPin pinToBeUpdated) async {
+    Map<String, dynamic> params = {};
+
+    params["url"] = pinToBeUpdated.href;
+    params["description"] = pinToBeUpdated.description;
+
+    if (pinToBeUpdated.tags.isNotEmpty) params["tags"] = pinToBeUpdated.tags;
+
+    if (pinToBeUpdated.extended.isNotEmpty)
+      params["extended"] = pinToBeUpdated.extended;
+
+    if (pinToBeUpdated.shared.isNotEmpty)
+      params["shared"] = pinToBeUpdated.shared;
+
+    if (pinToBeUpdated.toread.isNotEmpty)
+      params["toread"] = pinToBeUpdated.toread;
+
+    if (pinToBeUpdated.meta.isNotEmpty) params["meta"] = pinToBeUpdated.meta;
+
+    if (pinToBeUpdated.time.isNotEmpty) params["time"] = pinToBeUpdated.time;
+
+    if (pinToBeUpdated.hash.isNotEmpty) params["hash"] = pinToBeUpdated.hash;
+
+    try {
+      // method used to create is also used to update
+      await apiConnection.createPinRemote(params);
+      return true;
+    } catch (_) {
+      if (kDebugMode) {
+        print("Could not update pin.");
+      }
+      return false;
+    }
+  }
+
   Future<PinboardPin> startGetPin(String url) {
     Map<String, dynamic> params = {};
 

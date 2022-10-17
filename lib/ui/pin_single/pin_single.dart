@@ -191,39 +191,39 @@ class _PinSingleViewState extends State<PinSingleView> {
                                     pinCreateData["read_later"] =
                                         markedReadLater;
 
-                                    final pin = model
-                                        .processPinCreateData(pinCreateData);
+                                    pinCreateData["meta"] = widget.pin.meta;
+                                    pinCreateData["hash"] = widget.pin.hash;
+                                    pinCreateData["time"] = widget.pin.time;
 
-                                    model.startDeletePin(pinUrl).then((value) {
-                                      model.startCreatePin(pin).then((created) {
-                                        if (created) {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            const SnackBar(
-                                                backgroundColor: Colors.green,
-                                                content: Text('Success!')),
-                                          );
-                                        } else {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            const SnackBar(
-                                                backgroundColor:
-                                                    Colors.redAccent,
-                                                content: Text('Failure!')),
-                                          );
-                                        }
-                                        Navigator.pop(context);
-                                      });
+                                    final pin =
+                                        model.processPinUpdate(pinCreateData);
 
-                                      // Finish and pass off to VMod
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        const SnackBar(
-                                            backgroundColor: Colors.amber,
-                                            content: Text(
-                                                'Processing your new pin now...')),
-                                      );
+                                    model.startCreatePin(pin).then((created) {
+                                      if (created) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                              backgroundColor: Colors.green,
+                                              content: Text('Success!')),
+                                        );
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                              backgroundColor: Colors.redAccent,
+                                              content: Text('Failure!')),
+                                        );
+                                      }
+                                      Navigator.pop(context);
                                     });
+
+                                    // Finish and pass off to VMod
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                          backgroundColor: Colors.amber,
+                                          content: Text(
+                                              'Processing your new pin now...')),
+                                    );
                                   }
                                 },
                                 child: const Text('Submit')),
