@@ -7,7 +7,6 @@ import 'package:pinboard_clone/ui/login/login_view.dart';
 // Local Imports
 import 'app/locator.dart';
 import 'models/pinboard_pin/pinboard_pin.dart';
-import 'models/tag/tag.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
