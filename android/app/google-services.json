@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "594041623557",
+    "project_id": "pinbird-56332",
+    "storage_bucket": "pinbird-56332.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:594041623557:android:3ccb54acfe15f45385f86c",
+        "android_client_info": {
+          "package_name": "com.example.pinboard_clone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "594041623557-5em3bt7rq5vj1oa0nd49sqdi4efpfugh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeFN5ozJIU6XAye8CZv-kzvXXUQHo3k1k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "594041623557-5em3bt7rq5vj1oa0nd49sqdi4efpfugh.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "594041623557-nv7bbbr2vu84tkn760ik8k2sermhuquv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.pinboardClone"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:594041623557:android:936065bcb6df284785f86c",
+        "android_client_info": {
+          "package_name": "com.project.pinbird"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "594041623557-5em3bt7rq5vj1oa0nd49sqdi4efpfugh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeFN5ozJIU6XAye8CZv-kzvXXUQHo3k1k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "594041623557-5em3bt7rq5vj1oa0nd49sqdi4efpfugh.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "594041623557-nv7bbbr2vu84tkn760ik8k2sermhuquv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.pinboardClone"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
