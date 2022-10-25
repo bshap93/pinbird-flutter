@@ -21,14 +21,30 @@ class _LoginViewState extends State<LoginView> {
         viewModelBuilder: () => LoginViewModel(),
         builder: (context, model, _) => Scaffold(
               appBar: AppBar(
-                title: const Text("Login via Pinboard"),
-                // leading: IconButton(
-                //     onPressed: () => {},
-                //     icon: const Icon(
-                //       Icons.question_mark,
-                //       color: Colors.white,
-                //     ))
-              ),
+                  title: const Text("Login via Pinboard"),
+                  leading: IconButton(
+                      onPressed: () => {
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text("Using your Pinboard Account"),
+                                    content: Text(
+                                        'To find your API Key, sign in to Pinboard, Settings -> password, the API key is revealed. We will not share your API key but if you want to be extra careful, simply click the "reset token" button to invalidate your old token.'),
+                                    actions: [
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text('Close')),
+                                    ],
+                                  );
+                                })
+                          },
+                      icon: const Icon(
+                        Icons.question_mark,
+                        color: Colors.white,
+                      ))),
               // ignore: avoid_unnecessary_containers
               body: Container(
                 child: Padding(
