@@ -48,6 +48,7 @@ dependencies:
   filter_list: ^1.0.2
   material_floating_search_bar: ^0.3.7
   flutter_launcher_icons: "^0.10.0"
+  firebase_auth: ^4.0.2
 
 
 
