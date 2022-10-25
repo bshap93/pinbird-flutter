@@ -2,7 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:pinboard_clone/models/tag/tag.dart';
+import 'package:pinboard_clone/ui/auth_gate/auth_gate.dart';
 import 'package:pinboard_clone/ui/login/login_view.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 // Local Imports
 import 'app/locator.dart';
@@ -10,6 +13,10 @@ import 'models/pinboard_pin/pinboard_pin.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   HiveInit().then((_) {
     // Start up our services
@@ -43,10 +50,10 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     // New widget to be home page
     // var pinsScreenView = LoginView();
-    var pinsScreenView = LoginView();
+
     return MaterialApp(
       key: key,
-      home: pinsScreenView,
+      home: AuthGate(),
       theme: ThemeData.dark(),
       title: 'Pin Bookmarks',
     );

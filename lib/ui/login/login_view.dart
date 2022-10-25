@@ -6,14 +6,14 @@ import '../shared/dialogs.dart';
 import '../shared/styles.dart';
 import 'login_viewmodel.dart';
 
-class LoginView extends StatefulWidget {
-  const LoginView({Key? key}) : super(key: key);
+class TokenFormView extends StatefulWidget {
+  const TokenFormView({Key? key}) : super(key: key);
 
   @override
-  State<LoginView> createState() => _LoginViewState();
+  State<TokenFormView> createState() => _TokenFormViewState();
 }
 
-class _LoginViewState extends State<LoginView> {
+class _TokenFormViewState extends State<TokenFormView> {
   final tokenController = TextEditingController();
   @override
   Widget build(BuildContext context) {
