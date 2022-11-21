@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
-import '../../models/pinboard_pin/pinboard_pin.dart';
+import '../../models/pinboard_pin/].dart';
 import '../shared/formatter.dart';
 import 'pin_single_viewmodel.dart';
 

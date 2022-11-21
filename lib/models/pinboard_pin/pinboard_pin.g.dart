@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'pinboard_pin.dart';
+part of '].dart';
 
 // **************************************************************************
 // TypeAdapterGenerator

@@ -3,7 +3,7 @@ import 'package:stacked/stacked.dart';
 
 import '../../app/locator.dart';
 import '../../domain_services/pin.services.dart';
-import '../../models/pinboard_pin/pinboard_pin.dart';
+import '../../models/pinboard_pin/].dart';
 
 class PinViewModel extends ReactiveViewModel {
   final String url;

@@ -6,7 +6,8 @@ import 'package:pinboard_clone/ui/login/login_view.dart';
 
 // Local Imports
 import 'app/locator.dart';
-import 'models/pinboard_pin/pinboard_pin.dart';
+import 'models/pinboard_pin/].dart';
+import 'services/share.services.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,10 +33,26 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   Key key = UniqueKey();
+  String _sharedText = "";
 
   void restartApp() {
     setState(() {
       key = UniqueKey();
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    ShareService()
+      ..onDataReceived = _handleSharedData
+      ..getSharedData().then(_handleSharedData);
+  }
+
+  void _handleSharedData(String sharedData) {
+    setState(() {
+      _sharedText = sharedData;
     });
   }
 

@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
-import 'package:pinboard_clone/models/pinboard_pin/pinboard_pin.dart';
+import 'package:pinboard_clone/models/pinboard_pin/%5D.dart';
 import 'package:stacked/stacked.dart';
 
 import '../models/tag/tag.dart';

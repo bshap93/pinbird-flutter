@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../data_sources/pinboard_api_services/login.services.dart';
-import '../../models/pinboard_pin/pinboard_pin.dart';
+import '../../models/pinboard_pin/].dart';
 import '../../domain_services/tag.sercives.dart';
 import '../pin_single/pin_single.dart';
 import '../../app/locator.dart';

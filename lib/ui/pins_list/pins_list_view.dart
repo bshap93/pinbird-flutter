@@ -7,7 +7,7 @@ import 'pin_card.dart';
 import 'pins_list_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 
-import '../../models/pinboard_pin/pinboard_pin.dart';
+import '../../models/pinboard_pin/].dart';
 import '../../models/tag/tag.dart';
 import '../shared/empty_page.dart';
 
