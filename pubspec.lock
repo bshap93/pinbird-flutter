@@ -212,7 +212,7 @@ packages:
   easy_autocomplete:
     dependency: "direct main"
     description:
-      path: "lib/pkg/flutter_easy_autocomplete"
+      path: "lib/pkg/autocomplete"
       relative: true
     source: path
     version: "1.6.0"

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../models/pinboard_pin/pinboard_pin.dart';
-import '../../pkg/flutter_easy_autocomplete/lib/easy_autocomplete.dart';
+import '../../pkg/autocomplete/easy_autocomplete.dart';
 import '../shared/formatter.dart';
 import 'pin_single_viewmodel.dart';
 
