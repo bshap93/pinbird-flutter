@@ -1,8 +1,8 @@
-import 'package:easy_autocomplete/easy_autocomplete.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../models/pinboard_pin/pinboard_pin.dart';
+import '../../pkg/flutter_easy_autocomplete/lib/easy_autocomplete.dart';
 import '../shared/formatter.dart';
 import 'pin_single_viewmodel.dart';
 
@@ -118,7 +118,7 @@ class _PinSingleViewState extends State<PinSingleView> {
                               padding: const EdgeInsets.all(4.0),
                               child: TextFormField(
                                 initialValue: pinDescription,
-                                onSaved: (description) {
+                                onChanged: (description) {
                                   if (description == null) {
                                     pinDescription = "";
                                   } else {
@@ -138,10 +138,10 @@ class _PinSingleViewState extends State<PinSingleView> {
                             Padding(
                               padding: const EdgeInsets.all(4.0),
                               child: EasyAutocomplete(
-                                suggestions:  model.strTags(),
+                                suggestions: model.strTags(),
                                 initialValue: pinTags,
-                                onChanged: (tags) {
-                                  if (tags == "") {
+                                onSaved: (tags) {
+                                  if (tags == "" || tags == null) {
                                     pinTags = "";
                                   } else {
                                     pinTags = tags;
