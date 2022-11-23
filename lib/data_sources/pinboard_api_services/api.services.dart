@@ -134,16 +134,6 @@ class PinboardAPIV1Service with ReactiveServiceMixin {
 
     return result;
   }
-  // Future<bool> validateApiToken(String apiTok) async {
-  //   try {
-  //     testRequest().then((pins) {
-  //       return true;
-  //     });
-  //   } catch (e) {
-  //     print(e);
-  //     return false;
-  //   }
 
-  //   return false;
-  // }
+
 }

@@ -7,6 +7,10 @@ import 'package:dio/dio.dart';
 class TagAPIService extends PinboardAPIV1Service {
   final loginService = LoginServices();
 
+  void setToken(String token) {
+    loginService.setApiToken(token);
+  }
+
   Future<List<Tag>> dioGetTags() async {
     List<Tag> results = <Tag>[];
     try {
@@ -27,23 +31,31 @@ class TagAPIService extends PinboardAPIV1Service {
     return results;
   }
 
-  // Future<List<Tag>> dioGetTags() async {
-  //   List<Tag> results = <Tag>[];
-  //   try {
-  //     Response tagData = await dioClient
-  //         .get(baseUrlV1 + '/tags/get' + getAuthAppendage(apiToken));
+  Future<List<String>> suggestTags(String url) async {
+    List<String> results = <String>[];
+    try {
+      Response tagData = await dioClient
+          .get(baseUrlV1 + '/posts/suggest' +
+            loginService.getAuthAppendage(loginService.apiToken) +
+            '&url=' + url);
 
-  //     print(tagData.data.toString());
+      print(tagData.data.toString());
+      // Below would give us results for popular but we ignore it for now.
+      // final popular = tagData.data[0];
 
-  //     for (var _tag in tagData.data) {
-  //       Tag p = Tag.fromJson(_tag);
-  //       results.add(p);
-  //     }
-  //     notifyListeners();
-  //   } on DioError catch (e) {
-  //     logErrors(e);
-  //   }
-  //   // TODO empty placeholder return
-  //   return results;
-  // }
+      // the second nested array holds recommendations, and is double nested for
+      // whatever reason by the API (after indexing in at 1 there is a singleton
+      // needing to be indexed at 'somestring'
+      final _suggestedTags = tagData.data[1]['recommended'];
+
+      for (var _tag in _suggestedTags) {
+        results.add(_tag);
+      }
+      notifyListeners();
+    } on DioError catch (e) {
+      logErrors(e);
+    }
+    // TODO empty placeholder return
+    return results;
+  }
 }

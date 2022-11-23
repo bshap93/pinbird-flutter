@@ -27,23 +27,21 @@ class TagAPIService extends PinboardAPIV1Service {
     return results;
   }
 
-  // Future<List<Tag>> dioGetTags() async {
-  //   List<Tag> results = <Tag>[];
-  //   try {
-  //     Response tagData = await dioClient
-  //         .get(baseUrlV1 + '/tags/get' + getAuthAppendage(apiToken));
+  Future<List<Tag>> getDioSuggestTags(String url) async {
+    List<Tag> results = <Tag>[];
+    try {
+      Response tagData = await dioClient.get(baseUrlV1 +
+          '/posts/suggest?url=' + url);
 
-  //     print(tagData.data.toString());
+      print(tagData.data.toString());
 
-  //     for (var _tag in tagData.data) {
-  //       Tag p = Tag.fromJson(_tag);
-  //       results.add(p);
-  //     }
-  //     notifyListeners();
-  //   } on DioError catch (e) {
-  //     logErrors(e);
-  //   }
-  //   // TODO empty placeholder return
-  //   return results;
-  // }
+      tagData.data.forEach((k, v) => results.add(Tag(tag: k, count: v)));
+
+      notifyListeners();
+    } on DioError catch (e) {
+      logErrors(e);
+    }
+
+    return results;
+  }
 }

@@ -89,6 +89,8 @@ class PinCard extends StatelessWidget {
         // crossAxisAlignment: WrapCrossAlignment.center,
         runAlignment: WrapAlignment.start,
         direction: Axis.horizontal,
+        crossAxisAlignment: WrapCrossAlignment.start,
+        alignment: WrapAlignment.start,
         spacing: 5.0,
         children: [
           ...listOfTagStrings.map((tag) {

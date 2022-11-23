@@ -1,10 +1,11 @@
 import 'package:hive/hive.dart';
+import 'package:isar/isar.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'pinboard_pin.g.dart';
 
 // flutter pub run build_runner build
-
+@collection
 @HiveType(typeId: 6)
 class PinboardPin {
   PinboardPin({
@@ -18,6 +19,8 @@ class PinboardPin {
     required this.toread,
     required this.tags,
   });
+
+  Id id = Isar.autoIncrement;
 
   @HiveField(0)
   String href;

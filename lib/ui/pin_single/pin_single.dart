@@ -1,3 +1,4 @@
+import 'package:easy_autocomplete/easy_autocomplete.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
@@ -78,6 +79,7 @@ class _PinSingleViewState extends State<PinSingleView> {
                                   pinUrl = url!;
                                 },
                                 decoration: const InputDecoration(
+                                  label: Text("URL"),
                                   border: OutlineInputBorder(),
                                   hintText: 'Enter your Pin\'s URL',
                                 ),
@@ -99,6 +101,7 @@ class _PinSingleViewState extends State<PinSingleView> {
                                   pinTitle = title!;
                                 },
                                 decoration: const InputDecoration(
+                                  label: Text("Title:"),
                                   border: OutlineInputBorder(),
                                   hintText: 'Enter your Pin\'s Name',
                                 ),
@@ -123,6 +126,7 @@ class _PinSingleViewState extends State<PinSingleView> {
                                   }
                                 },
                                 decoration: const InputDecoration(
+                                  label: Text("Description:"),
                                   border: OutlineInputBorder(),
                                   hintText: 'Enter a Description of your pin',
                                 ),
@@ -133,10 +137,11 @@ class _PinSingleViewState extends State<PinSingleView> {
                             ),
                             Padding(
                               padding: const EdgeInsets.all(4.0),
-                              child: TextFormField(
+                              child: EasyAutocomplete(
+                                suggestions:  model.strTags(),
                                 initialValue: pinTags,
-                                onSaved: (tags) {
-                                  if (tags == null) {
+                                onChanged: (tags) {
+                                  if (tags == "") {
                                     pinTags = "";
                                   } else {
                                     pinTags = tags;
@@ -144,11 +149,12 @@ class _PinSingleViewState extends State<PinSingleView> {
                                 },
                                 decoration: const InputDecoration(
                                   border: OutlineInputBorder(),
+                                  label: Text("Tags:"),
                                   hintText:
                                       'Enter tags for your pin (separate their names by space)',
                                 ),
-                                minLines: 1,
-                                maxLines: 10,
+                                // minLines: 1,
+                                // maxLines: 10,
                               ),
                             ),
                             Padding(
