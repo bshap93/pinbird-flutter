@@ -52,14 +52,6 @@ class PinsListViewModel extends ReactiveViewModel {
     loadInRecentPins(15, myTag);
   }
 
-  Future<void> startGet(String href, BuildContext context) async {
-    PinboardPin pinboardPin = await dioGetPin(href);
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => PinSingleView(pin: pinboardPin)));
-  }
-
   void addRecentPins(int i, myTag) {
     count += i;
     loadInRecentPins(count, myTag);

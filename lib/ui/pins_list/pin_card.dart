@@ -6,6 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../models/pinboard_pin/pinboard_pin.dart';
 import '../../models/tag/tag.dart';
+import '../pin_single/pin_single.dart';
 import '../shared/formatter.dart';
 
 // Callback for choosing a tag in the card
@@ -18,12 +19,14 @@ class PinCard extends StatelessWidget {
     required this.pin,
     required this.model,
     required this.descriptionController,
+    required this.refreshFunc,
   }) : super(key: key);
 
   final TagCallback onCurrentTagChanged;
   final TextEditingController descriptionController;
   final PinboardPin pin;
   final PinsListViewModel model;
+  final Function refreshFunc;
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +80,7 @@ class PinCard extends StatelessWidget {
         icon: Icon(
           Icons.arrow_forward,
         ),
-        onPressed: () => model.startGet(pin.href, context),
+        onPressed: () => startGet(pin.href, context),
       ),
     ));
   }
@@ -117,6 +120,16 @@ class PinCard extends StatelessWidget {
     } else {
       return const Padding(padding: EdgeInsets.zero);
     }
+  }
+
+  Future<void> startGet(String href, BuildContext context) async {
+    PinboardPin pinboardPin = await model.dioGetPin(href);
+    await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => PinSingleView(pin: pinboardPin)));
+
+    refreshFunc();
   }
 }
 

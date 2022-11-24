@@ -140,7 +140,7 @@ class _PinSingleViewState extends State<PinSingleView> {
                               child: EasyAutocomplete(
                                 suggestions: model.strTags(),
                                 initialValue: pinTags,
-                                onSaved: (tags) {
+                                onChanged: (tags) {
                                   if (tags == "" || tags == null) {
                                     pinTags = "";
                                   } else {

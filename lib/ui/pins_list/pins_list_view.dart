@@ -123,7 +123,8 @@ class _PinsListViewState extends State<PinsListView> {
                       pin: pin,
                       model: model,
                       descriptionController: descriptionController,
-                      onCurrentTagChanged: executeCurrentTagChange);
+                      onCurrentTagChanged: executeCurrentTagChange,
+                      refreshFunc: executeCurrentTagRemove);
                 })
               ],
             ),

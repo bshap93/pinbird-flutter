@@ -198,9 +198,9 @@ class _EasyAutocompleteState extends State<EasyAutocomplete> {
                           ..value = TextEditingValue(
                               text: _trimmedValue + " " + value,
                               selection: TextSelection.collapsed(
-                                  offset: value.length));
-                        widget.onChanged?.call(value);
-                        widget.onSubmitted?.call(value);
+                                  offset: _trimmedValue.length));
+                        widget.onChanged?.call(_controller.value.text);
+                        widget.onSubmitted?.call(_controller.value.text);
                         closeOverlay();
                         _focusNode.unfocus();
                       }))));
