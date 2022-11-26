@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:pinboard_clone/models/tag/tag.dart';
 import 'package:pinboard_clone/ui/login/login_view.dart';
+import 'package:pinboard_clone/ui/pins_list/pins_list_view.dart';
 
 // Local Imports
 import 'app/globals.dart';
@@ -14,8 +15,6 @@ import 'models/pinboard_pin/pinboard_pin.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-
-
   StorageInit().then((_) {
     // Start up our services
     setupLocator();
@@ -24,7 +23,6 @@ void main() async {
     runApp(const MyApp());
   });
 }
-
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -59,11 +57,16 @@ class _MyAppState extends State<MyApp> {
   }
 
   final GoRouter _router = GoRouter(routes: [
-      GoRoute(
-      path: '/',
-      builder: ((context, state) {
-        return LoginView();
-      })),
+    GoRoute(
+        path: '/',
+        builder: ((context, state) {
+          return LoginView();
+        })),
+    GoRoute(
+        path: '/pins',
+        builder: ((context, state) {
+          return PinsListView();
+        })),
   ]);
 }
 
@@ -82,7 +85,7 @@ Future<bool> StorageInit() async {
   await Hive.openBox('pinboard_pins');
 
   // init the isar database
-  await AppStorage.initIsar();
+  // await AppStorage.initIsar();
 
   return true;
 }
@@ -94,7 +97,7 @@ Future<void> execute() async {
   var tok = ser.setToken("bshap93:1A2DC6C239D948A40F2C");
   print(ser.loginService.getAuthAppendage("bshap93:1A2DC6C239D948A40F2C"));
 
-  var obj = await ser.suggestTags("https://www.google.com/");
+  var obj = await ser.suggestTags("https://benshapiro.io/");
 
   print(obj.toString());
   //

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pinboard_clone/ui/pins_list/pins_list_view.dart';
 import 'package:stacked/stacked.dart';
 // project files
@@ -85,7 +86,8 @@ class _LoginViewState extends State<LoginView> {
     final enteredToken = tokenController.text;
     model.setApiToken(enteredToken);
     print("Login started");
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => PinsListView()));
+    GoRouter.of(context).go('/pins');
+    // Navigator.push(
+    //     context, MaterialPageRoute(builder: (context) => PinsListView()));
   }
 }

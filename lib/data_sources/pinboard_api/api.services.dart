@@ -78,6 +78,35 @@ class PinboardAPIV1Service with ReactiveServiceMixin {
     return pinboardPinList;
   }
 
+  Future<List<PinboardPin>> get({
+    String? myTag,
+  }) async {
+    List<PinboardPin> pinboardPinList = <PinboardPin>[];
+    // Perform GET request to the edndpoint "/users/<id>"
+    try {
+      Response pinboardPinData;
+      if (myTag == null) {
+        pinboardPinData = await dioClient.get(
+            '$baseUrlV1/posts/recent${loginService.getAuthAppendage(loginService.apiToken)}');
+      } else {
+        pinboardPinData = await dioClient.get(
+            '$baseUrlV1/posts/recent${loginService.getAuthAppendage(loginService.apiToken)}&tag=${myTag}');
+      }
+
+      // print('Pinboard pins: ${pinboardPinData.data["posts"]}');
+      for (var pinboardPin in pinboardPinData.data["posts"]) {
+        PinboardPin myPin = PinboardPin.fromJson(pinboardPin);
+        pinboardPinList.add(myPin);
+      }
+
+      notifyListeners();
+    } on DioError catch (e) {
+      logErrors(e);
+    }
+
+    return pinboardPinList;
+  }
+
   Future<bool> createPinRemote(Map<String, dynamic> params) async {
     try {
       Response resp = await dioClient

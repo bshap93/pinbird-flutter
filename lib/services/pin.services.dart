@@ -20,8 +20,6 @@ class PinService with ReactiveServiceMixin {
         .get('pinboard_pins', defaultValue: []).cast<PinboardPin>(),
   );
 
-  // Future<http.Response> fetchAllPins(http)
-
   signalChange() {
     notifyListeners();
   }
